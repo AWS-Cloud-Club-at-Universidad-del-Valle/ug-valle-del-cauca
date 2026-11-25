@@ -1,7 +1,8 @@
 .intro-trazo {
   position: absolute;
   z-index: 4;
-  width: min(35rem, 82%);
+  /* El viewBox ajustado hace que el trazo ocupe casi todo el ancho del SVG. */
+  width: 51vw;
   top: 50svh;
   left: 50%;
   translate: -50% -50%;
@@ -11,6 +12,12 @@
   pointer-events: none;
 }
 
+@media (max-width: 639px) {
+  .intro-trazo {
+    width: 81vw;
+  }
+}
+
 @media (prefers-reduced-motion: no-preference) {
   .intro-activa .hero {
     background: var(--papel);
@@ -18,7 +25,9 @@
   }
   .intro-activa .intro-trazo {
     visibility: visible;
-    animation: retirar-trazo 0.17s ease 1.04s forwards;
+    animation:
+      centrar-dibujo 0.35s ease 0.31s backwards,
+      retirar-trazo 0.17s ease 1.04s forwards;
   }
   .intro-activa .intro-trazo path {
     stroke-dasharray: 1;
@@ -132,6 +141,12 @@
   @keyframes dibujar-marca {
     from {
       stroke-dashoffset: 1;
+    }
+  }
+  @keyframes centrar-dibujo {
+    from {
+      /* Arranca con el centro del hexágono (x=25) en el centro de la pantalla. */
+      transform: translateX(36.07%);
     }
   }
   @keyframes retirar-trazo {
