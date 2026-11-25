@@ -1,155 +1,357 @@
 <label class="control-movimiento">
-  <input type="checkbox" />
-  Pausar ilustración
+  <input id="pausa-arte" type="checkbox" /> Pausar ilustraciones
 </label>
+<svg class="filtro" width="0" height="0" aria-hidden="true">
+  <defs>
+    <filter id="fibra" color-interpolation-filters="sRGB">
+      <feTurbulence
+        type="fractalNoise"
+        baseFrequency=".66"
+        numOctaves="2"
+        stitchTiles="stitch"
+        result="grano"
+      />
+      <feComposite
+        in="SourceGraphic"
+        in2="grano"
+        operator="arithmetic"
+        k1=".18"
+        k2=".91"
+        result="papel"
+      />
+      <feComposite in="papel" in2="SourceAlpha" operator="in" />
+    </filter>
+    <g id="flor-papel">
+      <path
+        d="M0-4C-15-22-33-4-18 6-36 18-10 32 0 14 10 32 36 18 18 6 33-4 15-22 0-4Z"
+        fill="currentColor"
+      />
+      <circle cx="0" cy="7" r="3" fill="var(--violeta-texto)" />
+    </g>
+    <g id="cana-papel">
+      <path d="M-3 0Q-7-94 7-175l5 1Q0-93 4 0Z" fill="currentColor" />
+      <path
+        d="m-2-27 6 1m-7-24 7 1m-8-25 8 1m-7-25 7 1m-5-24 7 1m-4-24 7 2"
+        stroke="var(--cana)"
+        stroke-width="2"
+      />
+      <path
+        d="M2-90Q27-154 86-146 37-142 2-90ZM4-118Q-20-176-70-155q44 6 74 37ZM6-147q26-51 62-56-36 17-62 56ZM0-67q-30-46-67-38 37 6 67 38ZM1-46q33-67 80-66Q39-99 1-46Z"
+        fill="currentColor"
+      />
+    </g>
+    <g
+      id="destello-papel"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="3"
+      stroke-linecap="round"
+    >
+      <path d="M-8 0H8M0-8V8" />
+    </g>
+    <g id="nota-papel" fill="currentColor">
+      <path d="M-16 2c0-6 8-12 17-10l1-33 27-6 1 34C29-2 11 2 11-7c0-6 7-10 14-9v-18L7-30 6 1C4 10-16 12-16 2Z" />
+    </g>
+    <g
+      id="nube-papel"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2.5"
+      stroke-linecap="round"
+    >
+      <path d="M16 35C-1 35 0 14 16 15c4-17 29-17 34-4 13-7 22 0 24 9 16-2 21 15 4 15H16Z" />
+    </g>
+  </defs>
+</svg>
+
 <div class="paisaje" aria-hidden="true">
-  <svg class="filtro" width="0" height="0">
-    <defs>
-      <filter id="fibra" color-interpolation-filters="sRGB">
-        <feTurbulence
-          type="fractalNoise"
-          baseFrequency=".62"
-          numOctaves="2"
-          stitchTiles="stitch"
-          result="ruido"
-        />
-        <feComposite
-          in="SourceGraphic"
-          in2="ruido"
-          operator="arithmetic"
-          k1=".22"
-          k2=".89"
-          result="papel"
-        />
-        <feComposite in="papel" in2="SourceAlpha" operator="in" />
-      </filter>
-    </defs>
-  </svg>
-
-  <svg class="pieza sol enter" viewBox="0 0 184 184">
+  <svg class="cielo-arte" viewBox="0 0 1440 515" preserveAspectRatio="none">
     <path
-      d="M92 4c51 0 87 40 87 88s-37 87-87 88C44 180 4 142 4 92 4 44 40 5 92 4Z"
-      fill="var(--sol)"
+      fill="var(--cielo-lila)"
+      d="M0 73C266 26 377 80 563 65S975-6 1440 46V515H0Z"
+    />
+    <path
+      fill="var(--durazno)"
+      d="M0 139C219 184 322 120 537 122s338 43 502 17 270-36 401-22v398H0Z"
+    />
+    <path
+      fill="var(--miel)"
+      d="M0 236c217-41 348-25 494 0 249 42 356-51 556-45 159 4 262 53 390 26v298H0Z"
+    />
+    <path
+      fill="var(--hoja)"
+      d="M0 205c218-38 305-20 433-8-161-2-250 31-433 32ZM926 174c176-51 317-46 514-36v18c-228-7-339 25-514 18Z"
     />
   </svg>
-
-  <svg
-    class="pieza farallones enter"
-    viewBox="0 0 1424 330"
-    preserveAspectRatio="none"
-  >
-    <path
-      fill="var(--montana)"
-      d="M0 207 78 179l43-31 64-14 46-41 42 9 38-28 52 22 45-24 36 6 57-29 46 11 50-52 40 16 31-15 42 36 34-7 64 52 47 19 58 52 82 21 76 48 80 4 83 37 90 8v51H0Z"
-    />
-    <path
-      fill="var(--montana-clara)"
-      d="m0 230 94-32 76 6 102-40 50 12 88-17 54-31 64 8 75-45 52 17 50-17 75 27 42 41 103 40 109 12 85 39 94-8 211 32v56H0Z"
-    />
-  </svg>
-
-  <svg
-    class="pieza ribera enter"
-    viewBox="0 0 1424 203"
-    preserveAspectRatio="none"
-  >
-    <path
-      fill="var(--loma)"
-      d="M0 108c153-33 219-82 367-63 118 15 161 37 253 35 115-2 197-60 320-57 162 4 318 72 484 55v125H0Z"
-    />
-    <path
-      fill="var(--rio)"
-      d="M0 148c194 24 348-34 539-28 180 6 262 36 434 26 169-10 296-62 451-46v103H0Z"
-    />
+  <svg class="relieve-arte" viewBox="0 0 1440 515" preserveAspectRatio="none">
     <defs>
       <pattern
-        id="patron-rio"
-        width="120"
-        height="12"
+        id="ondas-pance"
+        width="165"
+        height="19"
         patternUnits="userSpaceOnUse"
       >
         <path
-          d="M8 6c13-4 25-4 40 0s27 4 40 0m9 0h9"
+          d="M10 8q19-5 39 0t41 0m12-1 22-1"
           fill="none"
           stroke="var(--onda)"
           stroke-width="2"
           stroke-linecap="round"
         />
       </pattern>
-      <clipPath id="cauce">
-        <path d="M0 165c194 24 348-34 539-28 180 6 262 36 434 26 169-10 296-62 451-46v86H0Z" />
+      <clipPath id="agua-pance">
+        <path d="M0 442c232-14 331 62 559 30 248-35 285-72 462-61 174 11 251 29 419-12v116H0Z" />
       </clipPath>
     </defs>
-    <g clip-path="url(#cauce)">
-      <rect
-        class="ondas"
-        x="0"
-        y="144"
-        width="1544"
-        height="48"
-        fill="url(#patron-rio)"
+    <g class="montes">
+      <path
+        class="enter"
+        style="--delay: .38s"
+        fill="var(--montana-clara)"
+        d="M0 316l100-32 45 2 75-61 50-12 55-41 56 8 30-24 51 13 59-50 38 16 39-59 40 26 39-24 56 69 40-6 57 51 67 31 85 49 74-7 85 38 99 18 100-44v178H0Z"
+      />
+      <path
+        class="enter"
+        style="--delay: .44s"
+        fill="var(--montana)"
+        d="M0 346 103 304l76 9 120-71 39 5 43-48 77 27 59-28 52 25 80-75 34 26 49-30 63 76 49-8 64 56 65-1 65 57 124 1 71 22 107-20v128H0Z"
+      />
+      <path
+        class="enter"
+        style="--delay: .49s"
+        fill="var(--loma)"
+        d="M0 388c82-12 157-56 231-58l104-48 81 26 75-41 72 18 59-46 50 15 40-34 70 59 85 11 61 39 75-7 69 32 102 7 91 31 75-14v137H0Z"
+      />
+      <path
+        class="enter"
+        style="--delay: .54s"
+        fill="var(--cana)"
+        d="M0 423c176-50 244-34 340-11s189 20 304-8c114-29 186-83 311-67s248 74 485 34v144H0Z"
+      />
+    </g>
+    <g class="enter" style="--delay: .59s">
+      <path
+        fill="var(--ribera)"
+        d="M0 434c232-18 331 61 559 29 248-35 285-72 462-61 174 11 251 29 419-12v125H0Z"
+      />
+      <path
+        fill="var(--rio)"
+        d="M0 442c232-14 331 62 559 30 248-35 285-72 462-61 174 11 251 29 419-12v116H0Z"
+      />
+      <g clip-path="url(#agua-pance)">
+        <rect
+          class="ondas-pance"
+          y="414"
+          width="1605"
+          height="114"
+          fill="url(#ondas-pance)"
+        />
+      </g>
+      <g fill="var(--piedra)">
+        <path d="m297 475 17-15 27-1 20 23-32 6Z" />
+        <path d="m361 491 12-13 22 3 9 13-31 3Z" />
+        <path d="m1020 430 21-16 37 4 13 14-42 8Z" />
+        <path d="m1122 448 11-10 20-2 17 10-29 6Z" />
+      </g>
+    </g>
+  </svg>
+  <svg class="sol-papel enter" viewBox="0 0 240 240">
+    <g class="sol-interactivo">
+      <path
+        class="rayos"
+        fill="var(--sol)"
+        d="M120 1 134 32 161 7 164 45 207 29 195 69 232 66 209 97 239 120 208 137 230 173 194 167 204 211 166 195 159 229 135 207 120 239 101 209 72 231 70 196 34 207 46 170 7 174 30 142 1 120 32 102 8 69 47 71 35 34 72 46 78 9 103 32Z"
+      />
+      <circle cx="120" cy="120" r="78" fill="var(--durazno)" />
+      <path d="M43 126a78 78 0 0 0 154 0Z" fill="var(--sol)" />
+      <circle
+        cx="120"
+        cy="120"
+        r="67"
+        fill="none"
+        stroke="var(--hoja)"
+        stroke-width="2"
+      />
+      <g class="cara-sol" fill="var(--hoja)">
+        <ellipse cx="96" cy="111" rx="12" ry="15" />
+        <ellipse cx="144" cy="111" rx="12" ry="15" />
+        <g class="pupilas-sol" fill="var(--noche)">
+          <circle cx="97" cy="112" r="5.8" />
+          <circle cx="145" cy="112" r="5.8" />
+        </g>
+        <path
+          d="M107 135q13 15 26 0"
+          fill="none"
+          stroke="var(--noche)"
+          stroke-linecap="round"
+          stroke-width="3.5"
+        />
+      </g>
+    </g>
+  </svg>
+  <svg class="firma-cielo enter" viewBox="0 0 460 110">
+    <g class="nubes-cielo" color="var(--violeta-texto)">
+      <use href="#nube-papel" x="9" y="44" />
+      <use href="#nube-papel" x="333" y="35" />
+      <use href="#destello-papel" x="111" y="32" />
+      <use href="#destello-papel" x="414" y="35" />
+      <use href="#destello-papel" x="67" y="17" />
+    </g>
+    <g color="var(--loma)">
+      <path
+        d="M126 78q75 23 151-19t66-40M125 84q78 23 155-20t69-42M124 90q81 23 158-21t73-44M123 96q84 23 162-23t76-45M122 102q87 23 166-24t79-47"
+        fill="none"
+        stroke="currentColor"
+        opacity=".48"
+      />
+      <path
+        d="M151 98c35 8 26-36 2-21-18 10-5 34 13 21 22-15-18-54-2-68 9 18-24 36-25 55-2 18 20 26 26 11"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+      />
+      <g class="notas-interactivas">
+        <g class="nota-flota">
+          <use href="#nota-papel" x="206" y="79" />
+        </g>
+        <g class="nota-flota nota-dos" transform="translate(310 37)">
+          <path
+            fill="currentColor"
+            d="M0 0c-23-5-25 15-10 13 8-1 15-7 14-14L3-34c13 8 21 17 15 23 1-11-8-11-14-15Z"
+          />
+        </g>
+      </g>
+    </g>
+  </svg>
+  {["izq", "der"].map((lado) => (
+    <svg class:list={["arbol", lado, "enter"]} viewBox="0 0 250 250">
+      <path
+        d="M108 250q23-69 7-119l-50-52 8-3 48 36 31-49 8 6-26 62 39-19 5 7-42 35 2 96Z"
+        fill="var(--tronco)"
+      />
+      <g class="copa">
+        <path
+          fill="currentColor"
+          d="M31 116C4 94 29 66 57 66 42 33 83 21 105 32 128 7 170 18 178 48 213 36 243 66 228 92 247 116 213 142 183 136 167 159 136 150 124 136 100 159 67 148 61 133 43 139 28 129 31 116Z"
+        />
+        <g class="flores-luz">
+          <use href="#flor-papel" x="56" y="93" />
+          <use href="#flor-papel" x="91" y="58" />
+          <use href="#flor-papel" x="146" y="43" />
+          <use href="#flor-papel" x="122" y="99" />
+          <use href="#flor-papel" x="180" y="102" />
+          <use href="#flor-papel" x="203" y="73" />
+        </g>
+        <g class="petalo" fill="currentColor">
+          <path d="M43 132q-18-1-11 10 12 9 11-10Zm91 7q22-9 15 5-7 14-15-5Zm68-10q19-7 14 5-8 12-14-5Z" />
+        </g>
+      </g>
+    </svg>
+  ))}
+  <svg class="garzas enter" viewBox="0 0 240 100">
+    <g class="garza-vuelo">
+      <path
+        d="M16 55q48-14 73 0 12-6 23-3l24 5-25 2-17 9q-37 7-55-2Z"
+        fill="var(--hoja)"
+      />
+      <path
+        class="ala"
+        d="M84 59C49 61 29 31 6 8c56 2 83 26 90 43Z"
+        fill="var(--blanco)"
+      />
+      <path d="m124 54 15 4-14 3Z" fill="var(--sol)" />
+    </g>
+    <g transform="translate(169 75)">
+      <path d="m12 5-3 17m9-16 1 15" stroke="var(--sol)" stroke-width="2" />
+      <path
+        d="M0 7q8-24 25-14 9 5 5-6-6-19 13-18l11 4-14 3c-6 0 3 12 2 17C40 10 18 17 0 7Z"
+        fill="var(--hoja)"
       />
     </g>
   </svg>
-
-  {["izquierda", "centro", "derecha"].map((lado) => (
-    <svg class:list={["pieza", "cana", lado, "enter"]} viewBox="0 0 190 250">
-      <g class="tallo">
-        <path
-          fill="var(--cana)"
-          d="M90 250C85 181 95 98 115 25l10 3c-19 71-28 149-21 222Zm-30 0C52 188 45 140 28 97l-7 4c14 47 20 99 24 149Z"
+  {["a", "b", "c", "d"].map((grupo) => (
+    <svg class:list={["canas", grupo, "enter"]} viewBox="0 0 330 250">
+      <g class="cana-mueve">
+        <use
+          href="#cana-papel"
+          transform="translate(71 250) rotate(-15) scale(.79)"
         />
-        <path
-          fill="var(--hoja)"
-          d="M104 107c14-51 43-77 81-76-31 12-51 36-81 76Zm-6 36C78 91 58 60 22 55c25 24 50 59 76 88Zm-4 68c27-49 52-66 91-61-33 10-56 29-91 61ZM39 157C23 135 12 133 2 136c14 10 24 22 42 46Z"
+        <use
+          href="#cana-papel"
+          transform="translate(132 250) rotate(-7) scale(1.1)"
         />
-        <path
-          class="hoja"
-          fill="var(--hoja)"
-          d="M103 127c22-41 53-53 84-47-29 7-54 23-84 47Zm-7 42c-21-42-47-56-77-54 28 13 52 32 77 54Z"
+        <use
+          href="#cana-papel"
+          transform="translate(178 250) rotate(9) scale(.91)"
         />
-        <path
-          stroke="var(--hoja)"
-          stroke-width="2.5"
-          d="m97 160 10 2m-13 34 10 1m-9 29 10 1"
+        <use
+          href="#cana-papel"
+          transform="translate(222 250) rotate(16) scale(1.15)"
+        />
+        <use
+          href="#cana-papel"
+          transform="translate(273 250) rotate(22) scale(.71)"
         />
       </g>
     </svg>
   ))}
-
-  <svg class="pieza notas enter" viewBox="0 0 155 145">
-    <g class="flotante" fill="var(--loma)">
-      <path d="m52 19 2 56c-9-4-27 4-26 14 2 13 33 7 34-7l-1-46 34-9 1 36c-10-4-28 4-27 14 1 13 34 7 35-7l-2-66Z" />
-      <path d="m125 83 6 33c-7-2-17 4-16 11 2 8 20 3 20-6l-4-23c7 1 13 2 19 8-1-10-13-13-25-23Z" />
-    </g>
-  </svg>
-
-  <svg
-    class="pieza detalles enter"
-    viewBox="0 0 225 105"
-    fill="none"
-    stroke="var(--violeta)"
-    stroke-width="3"
-    stroke-linecap="round"
-  >
-    <path d="M29 66c-14 0-16-18-3-21-1-13 18-20 26-7 9-7 22-1 23 9 13-3 19 18 4 19H29Z" />
-    <path d="M110 21h17m-8.5-8.5v17m48 43h12m-6-6v12m29-42h16m-8-8v16" />
-  </svg>
-
-  <svg class="pieza sello enter" viewBox="0 0 117 122">
-    <path
-      d="m54 4 53 25 6 56-46 33L13 94 5 39Z"
-      fill="var(--noche)"
-      stroke="var(--lavanda)"
-      stroke-width="4"
-    />
-    <path
-      d="M57 94c-2-16 4-42 12-61M60 71C42 64 37 53 36 44c13 3 21 12 24 27Zm3-10c7-14 17-19 27-19-3 10-12 17-27 19Zm-5 23c-11-10-18-11-26-10 6 8 15 11 26 10Z"
-      fill="none"
-      stroke="var(--blanco)"
-      stroke-width="3"
-      stroke-linejoin="round"
-      stroke-linecap="round"
-    />
-  </svg>
+  <img
+    class="sello-papel enter"
+    src="/img/logo/ug-hexagono.webp"
+    alt=""
+    width="319"
+    height="368"
+  />
 </div>
+
+<!-- prettier-ignore -->
+<script is:inline>
+(() => {
+  const h = document.querySelector(".hero");
+  const media = matchMedia("(hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference)");
+  if(!h||!media.matches||!self.IntersectionObserver) return;
+  const buscar = selector => h.querySelector(selector);
+  const sol=buscar(".sol-papel"), notas=buscar(".firma-cielo"), pausa=buscar("#pausa-arte");
+  const nombres = ["mx","my","ox","oy","nx","ny"];
+  let visible = false, sucio = true, frame = 0, x, y, rect, sr, nr;
+  const centro = r => [x-r.left-r.width/2,y-r.top-r.height/2];
+  function parar() {
+    cancelAnimationFrame(frame);
+    frame = 0;
+    for (const n of nombres) h.style.removeProperty("--"+n);
+  }
+  function pintar() {
+    frame = 0;
+    if (sucio) {
+      rect = h.getBoundingClientRect();
+      sr = sol.getBoundingClientRect();
+      nr = notas.getBoundingClientRect();
+      sucio = false;
+    }
+    const [hx,hy] = centro(rect), [sx,sy] = centro(sr);
+    const [nx,ny] = centro(nr);
+    const ojo = Math.max(28,Math.hypot(sx,sy));
+    const d = Math.max(1,Math.hypot(nx,ny)), rep = Math.max(0,1-d/180)/d;
+    const valores = [hx*2/rect.width,hy*2/rect.height,sx/ojo,sy/ojo,-nx*rep,-ny*rep];
+    nombres.forEach((n,i) => h.style.setProperty("--"+n,Math.max(-1,Math.min(1,valores[i]))));
+  }
+  h.classList.add("hero-puntero");
+  new IntersectionObserver(([entrada]) => {
+    visible = entrada.isIntersecting;
+    sucio = true;
+    h.classList.toggle("hero-fuera", !visible);
+    if (!visible) parar();
+  }).observe(h);
+  h.addEventListener("pointermove", e => {
+    if (!visible || !media.matches || pausa.checked || e.pointerType==="touch") return;
+    x = e.clientX;
+    y = e.clientY;
+    if (!frame) frame = requestAnimationFrame(pintar);
+  }, {passive:true});
+  h.addEventListener("pointerleave", parar);
+  pausa.addEventListener("change", parar);
+  media.addEventListener("change", parar);
+  for (const tipo of ["scroll","resize"]) addEventListener(tipo,()=>{sucio=true},{passive:true});
+})();
+</script>

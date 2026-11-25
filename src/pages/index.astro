@@ -3,6 +3,7 @@ import { getCollection, getEntry } from "astro:content";
 import Logo from "../components/Logo.astro";
 import BotonCta from "../components/BotonCta.astro";
 import Collage from "../components/Collage.astro";
+import Escena from "../components/Escena.astro";
 import Sitio from "../layouts/Sitio.astro";
 import { resolverCta } from "../lib/cta";
 import { separarEventos } from "../lib/eventos";
@@ -76,7 +77,7 @@ const redes = [
             <span class="enter">{nombreGrupo}</span>
           </span>
           {tieneRegion && (
-            <span class="mascara">
+            <span class="mascara mascara-region">
               <span class="enter">{region}</span>
             </span>
           )}
@@ -101,18 +102,37 @@ const redes = [
       <Collage />
     </div>
 
-    <section class="bloque" aria-labelledby="comunidad">
-      <div class="contenedor dos-columnas">
+    <section class="escena escena-cali" aria-labelledby="comunidad">
+      <Escena lugar="cali" />
+      <div class="contenedor escena-texto">
         <h2 id="comunidad">Qué es el UG</h2>
         <div>
           <p>
             Somos una comunidad de profesionales de tecnología del Valle del
             Cauca que se reúne para aprender y compartir sobre AWS.
           </p>
-          <p>
-            En los encuentros hay charlas técnicas, talleres prácticos y espacio
-            para conocer a otras personas que trabajan con la nube.
-          </p>
+          <ul class="pentagrama" aria-label="En nuestros encuentros">
+            {[
+              "Charlas técnicas",
+              "Talleres prácticos",
+              "Conexiones en comunidad",
+            ].map((actividad, i) => (
+              <li>
+                <svg
+                  viewBox="-22 -55 60 72"
+                  width="46"
+                  height="54"
+                  aria-hidden="true"
+                >
+                  <use
+                    href="#nota-papel"
+                    class:list={["nota-flota", i === 1 && "nota-dos"]}
+                  />
+                </svg>
+                <span>{actividad}</span>
+              </li>
+            ))}
+          </ul>
           <p>
             Si eres estudiante, conoce el{" "}
             <a data-testid="enlace-sbg" href={sitio.sbg_url}>
@@ -124,39 +144,43 @@ const redes = [
       </div>
     </section>
 
-    <section class="bloque bloque-alterno" aria-labelledby="eventos">
-      <div class="contenedor dos-columnas">
-        <h2 id="eventos">Próximos eventos</h2>
-        {proximos.length ? (
-          <ul class="listado">
-            {proximos.map((evento) => (
-              <li data-testid="evento-proximo">
-                <h3>{evento.titulo}</h3>
-                <p>
-                  <time datetime={evento.fecha.toISOString()}>
-                    {fechaEnBogota.format(evento.fecha)}
-                  </time>{" "}
-                  · {evento.lugar} · {modalidades[evento.modalidad]}
-                </p>
-                {evento.url_registro && (
-                  <a href={evento.url_registro}>
-                    Inscríbete en {evento.titulo}
-                  </a>
-                )}
-              </li>
-            ))}
-          </ul>
-        ) : (
-          <div data-testid="eventos-vacio">
-            <p>Estamos preparando el próximo; suscríbete para enterarte.</p>
-            <BotonCta href={cta.url} etiqueta={cta.etiqueta} />
-          </div>
-        )}
+    <section class="escena escena-calima" aria-labelledby="eventos">
+      <Escena lugar="calima" />
+      <div class="contenedor escena-texto">
+        <div class="boleto">
+          <h2 id="eventos">Próximos eventos</h2>
+          {proximos.length ? (
+            <ul class="listado">
+              {proximos.map((evento) => (
+                <li data-testid="evento-proximo">
+                  <h3>{evento.titulo}</h3>
+                  <p>
+                    <time datetime={evento.fecha.toISOString()}>
+                      {fechaEnBogota.format(evento.fecha)}
+                    </time>{" "}
+                    · {evento.lugar} · {modalidades[evento.modalidad]}
+                  </p>
+                  {evento.url_registro && (
+                    <a href={evento.url_registro}>
+                      Inscríbete en {evento.titulo}
+                    </a>
+                  )}
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <div data-testid="eventos-vacio">
+              <p>Estamos preparando el próximo; suscríbete para enterarte.</p>
+              <BotonCta href={cta.url} etiqueta={cta.etiqueta} />
+            </div>
+          )}
+        </div>
       </div>
     </section>
 
-    <section class="bloque" aria-labelledby="historia">
-      <div class="contenedor dos-columnas">
+    <section class="escena escena-tren" aria-labelledby="historia">
+      <Escena lugar="tren" />
+      <div class="contenedor escena-texto">
         <h2 id="historia">Lo que hemos hecho</h2>
         <div>
           <article class="destacado">
@@ -164,7 +188,7 @@ const redes = [
             <a href="https://techdaycali.com/">Conoce Tech Day Cali</a>
           </article>
           {pasados.length > 0 && (
-            <ul class="listado">
+            <ul class="listado via">
               {pasados.map((evento) => (
                 <li>
                   <h3>{evento.titulo}</h3>
@@ -182,8 +206,9 @@ const redes = [
       </div>
     </section>
 
-    <section class="bloque bloque-alterno" aria-labelledby="organizadores">
-      <div class="contenedor dos-columnas">
+    <section class="escena escena-guayacanes" aria-labelledby="organizadores">
+      <Escena lugar="guayacanes" />
+      <div class="contenedor escena-texto">
         <h2 id="organizadores">Organizadores</h2>
         {organizadores.length ? (
           <ul class="listado equipo">
@@ -216,8 +241,9 @@ const redes = [
       </div>
     </section>
 
-    <section class="bloque unirse" aria-labelledby="unirse">
-      <div class="contenedor dos-columnas">
+    <section class="escena escena-pacifico unirse" aria-labelledby="unirse">
+      <Escena lugar="pacifico" />
+      <div class="contenedor escena-texto">
         <h2 id="unirse">Cómo unirse</h2>
         <div>
           <p>Entérate de los próximos encuentros de la comunidad.</p>

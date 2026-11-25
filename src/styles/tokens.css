@@ -20,3 +20,27 @@
   --fuente-display: Archivo, system-ui, sans-serif;
   --fuente-texto: system-ui, sans-serif;
 }
+
+:root {
+  --cielo-lila: #ddc8e4;
+  --durazno: #f4bda5;
+  --miel: #f1cb78;
+  --rosa-flor: #aa466f;
+  --rosa-luz: #f6a9ba;
+  --oro-flor: #bf732b;
+  --oro-luz: #ffdb77;
+  --ribera: #658265;
+  --piedra: #c9b1af;
+  --tronco: #633e45;
+  --noche-clara: #283452;
+  --calima-papel: #e5ead6;
+  --calima-aire: #c6dfd4;
+  --calima-lejos: #9fb388;
+  --calima-loma: #537757;
+  --calima-agua: #428e91;
+  --pacifico: #417789;
+  --pacifico-cielo: #202b47;
+  --rosa-papel: #f4dce0;
+  --sombra: #161d2c24;
+  --grano-papel: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.86' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23fff' filter='url(%23g)' d='M0 0h160v160H0z'/%3E%3C/svg%3E");
+}

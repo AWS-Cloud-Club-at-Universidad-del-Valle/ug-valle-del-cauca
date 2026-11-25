@@ -1,5 +1,6 @@
 ---
 import Logo from "../components/Logo.astro";
+import Escena from "../components/Escena.astro";
 import "../styles/sitio.css";
 
 interface Props {
@@ -36,7 +37,8 @@ const { titulo, descripcion, portada } = Astro.props;
       </header>
     )}
     <slot />
-    <footer class="pie">
+    <footer class:list={["pie", portada && "pie-cordillera"]}>
+      {portada && <Escena lugar="cordillera" />}
       <div class="contenedor pie-interior">
         <Logo />
         <p>Comunidad independiente, parte del programa AWS User Groups.</p>

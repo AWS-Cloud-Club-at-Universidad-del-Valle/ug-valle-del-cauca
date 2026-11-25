@@ -1,0 +1,901 @@
+/* Portada */
+.filtro {
+  position: absolute;
+  pointer-events: none;
+}
+.fibra-local {
+  filter: url("#fibra");
+}
+
+.paisaje {
+  position: absolute;
+  z-index: 1;
+  inset: auto 0 0;
+  height: clamp(17rem, 38svh, 24rem);
+  pointer-events: none;
+}
+.paisaje > * {
+  position: absolute;
+}
+.cielo-arte {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+.relieve-arte {
+  left: 50%;
+  bottom: 0;
+  translate: -50% 0;
+  width: max(100%, 790px);
+  height: 100%;
+  z-index: 2;
+}
+.montes {
+  filter: url("#fibra");
+}
+.ondas-pance {
+  animation: correr-pance 10s linear infinite;
+}
+@keyframes correr-pance {
+  to {
+    transform: translateX(-165px);
+  }
+}
+
+.sol-papel {
+  z-index: 1;
+  right: 3%;
+  top: 5%;
+  width: clamp(8rem, 34vw, 15rem);
+  --desde: -70px;
+  --delay: 0.32s;
+  --dur: 0.76s;
+}
+.sol-interactivo {
+  transform-box: fill-box;
+  transform-origin: center;
+  transition: transform 0.32s ease;
+}
+.sol-interactivo > * {
+  pointer-events: visiblePainted;
+}
+.sol-interactivo:hover {
+  transform: scale(1.12);
+}
+.rayos {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: girar-sol 60s linear infinite;
+}
+@keyframes girar-sol {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.firma-cielo {
+  z-index: 4;
+  top: -12%;
+  left: 48%;
+  translate: -50% 0;
+  width: min(77%, 320px);
+  --delay: 0.72s;
+}
+.nota-flota {
+  animation: flotar-papel 3.8s ease-in-out infinite alternate;
+}
+.nota-dos {
+  animation-duration: 4.9s;
+  animation-delay: -2s;
+}
+@keyframes flotar-papel {
+  to {
+    transform: translateY(-7px);
+  }
+}
+
+.arbol {
+  z-index: 3;
+  width: clamp(9.5rem, 24vw, 23rem);
+  bottom: 5%;
+  filter: url("#fibra");
+  --delay: 0.65s;
+}
+.arbol.izq {
+  left: -11%;
+  color: var(--oro-flor);
+  --flor: var(--oro-luz);
+  --balanceo: -3deg;
+  --ritmo: 4.3s;
+}
+.arbol.der {
+  right: -12%;
+  bottom: 9%;
+  color: var(--rosa-flor);
+  --flor: var(--rosa-luz);
+  --balanceo: 3deg;
+  --ritmo: 5.1s;
+}
+.copa,
+.cana-mueve,
+.ramo-mueve {
+  transform-box: fill-box;
+  transform-origin: 50% 100%;
+  animation: mecer-papel var(--ritmo, 4s) ease-in-out var(--fase, -0.8s)
+    infinite alternate;
+}
+.copa path,
+.copa use {
+  pointer-events: visiblePainted;
+}
+.flores-luz {
+  color: var(--flor);
+}
+.petalo {
+  color: var(--flor);
+}
+.copa:hover .petalo {
+  animation: petalos 0.95s ease-out both;
+}
+@keyframes petalos {
+  to {
+    transform: translate(25px, 45px) rotate(11deg);
+    opacity: 0;
+  }
+}
+@keyframes mecer-papel {
+  from {
+    transform: rotate(-1.7deg);
+  }
+  to {
+    transform: rotate(var(--balanceo, 3deg));
+  }
+}
+
+.garzas {
+  z-index: 4;
+  width: clamp(7rem, 16vw, 14rem);
+  right: 14%;
+  bottom: 9%;
+  --delay: 0.71s;
+}
+.garza-vuelo {
+  animation: flotar-papel 5.7s ease-in-out infinite alternate;
+}
+.ala {
+  transform-box: fill-box;
+  transform-origin: 90% 95%;
+  animation: aletear 2.7s ease-in-out infinite alternate;
+}
+@keyframes aletear {
+  to {
+    transform: rotate(-25deg) scaleY(0.71);
+  }
+}
+
+.canas {
+  z-index: 5;
+  width: clamp(8.5rem, 21vw, 20rem);
+  bottom: -3%;
+  color: var(--hoja);
+  --delay: 0.75s;
+}
+.canas.a {
+  left: -8%;
+  --balanceo: 4deg;
+  --ritmo: 2.8s;
+}
+.canas.b {
+  left: 13%;
+  bottom: -9%;
+  width: clamp(6rem, 16vw, 17rem);
+  color: var(--calima-lejos);
+  --balanceo: -5deg;
+  --ritmo: 4.3s;
+  --fase: -1s;
+}
+.canas.c {
+  right: -8%;
+  --balanceo: -4deg;
+  --ritmo: 3.7s;
+  --fase: -0.4s;
+}
+.canas.d {
+  right: 12%;
+  bottom: -7%;
+  width: clamp(5rem, 11vw, 12rem);
+  color: var(--calima-lejos);
+  --balanceo: 5deg;
+  --ritmo: 4.8s;
+  --fase: -2s;
+}
+.sello-papel {
+  z-index: 4;
+  width: clamp(3.6rem, 6vw, 7.3rem);
+  height: auto;
+  bottom: 12%;
+  left: 39%;
+  rotate: -12deg;
+  --delay: 0.79s;
+}
+
+.mascara.mascara-region {
+  position: relative;
+  padding-bottom: 0.17em;
+}
+.mascara-region::after {
+  content: "";
+  position: absolute;
+  inset: auto 11% 0.045em 1%;
+  height: 0.11em;
+  background: var(--violeta);
+  clip-path: polygon(
+    0 63%,
+    24% 36%,
+    52% 19%,
+    82% 10%,
+    100% 36%,
+    65% 62%,
+    22% 72%,
+    2% 100%
+  );
+  transform-origin: left;
+  animation: trazar 0.55s cubic-bezier(0.22, 1, 0.36, 1) 0.4s backwards;
+}
+@keyframes trazar {
+  from {
+    transform: scaleX(0);
+  }
+}
+
+.control-movimiento {
+  position: absolute;
+  z-index: 4;
+  right: 0.7rem;
+  bottom: 1.1rem;
+  border-radius: 2rem;
+  padding: 0.35rem 0.7rem;
+  background: var(--noche);
+  color: var(--blanco);
+  font-size: 0.875rem;
+  cursor: pointer;
+}
+.control-movimiento input {
+  margin: 0 0.25rem 0 0;
+  accent-color: var(--violeta);
+}
+.control-movimiento input:focus-visible {
+  outline-color: var(--blanco);
+}
+main:has(.control-movimiento :checked) :is(.paisaje *, .escena *) {
+  animation-play-state: paused;
+}
+main:has(.control-movimiento :checked) .sol-interactivo {
+  transform: none;
+}
+
+/* Cada borde rasgado deja ver parte de la escena anterior. */
+.escena,
+.pie-cordillera {
+  --rasgado: polygon(
+    0 11px,
+    3% 15px,
+    7% 5px,
+    11% 13px,
+    16% 7px,
+    21% 12px,
+    25% 3px,
+    30% 10px,
+    35% 4px,
+    41% 12px,
+    47% 6px,
+    53% 13px,
+    57% 7px,
+    63% 14px,
+    69% 3px,
+    76% 11px,
+    81% 5px,
+    87% 14px,
+    92% 7px,
+    96% 11px,
+    100% 4px,
+    100% 100%,
+    0 100%
+  );
+  position: relative;
+  isolation: isolate;
+  margin-top: -17px;
+  clip-path: var(--rasgado);
+  overflow: clip;
+}
+.escena {
+  container-type: inline-size;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 640px;
+  padding-block: clamp(4.25rem, 9vw, 8rem);
+}
+.escena::after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  opacity: 0.16;
+  mix-blend-mode: multiply;
+  background-image: var(--grano-papel);
+  pointer-events: none;
+}
+.escena-texto {
+  position: relative;
+  z-index: 2;
+}
+.escena h2 {
+  font-size: clamp(2.45rem, 6.3cqw, 6.25rem);
+  margin-bottom: 0.27em;
+}
+.escena p {
+  max-width: 54ch;
+}
+.arte {
+  position: absolute;
+  inset: auto auto 0 50%;
+  width: 100%;
+  height: auto;
+  translate: -50% 0;
+  pointer-events: none;
+}
+
+.escena-cali {
+  background: var(--noche);
+  color: var(--blanco);
+  text-align: center;
+  padding-top: clamp(6.8rem, 12vw, 11rem);
+}
+.arte-cali {
+  top: 1rem;
+  bottom: auto;
+  width: max(100%, 840px);
+}
+.escena-cali .escena-texto {
+  max-width: 57rem;
+}
+.escena-cali p {
+  margin-inline: auto;
+}
+.escena-cali p:last-child {
+  margin-bottom: 0;
+}
+.pentagrama {
+  position: relative;
+  isolation: isolate;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.35rem;
+  margin: 2rem 0;
+  padding: 0.85rem 0;
+  list-style: none;
+}
+.pentagrama::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 17px 0 auto;
+  height: 40px;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent 0 7px,
+    var(--noche-clara) 7px 8px
+  );
+}
+.pentagrama li {
+  display: grid;
+  justify-items: center;
+  gap: 0.3rem;
+  align-content: start;
+  font-weight: 650;
+}
+.pentagrama svg {
+  color: var(--miel);
+}
+.pentagrama li:nth-child(2) svg {
+  color: var(--rosa-luz);
+}
+.pentagrama li:nth-child(3) svg {
+  color: var(--lavanda);
+}
+.pentagrama li span {
+  background: var(--noche);
+  padding-inline: 0.25rem;
+}
+.titila {
+  animation: titilar 4.2s ease-in-out var(--fase) infinite alternate;
+}
+@keyframes titilar {
+  50% {
+    opacity: 0.35;
+  }
+}
+
+.escena-calima {
+  background: var(--calima-papel);
+  padding-bottom: clamp(17rem, 28vw, 23rem);
+}
+.arte-calima {
+  width: max(100%, 870px);
+  left: 50%;
+}
+.boleto {
+  position: relative;
+  width: min(100%, 36rem);
+  background: var(--hoja);
+  padding: clamp(1.5rem, 4.1vw, 3.5rem);
+  border-left: 0.45rem solid var(--cana);
+  box-shadow: 0.55rem 0.6rem 0 var(--sombra);
+}
+.boleto::after {
+  content: "";
+  position: absolute;
+  inset: 0.5rem 0.55rem 0.5rem auto;
+  border-right: 2px dashed var(--borde);
+  pointer-events: none;
+}
+.boleto h2 {
+  font-size: clamp(2.45rem, 4.6cqw, 4.85rem);
+}
+.vela-calima {
+  animation: navegar 13s ease-in-out infinite alternate;
+}
+.tabla-calima {
+  animation: navegar 9s ease-in-out -4s infinite alternate-reverse;
+}
+@keyframes navegar {
+  from {
+    transform: translate(-38px, 4px) rotate(-3deg);
+  }
+  to {
+    transform: translate(51px, -5px) rotate(4deg);
+  }
+}
+
+.escena-tren {
+  background: var(--miel);
+  padding-bottom: clamp(14rem, 26vw, 22rem);
+}
+.arte-tren {
+  width: max(100%, 870px);
+  left: 54%;
+}
+.escena-tren .escena-texto {
+  display: grid;
+  gap: clamp(1rem, 4vw, 3rem);
+}
+.escena-tren h2 {
+  max-width: 11ch;
+}
+.destacado {
+  position: relative;
+  padding: clamp(1rem, 3.5vw, 2.25rem);
+  background: var(--papel);
+  border: 0.35rem double var(--tronco);
+  box-shadow: 0.42rem 0.5rem 0 var(--sombra);
+  rotate: -2deg;
+  width: min(100%, 28rem);
+}
+.destacado h3 {
+  font-size: clamp(1.95rem, 3.4cqw, 3.45rem);
+  margin-bottom: 0.4rem;
+}
+.listado.via {
+  border-left: 3px solid var(--tronco);
+  padding-left: 1.2rem;
+  margin-top: 2rem;
+}
+.via li {
+  position: relative;
+}
+.via li::before {
+  content: "";
+  position: absolute;
+  width: 0.68rem;
+  aspect-ratio: 1;
+  border: 2px solid var(--tronco);
+  border-radius: 50%;
+  background: var(--hoja);
+  top: 0.4rem;
+  left: -1.65rem;
+}
+.tren-pasa {
+  animation: viaje-tren 19s ease-in-out infinite alternate;
+}
+@keyframes viaje-tren {
+  from {
+    transform: translateX(-440px);
+  }
+  to {
+    transform: translateX(220px);
+  }
+}
+
+.escena-guayacanes {
+  background: var(--rosa-papel);
+  text-align: center;
+  padding-top: clamp(9rem, 15vw, 14.5rem);
+  padding-bottom: clamp(4rem, 9vw, 8rem);
+}
+.arte-guayacanes {
+  width: max(100%, 685px);
+  top: 0;
+  bottom: auto;
+}
+.ramo.oro {
+  color: var(--oro-flor);
+  --tono-flor: var(--oro-luz);
+  --ritmo: 4s;
+}
+.ramo.rosa {
+  color: var(--rosa-flor);
+  --tono-flor: var(--rosa-luz);
+  --ritmo: 5s;
+  --fase: -2s;
+}
+.ramo use {
+  color: var(--tono-flor);
+}
+.listado,
+.redes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+.listado li + li {
+  margin-top: 1rem;
+}
+.listado h3 {
+  margin-bottom: 0.35rem;
+}
+.listado p {
+  margin-bottom: 0;
+}
+.equipo {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2rem;
+  margin-top: 2.35rem;
+}
+.equipo li {
+  position: relative;
+  width: min(100%, 16rem);
+  padding: 1rem 1rem 1.25rem;
+  background: var(--papel);
+  border: 1px solid var(--borde);
+  box-shadow: 0.45rem 0.55rem 0 var(--sombra);
+  transform: rotate(-4deg);
+  transition: transform 0.23s ease;
+}
+.equipo li + li {
+  margin-top: 0;
+}
+.equipo li:nth-child(even) {
+  transform: rotate(4deg);
+}
+.equipo li:is(:hover, :focus-within) {
+  transform: rotate(0deg);
+}
+.equipo li::before {
+  content: "";
+  position: absolute;
+  width: 3.3rem;
+  height: 1.2rem;
+  top: -0.65rem;
+  left: calc(50% - 1.65rem);
+  background: var(--miel);
+  rotate: 5deg;
+}
+.equipo img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: cover;
+  margin-bottom: 0.75rem;
+}
+.equipo h3 {
+  font-size: 1.28rem;
+}
+
+.escena-pacifico {
+  background: var(--pacifico-cielo);
+  color: var(--blanco);
+  text-align: center;
+  padding-bottom: clamp(15rem, 29vw, 29rem);
+}
+.escena-pacifico p {
+  margin-inline: auto;
+}
+.arte-pacifico {
+  width: max(100%, 800px);
+}
+.unirse .boton {
+  color: var(--noche);
+  background: var(--miel);
+  outline-color: var(--blanco);
+  font-size: clamp(1rem, 2vw, 1.25rem);
+}
+.redes {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+  margin-top: 1rem;
+}
+.redes a {
+  display: inline-block;
+  border: 1px solid var(--onda);
+  border-radius: 56% 44% 51% 49% / 45% 55% 46% 54%;
+  padding: 0.45rem 0.9rem;
+  background: var(--noche);
+}
+.cola {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  animation: inmersion 13s ease-in-out infinite;
+}
+@keyframes inmersion {
+  0%,
+  22%,
+  95%,
+  100% {
+    transform: translateY(65px) scaleY(0.45);
+    opacity: 0;
+  }
+  36%,
+  65% {
+    transform: translateY(0) scaleY(1);
+    opacity: 1;
+  }
+  82% {
+    opacity: 0.75;
+  }
+}
+
+footer.pie-cordillera.pie {
+  border-top: 0;
+  padding-top: clamp(4rem, 9vw, 7.5rem);
+  background: var(--noche-clara);
+}
+.arte-cordillera {
+  height: 100%;
+  min-width: 720px;
+}
+.pie-cordillera .pie-interior {
+  position: relative;
+}
+
+@media (min-width: 700px) {
+  .escena-tren .escena-texto {
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    align-items: start;
+  }
+  .arte-calima {
+    left: 50%;
+  }
+  .arte-tren {
+    left: 50%;
+  }
+}
+@media (min-width: 1024px) {
+  .paisaje {
+    height: min(56svh, 42vw);
+  }
+  .sol-papel {
+    right: 13%;
+    top: -3%;
+    width: 16%;
+  }
+  .firma-cielo {
+    left: 62%;
+    top: 0;
+    width: 28%;
+  }
+  .arbol.izq {
+    left: -3%;
+  }
+  .arbol.der {
+    right: -3%;
+  }
+  .canas.a {
+    left: 1%;
+  }
+  .canas.b {
+    left: 23%;
+  }
+  .canas.c {
+    right: -1%;
+  }
+  .canas.d {
+    right: 16%;
+  }
+  .sello-papel {
+    left: 52%;
+  }
+}
+@media (min-width: 1024px) and (max-height: 700px) {
+  .paisaje {
+    height: 42svh;
+  }
+  .arbol {
+    width: 17vw;
+  }
+  .sol-papel {
+    width: 13%;
+  }
+}
+@media (max-width: 1023px) {
+  .arte-calima,
+  .arte-tren {
+    width: max(136%, 870px);
+    left: 35%;
+  }
+}
+@media (max-width: 480px) {
+  .paisaje {
+    height: 34svh;
+  }
+  .arbol.izq {
+    left: -13%;
+  }
+  .arbol.der {
+    right: -15%;
+  }
+  .garzas {
+    right: 16%;
+  }
+}
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) {
+    .escena .arte {
+      animation: llegada-arte linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 82%;
+    }
+    @keyframes llegada-arte {
+      from {
+        transform: translateY(35px);
+        opacity: 0.55;
+      }
+      to {
+        transform: none;
+        opacity: 1;
+      }
+    }
+  }
+  @supports not (animation-timeline: view()) {
+    .escena * {
+      animation: none;
+    }
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .control-movimiento {
+    display: none;
+  }
+  .sol-interactivo:hover {
+    transform: none;
+  }
+  .equipo li:is(:hover, :focus-within) {
+    transform: rotate(-4deg);
+  }
+  .equipo li:nth-child(even):is(:hover, :focus-within) {
+    transform: rotate(4deg);
+  }
+  .cola {
+    transform: none;
+    opacity: 1;
+  }
+}
+
+.cali-ciudad {
+  display: none;
+}
+.calma-viento {
+  width: 31%;
+  max-width: 31rem;
+  top: 12%;
+  bottom: auto;
+  left: 76%;
+}
+.bruma-pacifico {
+  top: 16%;
+  bottom: auto;
+  width: max(100%, 620px);
+}
+.equipo li::after {
+  content: "";
+  position: absolute;
+  width: 1px;
+  height: 1.6rem;
+  top: -2.1rem;
+  left: 50%;
+  background: var(--tronco);
+  rotate: 7deg;
+}
+.unirse.escena-pacifico .boton {
+  background: var(--miel);
+}
+.redes li {
+  position: relative;
+}
+.redes li::before {
+  content: "";
+  position: absolute;
+  width: 0.5rem;
+  height: 0.34rem;
+  border-radius: 0.25rem 0.25rem 0 0;
+  background: var(--miel);
+  left: calc(50% - 0.25rem);
+  top: -0.29rem;
+  pointer-events: none;
+}
+@media (min-width: 641px) and (max-width: 1023px) {
+  .paisaje {
+    height: 41svh;
+    max-height: 27rem;
+  }
+}
+@media (max-width: 650px) {
+  .calma-viento {
+    display: none;
+  }
+  .cali-ciudad {
+    display: block;
+    height: 4.6rem;
+    width: 100%;
+  }
+}
+
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .hero-puntero :is(.montes > path, .sol-papel, .arbol, .canas, .garzas) {
+    translate: calc(var(--mx, 0) * var(--profundidad))
+      calc(var(--my, 0) * var(--profundidad));
+    transition: translate 0.28s ease-out;
+  }
+  .montes > :nth-child(1) {
+    --profundidad: 3px;
+  }
+  .montes > :nth-child(2) {
+    --profundidad: 6px;
+  }
+  .montes > :nth-child(3) {
+    --profundidad: 10px;
+  }
+  .montes > :nth-child(4) {
+    --profundidad: 14px;
+  }
+  .hero-puntero .montes > path {
+    transform-box: fill-box;
+    transform-origin: center;
+    scale: 1.035;
+  }
+  .sol-papel {
+    --profundidad: 7px;
+  }
+  .arbol {
+    --profundidad: 16px;
+  }
+  .garzas {
+    --profundidad: 11px;
+  }
+  .canas {
+    --profundidad: 22px;
+  }
+  .hero-puntero .pupilas-sol {
+    transform: translate(calc(var(--ox, 0) * 6px), calc(var(--oy, 0) * 7px));
+    transition: transform 0.15s ease-out;
+  }
+  .hero-puntero .notas-interactivas {
+    transform: translate(calc(var(--nx, 0) * 30px), calc(var(--ny, 0) * 30px));
+    transition: transform 0.26s ease-out;
+  }
+  .hero-fuera .paisaje * {
+    animation-play-state: paused;
+  }
+}

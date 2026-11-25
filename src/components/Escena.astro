@@ -1,0 +1,388 @@
+---
+interface Props {
+  lugar: "cali" | "calima" | "tren" | "guayacanes" | "pacifico" | "cordillera";
+}
+const { lugar } = Astro.props;
+
+const luces = Array.from({ length: 19 }, (_, i) => {
+  const x = i * 80;
+  return { x, y: 35 + 300 * (x / 1440) * (1 - x / 1440) };
+});
+const estrellas = [
+  [94, 169],
+  [193, 237],
+  [309, 183],
+  [1101, 140],
+  [1207, 230],
+  [1321, 175],
+  [1399, 282],
+];
+const flores = [
+  [35, 43, 1.4],
+  [88, 100, 1.19],
+  [139, 60, 1.54],
+  [204, 125, 1.48],
+  [237, 74, 1],
+  [277, 155, 1.6],
+  [325, 113, 1.1],
+  [329, 204, 1.22],
+  [373, 178, 0.91],
+  [408, 200, 1.3],
+  [451, 233, 0.88],
+  [494, 251, 1.04],
+];
+---
+
+{lugar === "cali" && (
+  <>
+    <svg class="arte arte-cali" aria-hidden="true" viewBox="0 0 1440 405">
+      <path
+        d="M0 35Q720 185 1440 35"
+        fill="none"
+        stroke="var(--lavanda)"
+        stroke-width="1.5"
+      />
+      {luces.map(({ x, y }, i) => (
+        <g transform={`translate(${x} ${y})`}>
+          <path d="M0 0v16" stroke="var(--lavanda)" stroke-width="1.5" />
+          <path
+            d="M-5 15H5v5q8 12-5 16-13-4-5-16Z"
+            fill={i % 3 === 0 ? "var(--durazno)" : "var(--miel)"}
+          />
+        </g>
+      ))}
+      {estrellas.map(([x, y], i) => (
+        <g transform={`translate(${x} ${y})`} color="var(--violeta)">
+          <use
+            href="#destello-papel"
+            class="titila"
+            style={`--fase: -${i * 0.63}s`}
+          />
+        </g>
+      ))}
+      <path
+        id="edificios-cali"
+        class="fibra-local"
+        d="M0 405V281h29v-27h44v31h33v39h21v-13h42v26h37v-66h25v-18h22v18h28v90h39v-27h51v26h37v45ZM1440 405V260h-43v28h-41v55h-34v-67h-25v-28h-38v89h-31v28h-24v-42h-41v33h-59v20h-38v29Z"
+        fill="var(--noche-clara)"
+      />
+      <g color="var(--lavanda)">
+        <g transform="translate(147 248) rotate(-17) scale(1.5)">
+          <use class="nota-flota" href="#nota-papel" />
+        </g>
+        <g transform="translate(1259 238) rotate(11) scale(1.8)">
+          <use class="nota-flota nota-dos" href="#nota-papel" />
+        </g>
+      </g>
+      <g fill="var(--miel)" opacity=".65">
+        <path d="M36 296h7v6h-7zm18 0h7v6h-7zm172 21h7v6h-7zm19 0h7v6h-7zm-19 19h7v6h-7zm1030-33h7v6h-7zm17 0h7v6h-7zm124 23h7v6h-7zm17 0h7v6h-7z" />
+      </g>
+    </svg>
+    <svg
+      class="arte cali-ciudad"
+      aria-hidden="true"
+      viewBox="0 245 1440 160"
+      preserveAspectRatio="none"
+    >
+      <use href="#edificios-cali" />
+      <g color="var(--violeta)">
+        <use href="#destello-papel" x="152" y="282" />
+        <use href="#destello-papel" x="1290" y="285" />
+      </g>
+    </svg>
+  </>
+)}
+{lugar === "calima" && (
+  <>
+    <svg class="arte calma-viento" viewBox="0 0 450 175" aria-hidden="true">
+      <path
+        d="M26 106q84-38 184-26t184-15M84 125q110-39 196-21 74 16 147-14"
+        fill="none"
+        stroke="var(--calima-loma)"
+        stroke-width="1.5"
+        stroke-linecap="round"
+      />
+      <path
+        d="M158 62q-13 0-10-12 4-8 18-7 5-23 28-24 20 0 27 16 18-6 26 9 16-4 20 6 4 12-17 14Z"
+        fill="var(--calima-aire)"
+      />
+    </svg>
+    <svg class="arte arte-calima" aria-hidden="true" viewBox="0 0 1440 505">
+      <path
+        fill="var(--calima-aire)"
+        d="M0 73C184 31 333 53 521 81c284 43 509-20 919-24v448H0Z"
+      />
+      <path
+        class="fibra-local"
+        fill="var(--calima-lejos)"
+        d="M0 219c108 12 164-56 261-64 123-9 182 67 314 40 122-25 201-94 286-102 137-13 209 23 318 63 117 43 190 33 261 31v318H0Z"
+      />
+      <path
+        class="fibra-local"
+        fill="var(--calima-loma)"
+        d="M0 246c199 9 191-51 366-36 160 14 243 84 416 57 199-31 213-71 348-62 148 10 182 57 310 26v274H0Z"
+      />
+      <path
+        class="fibra-local"
+        fill="var(--calima-agua)"
+        d="M0 316c221-49 413-8 602 5 309 22 465-92 838-39v223H0Z"
+      />
+      <path
+        fill="var(--rio)"
+        d="M0 422c316-60 513-19 703-18 240 1 475-77 737-49v150H0Z"
+      />
+      <g
+        fill="none"
+        stroke="var(--onda)"
+        stroke-linecap="round"
+        stroke-width="2"
+      >
+        <path d="M44 362q80-14 169-13m14 0 40 2m54 73q104-16 212-13m56 4 74 3m433-84q152-26 285-15M999 457q101-32 238-38m39-2 73-3M66 469q158-22 268-19" />
+        <path d="M781 193q131 5 209-22 29-9 15-19-12-6-22 5m99 20q132 12 190-18" />
+      </g>
+      <g transform="translate(895 333)">
+        <g class="vela-calima">
+          <path d="M-57 1 64-3 46 11-42 15Z" fill="var(--noche)" />
+          <path d="m3-108 47 101-46-7Z" fill="var(--hoja)" />
+          <path d="m-4-94-47 86 45-6Z" fill="var(--durazno)" />
+          <path d="M0-115v116" stroke="var(--noche)" stroke-width="3" />
+          <path
+            d="M-74 22q26-11 61-2m-32 11 52-2"
+            fill="none"
+            stroke="var(--onda)"
+            stroke-width="3"
+          />
+        </g>
+      </g>
+      <g transform="translate(1252 405)">
+        <g class="tabla-calima">
+          <path d="M-33 1q22-7 66 0L18 7h-40Z" fill="var(--miel)" />
+          <path d="M-5 1-17-74Q15-55 25-13Z" fill="var(--lavanda)" />
+          <path
+            d="M-17-74-5 1M-11-40l36 27"
+            fill="none"
+            stroke="var(--noche)"
+            stroke-width="2"
+          />
+        </g>
+      </g>
+    </svg>
+  </>
+)}
+{lugar === "tren" && (
+  <svg class="arte arte-tren" aria-hidden="true" viewBox="0 0 1440 330">
+    <path
+      fill="var(--calima-lejos)"
+      d="M0 133c186-74 421 14 632-24s404-12 528 1c107 12 202-19 280-17v237H0Z"
+    />
+    <path
+      class="fibra-local"
+      fill="var(--calima-loma)"
+      d="M0 173c243-29 389 32 607 4s439-72 833-40v193H0Z"
+    />
+    <path
+      class="fibra-local"
+      d="M526 155 0 250v34l587-123Zm158 1L146 330h160l428-169Zm115 4L532 330h130l181-172Zm113-4 2 174h133L952 154Zm103-10 218 184h169l-349-189Zm92-8 333 85v-24l-304-66Z"
+      fill="var(--cana)"
+    />
+    <path
+      d="M0 215q480-28 837-32 285-3 603 16l0 23q-318-20-603-16-357 3-837 32Z"
+      fill="var(--tronco)"
+    />
+    <path
+      d="M0 218q480-28 837-32 285-3 603 16M0 229q480-28 837-32 285-3 603 16"
+      fill="none"
+      stroke="var(--papel)"
+      stroke-width="3"
+    />
+    <defs>
+      <g id="vagon-cana">
+        <path d="M1-46 8-4h86l9-42Z" fill="var(--tronco)" />
+        <path d="M9-48l-13-12 65 6-25-12 62 12 9 8Z" fill="var(--hoja)" />
+        <path
+          d="m15-45 5 38m23-38 2 38m26-38-3 38m26-38-5 38"
+          stroke="var(--sol)"
+          stroke-width="3"
+        />
+        <path d="M-9-14h12m95 0h17" stroke="var(--noche)" stroke-width="4" />
+        <circle cx="24" cy="-2" r="9" fill="var(--noche)" />
+        <circle cx="78" cy="-2" r="9" fill="var(--noche)" />
+      </g>
+    </defs>
+    <g transform="translate(626 182)">
+      <g class="tren-pasa">
+        <use href="#vagon-cana" />
+        <use href="#vagon-cana" x="113" />
+        <use href="#vagon-cana" x="226" />
+        <g transform="translate(345)">
+          <path d="M-5-51h55v20h41l21 23H-5Z" fill="var(--noche)" />
+          <path d="M10-41h23v15H10Z" fill="var(--miel)" />
+          <path d="M72-53h14v29H72ZM-10-55h65v8h-65Z" fill="var(--loma)" />
+          <path
+            d="m82-62q-16-6-9-15 5-6 15 0 3-13 14-6 13 11-20 21Z"
+            fill="var(--hoja)"
+          />
+          <circle
+            cx="17"
+            cy="-2"
+            r="12"
+            fill="var(--sol)"
+            stroke="var(--noche)"
+            stroke-width="5"
+          />
+          <circle
+            cx="57"
+            cy="-2"
+            r="12"
+            fill="var(--sol)"
+            stroke="var(--noche)"
+            stroke-width="5"
+          />
+          <circle cx="91" cy="-3" r="8" fill="var(--noche)" />
+        </g>
+      </g>
+    </g>
+    <g color="var(--calima-lejos)" opacity=".85">
+      {[83, 248, 431, 605, 810, 980, 1180, 1390].map((x, i) => (
+        <use
+          href="#cana-papel"
+          transform={`translate(${x} ${310 + (i % 3) * 7}) rotate(${i % 2 ? 14 : -12}) scale(${0.12 + (i % 3) * 0.055})`}
+        />
+      ))}
+    </g>
+    <g color="var(--hoja)">
+      <use
+        href="#cana-papel"
+        transform="translate(145 330) rotate(-11) scale(.59)"
+      />
+      <use
+        href="#cana-papel"
+        transform="translate(186 330) rotate(13) scale(.65)"
+      />
+      <use
+        href="#cana-papel"
+        transform="translate(1279 330) rotate(-14) scale(.73)"
+      />
+      <use
+        href="#cana-papel"
+        transform="translate(1330 330) rotate(16) scale(.61)"
+      />
+    </g>
+  </svg>
+)}
+{lugar === "guayacanes" && (
+  <svg class="arte arte-guayacanes" aria-hidden="true" viewBox="0 0 1440 480">
+    {["oro", "rosa"].map((color, i) => (
+      <g
+        transform={i ? "translate(1440 17) scale(-1 1)" : undefined}
+        class:list={["ramo", color]}
+      >
+        <path
+          d="M-30 76q154 20 280 64 143 50 280 112-96-33-211-62l-25 39-9-4 18-40q-72-22-132-30l-34 67-13-5 27-67q-90-18-181-19Z"
+          fill="var(--tronco)"
+        />
+        <path
+          d="M1 144q138 1 236 69l-2 9Q106 168 0 175Z"
+          fill="var(--tronco)"
+        />
+        <g class="ramo-mueve fibra-local">
+          <path
+            d="M-24 31C45-7 105 16 132 43c47-14 133 6 145 66 50-3 97 36 109 61 57 8 71 32 84 50-84 4-151-23-218-62C103 100 43 157-22 112Z"
+            fill="currentColor"
+          />
+          {flores.map(([x, y, s]) => (
+            <use
+              href="#flor-papel"
+              transform={`translate(${x} ${y}) scale(${s})`}
+            />
+          ))}
+        </g>
+        <g fill="currentColor" opacity=".8">
+          <path d="M104 280q-23-4-13 10 9 7 13-10Zm115 22q-28 2-10 15 9 5 10-15Zm145 34q-23-6-15 7 7 12 15-7Z" />
+        </g>
+      </g>
+    ))}
+  </svg>
+)}
+{lugar === "pacifico" && (
+  <>
+    <svg
+      class="arte bruma-pacifico"
+      aria-hidden="true"
+      viewBox="0 0 1440 310"
+      preserveAspectRatio="xMidYMin slice"
+    >
+      <g fill="var(--noche-clara)">
+        <path d="M0 72q75-24 165-13 77 10 170 0-94 34-208 26Q55 80 0 102Zm1059 145q167-55 381-40v23q-177-14-381 17Z" />
+        <path d="M1049 75q80-52 231-41l160-8v20l-164 15q-113-12-227 14Z" />
+      </g>
+      <g color="var(--lavanda)" opacity=".6">
+        <use href="#destello-papel" x="220" y="100" />
+        <use href="#destello-papel" x="1209" y="115" />
+        <use href="#destello-papel" x="1280" y="66" />
+      </g>
+    </svg>
+    <svg class="arte arte-pacifico" aria-hidden="true" viewBox="0 0 1440 390">
+      <path
+        fill="var(--calima-loma)"
+        d="M0 142 92 102l81 20 49-33 52 35 87 11 47 35 76 8 86 37 150 12 94-28 70 3 90-38 110 8 79-44 85-1 102-37 90 31v269H0Z"
+      />
+      <path
+        class="fibra-local"
+        fill="var(--pacifico)"
+        d="M0 211c226-15 366 54 583 36 220-18 497-81 857-40v183H0Z"
+      />
+      <path
+        class="fibra-local"
+        fill="var(--rio)"
+        d="M0 282c304-49 362 32 594 27 219-6 345-78 555-70 104 4 202 14 291 5v146H0Z"
+      />
+      <path
+        fill="var(--noche-clara)"
+        d="M0 352c277-45 454 18 772-17 249-27 425-64 668-42v97H0Z"
+      />
+      <g class="ballena" transform="translate(725 285)">
+        <g class="cola">
+          <path
+            d="M-29 11Q-42-57-55-71c-26 4-64-17-81-61q61 33 106 25 30-28 101-42-11 40-39 55L10-84Q-2-52 17 11Z"
+            fill="var(--noche)"
+            stroke="var(--calima-aire)"
+            stroke-width="2"
+          />
+          <path
+            d="M-114-117q52 21 84 15 16-15 64-30-25 25-64 40-60-5-84-25Z"
+            fill="var(--lavanda)"
+          />
+        </g>
+      </g>
+      <g
+        fill="none"
+        stroke="var(--onda)"
+        stroke-width="2"
+        stroke-linecap="round"
+      >
+        <path d="M505 293q55 13 103 5t90 0 101-7 88-8M593 310q52 5 105 0t104-4m29-3 34-5M104 265q87-14 194 3m22 2 52 7m640-16q110-20 239-8m17 2 58 3M173 351q110-13 206 4m609-22q170-30 287-27" />
+        <path d="M626 276q-10-19-20-21m36 13q-3-18-11-27m160 35q11-18 22-22m-36 16q3-15 10-23" />
+      </g>
+    </svg>
+  </>
+)}
+{lugar === "cordillera" && (
+  <svg
+    class="arte arte-cordillera"
+    aria-hidden="true"
+    viewBox="0 0 1440 135"
+    preserveAspectRatio="none"
+  >
+    <path
+      fill="var(--noche)"
+      d="M0 135V94l98-23 74 10 104-36 91 15 115-29 75 19 77-34 51 11 57-16 72 25 71-4 83 23 70-8 68 29 79-14 89 19 72-15 94 24v45Z"
+    />
+    <g color="var(--violeta)">
+      <use href="#destello-papel" x="206" y="44" />
+      <use href="#destello-papel" x="296" y="26" />
+      <use href="#destello-papel" x="1056" y="30" />
+      <use href="#destello-papel" x="1195" y="41" />
+    </g>
+  </svg>
+)}

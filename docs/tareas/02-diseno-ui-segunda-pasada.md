@@ -68,3 +68,41 @@ Borra los PNG y WebP del logo que no se usen.
 ## Entregable
 
 Agrega al final de este archivo una sección `## Entregable` con: cambios por archivo, escenas y piezas de cada sección, decisiones tomadas, salida resumida de `verify` y rutas de las capturas. No hagas commit. Ningún archivo ni mensaje menciona a Codex, Claude ni IA.
+
+## Entregable
+
+### Cambios por archivo
+
+- `src/components/Collage.astro` dibuja el atardecer, aloja las figuras SVG compartidas e incluye el script en línea que sigue al puntero.
+- `src/components/Escena.astro` reúne las ilustraciones bajo el pliegue y la cordillera del pie.
+- `src/pages/index.astro` compone las escenas alrededor de los datos de sitio, eventos y organizadores. Conserva los destinos y los identificadores de prueba.
+- `src/layouts/Sitio.astro` añade la cordillera al pie de la portada. El 404 sigue usando el mismo layout.
+- `src/styles/escenas.css` define la composición, los bordes rasgados, el movimiento por profundidad y los recortes. `src/styles/sitio.css` comparte la base del sitio. `src/styles/tokens.css` reúne los colores nuevos y el grano de papel.
+- `tests/e2e/portada-puntero.spec.ts` comprueba el seguimiento, la pausa fuera de pantalla, el puntero táctil, el movimiento reducido y la portada con JavaScript desactivado.
+- Se retiraron `public/img/logo/ug-hexagono.png` y `public/img/logo/ug-logo-completo.webp`. El hexágono WebP existente se utiliza en el logo y en el paisaje.
+
+### Escenas
+
+| Sección                     | Piezas                                                                                                                                                                                                        |
+| --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Atardecer en los Farallones | Cielo de tres tonos, sol con rayos móviles y pupilas, cuatro planos de relieve, río con ondas y piedras, dos garzas, dos guayacanes, cuatro grupos de caña, hexágono, nubes, destellos y pentagrama de salsa. |
+| Noche caleña                | Guirnalda, edificios, destellos y un pentagrama para las tres actividades.                                                                                                                                    |
+| Lago Calima                 | Boleto de papel, lomas, capas de agua, viento, velero y tabla de windsurf.                                                                                                                                    |
+| Cañaduzal                   | Filas en perspectiva, vía, locomotora y tres vagones. Tech Day Cali es un boleto destacado y el historial sigue la vía.                                                                                       |
+| Guayacanes                  | Ramas de flores amarillas y rosadas, pétalos y fichas colgadas. Las fichas usan las fotos disponibles en la colección.                                                                                        |
+| Bahía Málaga                | Bruma, lomas de la costa, olas, cola de ballena jorobada y enlaces con forma de boya.                                                                                                                         |
+| Pie                         | Cordillera recortada y cruces violetas detrás del logo y los enlaces.                                                                                                                                         |
+
+### Decisiones
+
+- Los paisajes son interpretaciones en papel. El hero conserva el texto del YAML, y el río evoca el Pance.
+- Las ilustraciones entran con el desplazamiento en navegadores compatibles con `animation-timeline: view()`. Con movimiento reducido o sin soporte para la línea de tiempo, las escenas inferiores quedan completas y quietas.
+- El script guarda las dimensiones y las renueva tras el desplazamiento, el cambio de tamaño o la intersección. Escribe las variables de movimiento en un solo cuadro de animación y suspende el trabajo fuera de pantalla. La casilla del hero pausa el collage y las ilustraciones inferiores.
+- En las capturas de página completa se habilitó el pintado fuera de pantalla para mostrar todas las secciones. El sitio usa `content-visibility: auto` durante la navegación.
+- Durante la verificación se normalizó temporalmente el Markdown de la tarea anterior para que pasara Prettier. Se restauró ese archivo al terminar. Chromium recibió `--no-sandbox --headless=new` mediante `CHROME_PATH`, sin editar la configuración del repositorio.
+
+### Verificación
+
+- Capturas revisadas con movimiento reducido en `/tmp/ug-capturas/v2/375x812.png`, `/tmp/ug-capturas/v2/768x1024.png` y `/tmp/ug-capturas/v2/1440x900.png`. La captura animada a los seis segundos quedó en `/tmp/ug-capturas/v2/hero-1440x900-6s.png`.
+- Se comprobó que `dist` contiene cero archivos JavaScript y un solo `<script>` en línea de 1.997 bytes, en la portada. El 404 tiene cero scripts.
+- `pnpm verify` completó Astro check, lint, 13 pruebas unitarias, el build, la revisión de enlaces y 9 pruebas de navegador con cero violaciones de axe. Los mínimos de Lighthouse en seis corridas de la portada y el 404 fueron 1.00 en rendimiento, 1.00 en accesibilidad, 0.96 en buenas prácticas y 1.00 en SEO.
