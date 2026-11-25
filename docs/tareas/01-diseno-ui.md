@@ -39,8 +39,9 @@ Lo que Brusha hacía con JS (ojos que siguen el cursor, pausar animaciones fuera
   - un **sol de atardecer**;
   - el **río** con ondas, en lugar de las colinas azules;
   - el **hexágono** de los AWS User Groups como una pieza recortada.
-  
+
   Nada de íconos genéricos ni emojis.
+
 - **Tipografía**: una display ancha y pesada para el titular y una sans legible para el texto. Si usas fuentes web, deben ser de licencia libre (OFL), en `woff2` alojado en `public/fonts/` con su licencia al lado, solo pesos y glifos latinos que uses, con `font-display: swap` y `preload` de la principal. No agregues paquetes npm para esto.
 - **Anti-objetivos** (de `AGENTS.md`): nada de hero con gradiente genérico, ni grillas de 3 tarjetas con ícono, ni emojis decorativos, ni textos tipo "empoderamos la innovación", ni fotos de stock, ni mezcla de estilos. Los textos son concretos y en tono de comunidad caleña, sin exagerar.
 
