@@ -49,7 +49,7 @@ lighthouserc.json
 - Nada puede depender del usuario `pablo` ni de una cuenta concreta: el repo se va a transferir.
 - Gestor de paquetes: **pnpm**. Nunca npm ni yarn; el único lockfile es `pnpm-lock.yaml`.
 - Sin dependencias fuera de las del stack sin justificarlo en el PR.
-- JS en el cliente: cero en esta fase.
+- JS en el cliente: solo como mejora progresiva, en un único script en línea de JavaScript plano de 2 KB como máximo, sin frameworks ni dependencias. La página debe verse y funcionar completa sin JS, y el script no hace nada con `prefers-reduced-motion: reduce`.
 - Accesibilidad WCAG 2.2 AA: cero violaciones de axe.
 - Lighthouse ≥ 0.95 en performance, accessibility, best-practices y seo.
 - No tocar `infra/` ni `.github/` salvo que el brief lo diga.
