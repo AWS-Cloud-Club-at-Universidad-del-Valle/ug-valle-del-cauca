@@ -8,11 +8,17 @@ locals {
   estado       = "${aws_s3_bucket.estado.arn}/sitio/terraform.tfstate"
   oidc_host    = "token.actions.githubusercontent.com"
   oidc_arn     = var.crear_proveedor_oidc ? aws_iam_openid_connect_provider.github[0].arn : data.aws_iam_openid_connect_provider.github[0].arn
-  repositorio  = "repo:${var.github_owner}/${var.github_repo}"
+  # GitHub puede emitir el sub con nombres simples (repo:dueño/repo) o con el formato
+  # inmutable que agrega los ID numéricos (repo:dueño@123/repo@456). Se aceptan ambos.
+  # Los nombres de GitHub no admiten "@", así que el comodín solo cubre el ID.
+  repositorios = [
+    "repo:${var.github_owner}/${var.github_repo}",
+    "repo:${var.github_owner}@*/${var.github_repo}@*",
+  ]
 
   sujetos = {
-    despliegue = "${local.repositorio}:ref:refs/heads/main"
-    plan       = "${local.repositorio}:pull_request"
+    despliegue = [for r in local.repositorios : "${r}:ref:refs/heads/main"]
+    plan       = [for r in local.repositorios : "${r}:pull_request"]
   }
 }
 
@@ -75,6 +81,8 @@ resource "aws_iam_role" "github" {
       Condition = {
         StringEquals = {
           "${local.oidc_host}:aud" = "sts.amazonaws.com"
+        }
+        StringLike = {
           "${local.oidc_host}:sub" = each.value
         }
       }
