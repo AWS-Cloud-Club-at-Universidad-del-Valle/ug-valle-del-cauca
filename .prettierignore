@@ -1,0 +1,9 @@
+.astro/
+dist/
+playwright-report/
+test-results/
+.lighthouseci/
+pnpm-lock.yaml
+ENTREGA.md
+docs/superpowers/
+.workmux/

@@ -1,0 +1,77 @@
+---
+import { getCollection, getEntry } from "astro:content";
+import { resolverCta } from "../lib/cta";
+import { separarEventos } from "../lib/eventos";
+
+const entrada = await getEntry("sitio", "inicio");
+if (!entrada) {
+  throw new Error("Faltan los datos de src/content/sitio.yaml");
+}
+const sitio = entrada.data;
+const cta = resolverCta(sitio);
+const entradas = await getCollection("eventos");
+const { proximos } = separarEventos(
+  entradas.map(({ data }) => data),
+  new Date(),
+);
+const fechaEnBogota = new Intl.DateTimeFormat("es-CO", {
+  dateStyle: "long",
+  timeZone: "America/Bogota",
+});
+---
+
+<!doctype html>
+<html lang="es-CO">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{sitio.nombre}</title>
+    <meta name="description" content={sitio.descripcion} />
+  </head>
+  <body>
+    <main>
+      <h1>{sitio.nombre}</h1>
+      <p>{sitio.descripcion}</p>
+      <p>
+        <a data-testid="cta-principal" href={cta.url}>
+          {cta.etiqueta}
+        </a>
+      </p>
+
+      <section aria-labelledby="proximos">
+        <h2 id="proximos">Próximos eventos</h2>
+        {proximos.length > 0 ? (
+          <ul>
+            {proximos.map((evento) => (
+              <li data-testid="evento-proximo">
+                <strong>{evento.titulo}</strong>
+                <div>
+                  <time datetime={evento.fecha.toISOString()}>
+                    {fechaEnBogota.format(evento.fecha)}
+                  </time>
+                  {" · "}
+                  {evento.lugar}
+                </div>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <div data-testid="eventos-vacio">
+            <p>Estamos preparando el próximo; suscríbete para enterarte</p>
+            <p>
+              <a href={cta.url}>{cta.etiqueta}</a>
+            </p>
+          </div>
+        )}
+      </section>
+
+      <p>
+        Si eres estudiante, conoce el
+        <a data-testid="enlace-sbg" href={sitio.sbg_url}>
+          AWS Student Builder Group
+        </a>
+        .
+      </p>
+    </main>
+  </body>
+</html>
