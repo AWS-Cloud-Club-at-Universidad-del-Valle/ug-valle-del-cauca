@@ -119,7 +119,7 @@ Objetivo: que Codex (y luego cualquier persona o agente del UG) trabaje en el re
 - `docs/ORQUESTAR.md`: cómo un agente orquestador (Claude o Codex) toma un brief de `docs/tareas/`, lanza el implementador, revisa el diff contra los archivos permitidos, corre `verify` y deja el PR listo para aprobación humana.
 - `MANTENER.md`: guía para la gente del UG, con capturas, de cómo agregar un evento o un organizador o cambiar el CTA desde GitHub web.
 
-**Verificación: un solo comando `npm run verify`** que corre, en orden:
+**Verificación: un solo comando `pnpm verify`** que corre, en orden:
 1. `astro check` + TypeScript estricto (tipos y esquemas de contenido).
 2. ESLint + Prettier (formato).
 3. `astro build`.
@@ -128,14 +128,14 @@ Objetivo: que Codex (y luego cualquier persona o agente del UG) trabaje en el re
 6. axe-core: cero violaciones de accesibilidad.
 7. Lighthouse CI con presupuesto (≥ 95).
 
-CI corre el mismo `npm run verify`. *(Decisión del orquestador)*: los agentes corren en esta máquina con workmux, con red y navegadores. Si en la fase 1 resulta que Lighthouse no corre en local, se separa en `verify` (local, pasos 1–6) y `verify:ci` (todo, incluido Lighthouse), y el brief de cada tarea dice cuál se exige. **Una tarea está terminada solo si `npm run verify` pasa** y el diff toca únicamente los archivos permitidos en su brief.
+CI corre el mismo `pnpm verify`. *(Decisión del orquestador)*: los agentes corren en esta máquina con workmux, con red y navegadores. Si en la fase 1 resulta que Lighthouse no corre en local, se separa en `verify` (local, pasos 1–6) y `verify:ci` (todo, incluido Lighthouse), y el brief de cada tarea dice cuál se exige. **Una tarea está terminada solo si `pnpm verify` pasa** y el diff toca únicamente los archivos permitidos en su brief.
 
 ## 10. Orquestación (Claude orquesta, Codex implementa)
 
 | Fase | Quién | Qué | Por qué ese agente |
 |---|---|---|---|
 | 0. Arnés | Claude (orquestador) con Pablo | `AGENTS.md`, briefs de tareas, definición de `verify` | Requiere criterio y las decisiones de este diseño |
-| 1. Esqueleto + tooling | Codex | Proyecto Astro, esquemas de contenido, `npm run verify` completo con tests de ejemplo, CI | Tarea definida con criterio de terminado claro |
+| 1. Esqueleto + tooling | Codex | Proyecto Astro, esquemas de contenido, `pnpm verify` completo con tests de ejemplo, CI | Tarea definida con criterio de terminado claro |
 | 2. Identidad + logo SVG | Codex, con los lineamientos de `frontend-design` copiados en el brief; Claude revisa | Tokens de diseño desde el logo, SVG fiel, layout base | Ahorro de cuota de Claude; el criterio va escrito en el brief |
 | 3. Secciones | Codex (1–2 agentes en paralelo, archivos disjuntos) | Componentes de cada sección contra el brief y los tokens | Implementación contra interfaz dada |
 | 4. Infra | Codex | Terraform + workflows de GitHub Actions (plan en PR, apply en `main`, OIDC) | Mecánico y verificable con `terraform validate/plan` |
