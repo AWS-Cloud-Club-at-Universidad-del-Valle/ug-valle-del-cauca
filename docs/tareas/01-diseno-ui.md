@@ -88,3 +88,59 @@ Al final de este archivo agrega una sección `## Entregable` con:
 - salida final resumida de `pnpm verify` y rutas de las capturas.
 
 No hagas commit: deja los cambios sin commitear para que el orquestador los revise. Ningún archivo ni mensaje puede mencionar a Codex, Claude ni IA.
+
+## Entregable
+
+### Cambios por archivo
+
+- `src/pages/index.astro` renderiza la portada y todas sus secciones. Usa las colecciones y las funciones existentes para determinar el CTA, ordenar los eventos y mostrar fechas de Bogotá.
+- `src/pages/404.astro` aplica el estilo compartido y conserva el enlace de regreso al inicio.
+- `src/layouts/Sitio.astro` comparte metadatos, precarga de la fuente, enlace de salto al contenido y pie de página.
+- `src/components/Logo.astro` combina el hexágono oficial en WebP y el texto de la marca en HTML.
+- `src/components/BotonCta.astro` comparte el botón principal y su flecha decorativa.
+- `src/components/Collage.astro` dibuja las piezas SVG de los Farallones, el río, la caña, las notas, el sol, la nube, los destellos y el hexágono.
+- `src/styles/tokens.css` reúne colores y familias tipográficas. `src/styles/sitio.css` define la composición, el grano de papel, el movimiento, el foco y los puntos de quiebre.
+- `public/fonts/archivo-latin-800.woff2` y `public/fonts/OFL-Archivo.txt` alojan la fuente y su licencia.
+
+### Paleta y fuentes
+
+| Variable          | Valor     |
+| ----------------- | --------- |
+| `--noche`         | `#161d2c` |
+| `--violeta`       | `#9c6af3` |
+| `--violeta-texto` | `#6343a0` |
+| `--lavanda`       | `#dccbfa` |
+| `--blanco`        | `#fff`    |
+| `--papel`         | `#f8efe4` |
+| `--papel-oscuro`  | `#ede0d4` |
+| `--tinta-suave`   | `#514660` |
+| `--borde`         | `#a79aac` |
+| `--montana`       | `#8b74a8` |
+| `--montana-clara` | `#b29bc5` |
+| `--loma`          | `#53416e` |
+| `--cana`          | `#24564c` |
+| `--hoja`          | `#fff1d7` |
+| `--sol`           | `#ed9353` |
+| `--rio`           | `#306a83` |
+| `--onda`          | `#a8d6db` |
+
+`--fuente-display` usa Archivo 800 con ancho de 112,5 %, subconjunto latino y licencia SIL Open Font License 1.1. `--fuente-texto` usa la sans del sistema. [Licencia de Archivo](../../public/fonts/OFL-Archivo.txt)
+
+### Decisiones
+
+- La navegación móvil usa `details` y `summary`. La ilustración ofrece una casilla para pausar el movimiento y queda estática cuando el sistema pide movimiento reducido.
+- La portada conserva la descripción del YAML. Tech Day Cali aparece con el nombre y el enlace suministrados en el brief. Los acentos del collage provienen del paisaje y del logo.
+- El violeta de la marca aparece sobre azul noche. Para el titular sobre papel se usa un violeta más oscuro que conserva el contraste.
+- En escritorios de poca altura, el hero crece si el contenido necesita más de una pantalla.
+
+### Campos de contenido pendientes
+
+El esquema admite `meetup_url`, `linkedin_url`, `otras_redes`, `foto` y `linkedin` de organizadores. Los valores ausentes se omiten. El hero muestra el título como tema del próximo encuentro. Si el grupo quiere una descripción independiente, haría falta un campo `tema` o `resumen`. Para administrar la ficha de Tech Day Cali desde las colecciones, haría falta un campo `url_sitio` para el enlace histórico. La descripción pública y los registros reales los debe suministrar el grupo.
+
+### Verificación
+
+- Capturas de página completa con movimiento reducido en `/tmp/ug-capturas/375x812.png`, `/tmp/ug-capturas/768x1024.png` y `/tmp/ug-capturas/1440x900.png`. Se revisaron visualmente. El hero ocupó una pantalla en las tres medidas sin desborde horizontal. El menú y la pausa se probaron con teclado.
+- Para ejecutar `pnpm verify` se normalizaron temporalmente espacios de Markdown preexistentes en el brief. Al terminar se restauró el texto previo al entregable. El comando directo en el árbol entregado conserva ese aviso de Prettier.
+- Chromium se lanzó con `--no-sandbox --headless=new` mediante un ejecutable temporal indicado en `CHROME_PATH`. La configuración del repositorio quedó intacta.
+- `pnpm verify` completó el chequeo de Astro, el lint, 13 pruebas unitarias, el build de las dos páginas, la revisión de enlaces, 5 pruebas de navegador con cero violaciones de axe y 6 corridas de Lighthouse en la portada y el 404. En las seis corridas, los puntajes mínimos de Lighthouse fueron 1.00 en rendimiento, 1.00 en accesibilidad, 0.96 en buenas prácticas y 1.00 en SEO.
+- `find dist -name '*.js' | wc -l` dio `0`.

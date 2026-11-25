@@ -1,77 +1,239 @@
 ---
 import { getCollection, getEntry } from "astro:content";
+import Logo from "../components/Logo.astro";
+import BotonCta from "../components/BotonCta.astro";
+import Collage from "../components/Collage.astro";
+import Sitio from "../layouts/Sitio.astro";
 import { resolverCta } from "../lib/cta";
 import { separarEventos } from "../lib/eventos";
 
 const entrada = await getEntry("sitio", "inicio");
-if (!entrada) {
-  throw new Error("Faltan los datos de src/content/sitio.yaml");
-}
+if (!entrada) throw new Error("Faltan los datos de src/content/sitio.yaml");
+
 const sitio = entrada.data;
 const cta = resolverCta(sitio);
 const entradas = await getCollection("eventos");
-const { proximos } = separarEventos(
+const { proximos, pasados } = separarEventos(
   entradas.map(({ data }) => data),
   new Date(),
 );
+const organizadores = (await getCollection("organizadores"))
+  .map(({ data }) => data)
+  .sort((a, b) => a.orden - b.orden);
 const fechaEnBogota = new Intl.DateTimeFormat("es-CO", {
   dateStyle: "long",
   timeZone: "America/Bogota",
 });
+const proximo = proximos[0];
+const region = "Valle del Cauca";
+const tieneRegion = sitio.nombre.endsWith(` ${region}`);
+const nombreGrupo = tieneRegion
+  ? sitio.nombre.slice(0, -region.length - 1)
+  : sitio.nombre;
+const modalidades = {
+  presencial: "Presencial",
+  virtual: "Virtual",
+  hibrido: "Híbrido",
+};
+const secciones = [
+  { id: "comunidad", etiqueta: "Comunidad" },
+  { id: "eventos", etiqueta: "Eventos" },
+  { id: "historia", etiqueta: "Trayectoria" },
+];
+const redes = [
+  { nombre: "Instagram", url: sitio.instagram_url },
+  { nombre: "Meetup", url: sitio.meetup_url },
+  { nombre: "LinkedIn", url: sitio.linkedin_url },
+  ...sitio.otras_redes,
+];
 ---
 
-<!doctype html>
-<html lang="es-CO">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>{sitio.nombre}</title>
-    <meta name="description" content={sitio.descripcion} />
-  </head>
-  <body>
-    <main>
-      <h1>{sitio.nombre}</h1>
-      <p>{sitio.descripcion}</p>
-      <p>
-        <a data-testid="cta-principal" href={cta.url}>
-          {cta.etiqueta}
-        </a>
-      </p>
+<Sitio titulo={sitio.nombre} descripcion={sitio.descripcion} portada>
+  <header class="barra enter">
+    <Logo />
+    <nav class="nav-amplia" aria-label="Navegación principal">
+      {secciones.map(({ id, etiqueta }) => (
+        <a href={`#${id}`}>{etiqueta}</a>
+      ))}
+      <BotonCta href={cta.url} etiqueta={cta.etiqueta} />
+    </nav>
+    <details class="menu">
+      <summary>Menú</summary>
+      <nav aria-label="Navegación principal">
+        {secciones.map(({ id, etiqueta }) => (
+          <a href={`#${id}`}>{etiqueta}</a>
+        ))}
+        <BotonCta href={cta.url} etiqueta={cta.etiqueta} />
+      </nav>
+    </details>
+  </header>
+  <main id="contenido">
+    <div class="hero">
+      <section class="hero-texto" aria-labelledby="titulo">
+        <p class="rotulo enter">Comunidad AWS · Cali, Colombia</p>
+        <h1 id="titulo">
+          <span class="mascara">
+            <span class="enter">{nombreGrupo}</span>
+          </span>
+          {tieneRegion && (
+            <span class="mascara">
+              <span class="enter">{region}</span>
+            </span>
+          )}
+        </h1>
+        <p class="bajada enter">{sitio.descripcion}</p>
+        <div class="acciones enter">
+          <BotonCta href={cta.url} etiqueta={cta.etiqueta} principal />
+          <a href="#eventos">Ver próximos eventos</a>
+        </div>
+        {proximo && (
+          <p class="adelanto">
+            <a href="#eventos">Próximo encuentro: {proximo.titulo}</a>
+            <span>
+              <time datetime={proximo.fecha.toISOString()}>
+                {fechaEnBogota.format(proximo.fecha)}
+              </time>{" "}
+              · {proximo.lugar}
+            </span>
+          </p>
+        )}
+      </section>
+      <Collage />
+    </div>
 
-      <section aria-labelledby="proximos">
-        <h2 id="proximos">Próximos eventos</h2>
-        {proximos.length > 0 ? (
-          <ul>
+    <section class="bloque" aria-labelledby="comunidad">
+      <div class="contenedor dos-columnas">
+        <h2 id="comunidad">Qué es el UG</h2>
+        <div>
+          <p>
+            Somos una comunidad de profesionales de tecnología del Valle del
+            Cauca que se reúne para aprender y compartir sobre AWS.
+          </p>
+          <p>
+            En los encuentros hay charlas técnicas, talleres prácticos y espacio
+            para conocer a otras personas que trabajan con la nube.
+          </p>
+          <p>
+            Si eres estudiante, conoce el{" "}
+            <a data-testid="enlace-sbg" href={sitio.sbg_url}>
+              AWS Student Builder Group
+            </a>
+            .
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="bloque bloque-alterno" aria-labelledby="eventos">
+      <div class="contenedor dos-columnas">
+        <h2 id="eventos">Próximos eventos</h2>
+        {proximos.length ? (
+          <ul class="listado">
             {proximos.map((evento) => (
               <li data-testid="evento-proximo">
-                <strong>{evento.titulo}</strong>
-                <div>
+                <h3>{evento.titulo}</h3>
+                <p>
                   <time datetime={evento.fecha.toISOString()}>
                     {fechaEnBogota.format(evento.fecha)}
-                  </time>
-                  {" · "}
-                  {evento.lugar}
-                </div>
+                  </time>{" "}
+                  · {evento.lugar} · {modalidades[evento.modalidad]}
+                </p>
+                {evento.url_registro && (
+                  <a href={evento.url_registro}>
+                    Inscríbete en {evento.titulo}
+                  </a>
+                )}
               </li>
             ))}
           </ul>
         ) : (
           <div data-testid="eventos-vacio">
-            <p>Estamos preparando el próximo; suscríbete para enterarte</p>
-            <p>
-              <a href={cta.url}>{cta.etiqueta}</a>
-            </p>
+            <p>Estamos preparando el próximo; suscríbete para enterarte.</p>
+            <BotonCta href={cta.url} etiqueta={cta.etiqueta} />
           </div>
         )}
-      </section>
+      </div>
+    </section>
 
-      <p>
-        Si eres estudiante, conoce el
-        <a data-testid="enlace-sbg" href={sitio.sbg_url}>
-          AWS Student Builder Group
-        </a>
-        .
-      </p>
-    </main>
-  </body>
-</html>
+    <section class="bloque" aria-labelledby="historia">
+      <div class="contenedor dos-columnas">
+        <h2 id="historia">Lo que hemos hecho</h2>
+        <div>
+          <article class="destacado">
+            <h3>Tech Day Cali</h3>
+            <a href="https://techdaycali.com/">Conoce Tech Day Cali</a>
+          </article>
+          {pasados.length > 0 && (
+            <ul class="listado">
+              {pasados.map((evento) => (
+                <li>
+                  <h3>{evento.titulo}</h3>
+                  <p>
+                    <time datetime={evento.fecha.toISOString()}>
+                      {fechaEnBogota.format(evento.fecha)}
+                    </time>{" "}
+                    · {evento.lugar} · {modalidades[evento.modalidad]}
+                  </p>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      </div>
+    </section>
+
+    <section class="bloque bloque-alterno" aria-labelledby="organizadores">
+      <div class="contenedor dos-columnas">
+        <h2 id="organizadores">Organizadores</h2>
+        {organizadores.length ? (
+          <ul class="listado equipo">
+            {organizadores.map((persona) => (
+              <li>
+                {persona.foto && (
+                  <img
+                    src={persona.foto}
+                    alt=""
+                    width="112"
+                    height="112"
+                    loading="lazy"
+                  />
+                )}
+                <div>
+                  <h3>{persona.nombre}</h3>
+                  <p>{persona.rol}</p>
+                  {persona.linkedin && (
+                    <a href={persona.linkedin}>
+                      Perfil de {persona.nombre} en LinkedIn
+                    </a>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>Por ahora, puedes contactar al grupo a través de sus redes.</p>
+        )}
+      </div>
+    </section>
+
+    <section class="bloque unirse" aria-labelledby="unirse">
+      <div class="contenedor dos-columnas">
+        <h2 id="unirse">Cómo unirse</h2>
+        <div>
+          <p>Entérate de los próximos encuentros de la comunidad.</p>
+          <BotonCta href={cta.url} etiqueta={cta.etiqueta} />
+          <ul class="redes">
+            {redes.map(
+              ({ nombre, url }) =>
+                url && (
+                  <li>
+                    <a href={url}>{nombre}</a>
+                  </li>
+                ),
+            )}
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+</Sitio>

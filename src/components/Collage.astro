@@ -1,0 +1,155 @@
+<label class="control-movimiento">
+  <input type="checkbox" />
+  Pausar ilustración
+</label>
+<div class="paisaje" aria-hidden="true">
+  <svg class="filtro" width="0" height="0">
+    <defs>
+      <filter id="fibra" color-interpolation-filters="sRGB">
+        <feTurbulence
+          type="fractalNoise"
+          baseFrequency=".62"
+          numOctaves="2"
+          stitchTiles="stitch"
+          result="ruido"
+        />
+        <feComposite
+          in="SourceGraphic"
+          in2="ruido"
+          operator="arithmetic"
+          k1=".22"
+          k2=".89"
+          result="papel"
+        />
+        <feComposite in="papel" in2="SourceAlpha" operator="in" />
+      </filter>
+    </defs>
+  </svg>
+
+  <svg class="pieza sol enter" viewBox="0 0 184 184">
+    <path
+      d="M92 4c51 0 87 40 87 88s-37 87-87 88C44 180 4 142 4 92 4 44 40 5 92 4Z"
+      fill="var(--sol)"
+    />
+  </svg>
+
+  <svg
+    class="pieza farallones enter"
+    viewBox="0 0 1424 330"
+    preserveAspectRatio="none"
+  >
+    <path
+      fill="var(--montana)"
+      d="M0 207 78 179l43-31 64-14 46-41 42 9 38-28 52 22 45-24 36 6 57-29 46 11 50-52 40 16 31-15 42 36 34-7 64 52 47 19 58 52 82 21 76 48 80 4 83 37 90 8v51H0Z"
+    />
+    <path
+      fill="var(--montana-clara)"
+      d="m0 230 94-32 76 6 102-40 50 12 88-17 54-31 64 8 75-45 52 17 50-17 75 27 42 41 103 40 109 12 85 39 94-8 211 32v56H0Z"
+    />
+  </svg>
+
+  <svg
+    class="pieza ribera enter"
+    viewBox="0 0 1424 203"
+    preserveAspectRatio="none"
+  >
+    <path
+      fill="var(--loma)"
+      d="M0 108c153-33 219-82 367-63 118 15 161 37 253 35 115-2 197-60 320-57 162 4 318 72 484 55v125H0Z"
+    />
+    <path
+      fill="var(--rio)"
+      d="M0 148c194 24 348-34 539-28 180 6 262 36 434 26 169-10 296-62 451-46v103H0Z"
+    />
+    <defs>
+      <pattern
+        id="patron-rio"
+        width="120"
+        height="12"
+        patternUnits="userSpaceOnUse"
+      >
+        <path
+          d="M8 6c13-4 25-4 40 0s27 4 40 0m9 0h9"
+          fill="none"
+          stroke="var(--onda)"
+          stroke-width="2"
+          stroke-linecap="round"
+        />
+      </pattern>
+      <clipPath id="cauce">
+        <path d="M0 165c194 24 348-34 539-28 180 6 262 36 434 26 169-10 296-62 451-46v86H0Z" />
+      </clipPath>
+    </defs>
+    <g clip-path="url(#cauce)">
+      <rect
+        class="ondas"
+        x="0"
+        y="144"
+        width="1544"
+        height="48"
+        fill="url(#patron-rio)"
+      />
+    </g>
+  </svg>
+
+  {["izquierda", "centro", "derecha"].map((lado) => (
+    <svg class:list={["pieza", "cana", lado, "enter"]} viewBox="0 0 190 250">
+      <g class="tallo">
+        <path
+          fill="var(--cana)"
+          d="M90 250C85 181 95 98 115 25l10 3c-19 71-28 149-21 222Zm-30 0C52 188 45 140 28 97l-7 4c14 47 20 99 24 149Z"
+        />
+        <path
+          fill="var(--hoja)"
+          d="M104 107c14-51 43-77 81-76-31 12-51 36-81 76Zm-6 36C78 91 58 60 22 55c25 24 50 59 76 88Zm-4 68c27-49 52-66 91-61-33 10-56 29-91 61ZM39 157C23 135 12 133 2 136c14 10 24 22 42 46Z"
+        />
+        <path
+          class="hoja"
+          fill="var(--hoja)"
+          d="M103 127c22-41 53-53 84-47-29 7-54 23-84 47Zm-7 42c-21-42-47-56-77-54 28 13 52 32 77 54Z"
+        />
+        <path
+          stroke="var(--hoja)"
+          stroke-width="2.5"
+          d="m97 160 10 2m-13 34 10 1m-9 29 10 1"
+        />
+      </g>
+    </svg>
+  ))}
+
+  <svg class="pieza notas enter" viewBox="0 0 155 145">
+    <g class="flotante" fill="var(--loma)">
+      <path d="m52 19 2 56c-9-4-27 4-26 14 2 13 33 7 34-7l-1-46 34-9 1 36c-10-4-28 4-27 14 1 13 34 7 35-7l-2-66Z" />
+      <path d="m125 83 6 33c-7-2-17 4-16 11 2 8 20 3 20-6l-4-23c7 1 13 2 19 8-1-10-13-13-25-23Z" />
+    </g>
+  </svg>
+
+  <svg
+    class="pieza detalles enter"
+    viewBox="0 0 225 105"
+    fill="none"
+    stroke="var(--violeta)"
+    stroke-width="3"
+    stroke-linecap="round"
+  >
+    <path d="M29 66c-14 0-16-18-3-21-1-13 18-20 26-7 9-7 22-1 23 9 13-3 19 18 4 19H29Z" />
+    <path d="M110 21h17m-8.5-8.5v17m48 43h12m-6-6v12m29-42h16m-8-8v16" />
+  </svg>
+
+  <svg class="pieza sello enter" viewBox="0 0 117 122">
+    <path
+      d="m54 4 53 25 6 56-46 33L13 94 5 39Z"
+      fill="var(--noche)"
+      stroke="var(--lavanda)"
+      stroke-width="4"
+    />
+    <path
+      d="M57 94c-2-16 4-42 12-61M60 71C42 64 37 53 36 44c13 3 21 12 24 27Zm3-10c7-14 17-19 27-19-3 10-12 17-27 19Zm-5 23c-11-10-18-11-26-10 6 8 15 11 26 10Z"
+      fill="none"
+      stroke="var(--blanco)"
+      stroke-width="3"
+      stroke-linejoin="round"
+      stroke-linecap="round"
+    />
+  </svg>
+</div>

@@ -1,20 +1,17 @@
-<!doctype html>
-<html lang="es-CO">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Página no encontrada</title>
-    <meta
-      name="description"
-      content="La página solicitada no está disponible."
-    />
-  </head>
-  <body>
-    <main>
-      <h1>Página no encontrada</h1>
-      <p>
-        <a href="/">Volver al inicio</a>
-      </p>
-    </main>
-  </body>
-</html>
+---
+import Sitio from "../layouts/Sitio.astro";
+---
+
+<Sitio
+  titulo="Página no encontrada"
+  descripcion="La página solicitada no está disponible."
+>
+  <main id="contenido" class="contenedor pagina-error">
+    <p class="rotulo">Error 404</p>
+    <h1>Página no encontrada</h1>
+    <p>La página solicitada no está disponible.</p>
+    <a class="boton" href="/">
+      Volver al inicio
+    </a>
+  </main>
+</Sitio>

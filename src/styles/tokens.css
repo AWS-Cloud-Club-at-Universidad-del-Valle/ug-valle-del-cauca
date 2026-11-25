@@ -1,0 +1,22 @@
+:root {
+  /* Azul noche y violeta tomados del logo oficial del grupo. */
+  --noche: #161d2c;
+  --violeta: #9c6af3;
+  --violeta-texto: #6343a0;
+  --lavanda: #dccbfa;
+  --blanco: #fff;
+  --papel: #f8efe4;
+  --papel-oscuro: #ede0d4;
+  --tinta-suave: #514660;
+  --borde: #a79aac;
+  --montana: #8b74a8;
+  --montana-clara: #b29bc5;
+  --loma: #53416e;
+  --cana: #24564c;
+  --hoja: #fff1d7;
+  --sol: #ed9353;
+  --rio: #306a83;
+  --onda: #a8d6db;
+  --fuente-display: Archivo, system-ui, sans-serif;
+  --fuente-texto: system-ui, sans-serif;
+}

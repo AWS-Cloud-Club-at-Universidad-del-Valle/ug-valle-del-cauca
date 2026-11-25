@@ -1,0 +1,49 @@
+---
+import Logo from "../components/Logo.astro";
+import "../styles/sitio.css";
+
+interface Props {
+  titulo: string;
+  descripcion: string;
+  portada?: boolean;
+}
+
+const { titulo, descripcion, portada } = Astro.props;
+---
+
+<!doctype html>
+<html lang="es-CO">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="description" content={descripcion} />
+    <title>{titulo}</title>
+    <link
+      rel="preload"
+      href="/fonts/archivo-latin-800.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+  </head>
+  <body>
+    <a class="salto" href="#contenido">
+      Ir al contenido
+    </a>
+    {!portada && (
+      <header class="contenedor cabecera-interna">
+        <Logo />
+      </header>
+    )}
+    <slot />
+    <footer class="pie">
+      <div class="contenedor pie-interior">
+        <Logo />
+        <p>Comunidad independiente, parte del programa AWS User Groups.</p>
+        <a href="https://github.com/AWS-Cloud-Club-at-Universidad-del-Valle/ug-valle-del-cauca">
+          Repositorio del sitio
+        </a>
+      </div>
+    </footer>
+  </body>
+</html>
