@@ -75,7 +75,7 @@ lighthouserc.json
 - [ ] **Paso 2:** `CLAUDE.md` con una sola línea: `@AGENTS.md`.
 - [ ] **Paso 3:** `docs/tareas/_plantilla.md` con estos encabezados: Objetivo · Contexto (links al spec y al plan) · Archivos permitidos · Archivos prohibidos · Interfaz a respetar · Verificación (comando + salida esperada) · Entregable (resumen del diff + salida de `verify`).
 - [ ] **Paso 4:** `docs/ORQUESTAR.md`. Explica el ciclo para Claude o Codex como orquestador: (1) copiar la plantilla en `docs/tareas/NN-nombre.md` y llenarla; (2) lanzar el implementador con `workmux add <rama> -a gpt -b -P docs/tareas/NN-nombre.md` (o `-a cc`); (3) vigilar con `workmux status` / `workmux capture`; (4) revisar `git diff` contra "Archivos permitidos" y correr `pnpm verify` en el worktree; (5) commitear sin atribución de IA; (6) pedir aprobación humana antes de `workmux merge`. Máximo 3 agentes a la vez.
-- [ ] **Paso 5:** verificar que los comandos se llamen igual en los documentos: `grep -ohE 'pnpm [a-z:-]+' AGENTS.md docs/ORQUESTAR.md | sort -u`.
+- [ ] **Paso 5:** verificar que los comandos se llamen igual en los documentos: `grep -ohE 'pnpm [a-z0-9:-]+' AGENTS.md docs/ORQUESTAR.md | sort -u`.
 - [ ] **Paso 6:** commit `docs: arnés para agentes (AGENTS.md, orquestación, plantilla de tareas)`.
 
 ### Tarea 2: Esqueleto Astro + esquemas de contenido
