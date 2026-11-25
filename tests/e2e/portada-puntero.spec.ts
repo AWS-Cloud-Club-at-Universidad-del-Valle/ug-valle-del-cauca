@@ -17,8 +17,9 @@ test("el hero se mueve con puntero fino y se pausa fuera de la pantalla", async 
     .poll(() => hero.evaluate((el) => +el.style.getPropertyValue("--nx")))
     .toBeGreaterThan(0);
   await expect
-    .poll(() => hero.evaluate((el) => +el.style.getPropertyValue("--ox")))
-    .toBeLessThan(0);
+    .poll(() => hero.evaluate((el) => +el.style.getPropertyValue("--mx")))
+    .toBeGreaterThan(0);
+  await expect(page.locator(".cara-sol")).toHaveCount(0);
   await expect
     .poll(() =>
       hero.evaluate((el) => Math.abs(+el.style.getPropertyValue("--mx"))),
@@ -37,6 +38,7 @@ test("el movimiento reducido desactiva el seguimiento y los rayos", async ({
   await page.goto("/");
   await page.mouse.move(400, 300);
   await expect(page.locator(".hero")).not.toHaveClass(/hero-puntero/);
+  await expect(page.locator("body")).not.toHaveClass(/intro-activa/);
   await expect(page.locator(".rayos")).toHaveCSS("animation-name", "none");
 });
 

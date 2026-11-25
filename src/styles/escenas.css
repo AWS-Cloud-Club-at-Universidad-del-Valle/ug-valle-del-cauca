@@ -173,6 +173,7 @@
 }
 
 .canas {
+  overflow: visible;
   z-index: 5;
   width: clamp(8.5rem, 21vw, 20rem);
   bottom: -3%;
@@ -248,14 +249,10 @@
 }
 
 .control-movimiento {
-  position: absolute;
-  z-index: 4;
-  right: 0.7rem;
-  bottom: 1.1rem;
-  border-radius: 2rem;
-  padding: 0.35rem 0.7rem;
-  background: var(--noche);
-  color: var(--blanco);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.32rem;
+  min-height: 34px;
   font-size: 0.875rem;
   cursor: pointer;
 }
@@ -266,10 +263,10 @@
 .control-movimiento input:focus-visible {
   outline-color: var(--blanco);
 }
-main:has(.control-movimiento :checked) :is(.paisaje *, .escena *) {
+body:has(#pausa-arte:checked) :is(.paisaje *, .escena *) {
   animation-play-state: paused;
 }
-main:has(.control-movimiento :checked) .sol-interactivo {
+body:has(#pausa-arte:checked) .sol-interactivo {
   transform: none;
 }
 
@@ -517,12 +514,12 @@ main:has(.control-movimiento :checked) .sol-interactivo {
 .escena-guayacanes {
   background: var(--rosa-papel);
   text-align: center;
-  padding-top: clamp(9rem, 15vw, 14.5rem);
+  padding-top: clamp(9.3rem, 18.6vw, 17rem);
   padding-bottom: clamp(4rem, 9vw, 8rem);
 }
 .arte-guayacanes {
   width: max(100%, 685px);
-  top: 0;
+  top: -2.4rem;
   bottom: auto;
 }
 .ramo.oro {
@@ -606,7 +603,7 @@ main:has(.control-movimiento :checked) .sol-interactivo {
   background: var(--pacifico-cielo);
   color: var(--blanco);
   text-align: center;
-  padding-bottom: clamp(15rem, 29vw, 29rem);
+  padding-bottom: clamp(11.5rem, 24vw, 23rem);
 }
 .escena-pacifico p {
   margin-inline: auto;
@@ -853,7 +850,7 @@ footer.pie-cordillera.pie {
 }
 
 @media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  .hero-puntero :is(.montes > path, .sol-papel, .arbol, .canas, .garzas) {
+  .hero-puntero :is(.montes > path, .sol-papel, .arbol, .cana-deriva, .garzas) {
     translate: calc(var(--mx, 0) * var(--profundidad))
       calc(var(--my, 0) * var(--profundidad));
     transition: translate 0.28s ease-out;
@@ -886,10 +883,6 @@ footer.pie-cordillera.pie {
   }
   .canas {
     --profundidad: 22px;
-  }
-  .hero-puntero .pupilas-sol {
-    transform: translate(calc(var(--ox, 0) * 6px), calc(var(--oy, 0) * 7px));
-    transition: transform 0.15s ease-out;
   }
   .hero-puntero .notas-interactivas {
     transform: translate(calc(var(--nx, 0) * 30px), calc(var(--ny, 0) * 30px));

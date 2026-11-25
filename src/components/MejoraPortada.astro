@@ -1,0 +1,55 @@
+<!-- prettier-ignore -->
+<script is:inline>
+(() => {
+const q=s=>document.querySelector(s);
+const caja=e=>e.getBoundingClientRect();
+const h=q(".hero"),pausa=q("#pausa-arte"),body=document.body;
+if(matchMedia("(prefers-reduced-motion:reduce)").matches)return;
+try {
+  if(!location.hash&&!sessionStorage.intro) {
+    const a=caja(q(".barra .marca")),b=caja(q(".intro-trazo"));
+    const x=b.x-a.x+(b.width-a.width)/2,y=b.y-a.y+(b.height-a.height)/2;
+    body.style.setProperty("--vuelo",`translate(${x}px,${y}px) scale(${b.width/a.width})`);
+    sessionStorage.intro=1;
+    body.classList.add("intro-activa");
+    const fin=()=>body.classList.replace("intro-activa","intro-lista");
+    setTimeout(fin,3400);
+    for(const tipo of ["scroll","pointerdown","keydown"])
+    addEventListener(tipo,fin,{once:true,passive:true});
+  }
+}catch{return}
+const media=matchMedia("(hover:hover) and (pointer:fine) and (prefers-reduced-motion:no-preference)");
+if(!media.matches||!self.IntersectionObserver)return;
+const notas=q(".firma-cielo"),vars=["mx","my","nx","ny"];
+let visible,cuadros,x,y,id=0;
+function parar() {
+  cancelAnimationFrame(id);
+  id=0;
+  h.removeAttribute("style");
+}
+function pintar() {
+  id=0;
+  const[a,b]=cuadros??=[caja(h),caja(notas)];
+  const dx=x-b.x-b.width/2,dy=y-b.y-b.height/2;
+  const d=Math.hypot(dx,dy)||1,k=Math.max(0,1-d/180)/d;
+  const valores=[2*(x-a.x)/a.width-1,2*(y-a.y)/a.height-1,-dx*k,-dy*k];
+  vars.forEach((v,i)=>h.style.setProperty("--"+v,Math.max(-1,Math.min(1,valores[i]))));
+}
+h.classList.add("hero-puntero");
+new IntersectionObserver(([e])=>{
+  visible=e.isIntersecting;
+  cuadros=null;
+  h.classList.toggle("hero-fuera",!visible);
+  if(!visible)parar();
+}).observe(h);
+h.onpointermove=e=>{
+  if(!visible||!media.matches||pausa.checked||e.pointerType==="touch")return;
+  x=e.clientX;
+  y=e.clientY;
+  if(!id)id=requestAnimationFrame(pintar);
+};
+h.onpointerleave=pausa.onchange=parar;
+media.onchange=parar;
+for(const tipo of ["scroll","resize"])addEventListener(tipo,()=>cuadros=null,{passive:true});
+})();
+</script>

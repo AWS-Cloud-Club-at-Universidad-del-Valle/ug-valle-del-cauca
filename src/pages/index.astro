@@ -3,6 +3,8 @@ import { getCollection, getEntry } from "astro:content";
 import Logo from "../components/Logo.astro";
 import BotonCta from "../components/BotonCta.astro";
 import Collage from "../components/Collage.astro";
+import IntroMarca from "../components/IntroMarca.astro";
+import MejoraPortada from "../components/MejoraPortada.astro";
 import Escena from "../components/Escena.astro";
 import Sitio from "../layouts/Sitio.astro";
 import { resolverCta } from "../lib/cta";
@@ -50,7 +52,7 @@ const redes = [
 ---
 
 <Sitio titulo={sitio.nombre} descripcion={sitio.descripcion} portada>
-  <header class="barra enter">
+  <header class="barra">
     <Logo />
     <nav class="nav-amplia" aria-label="Navegación principal">
       {secciones.map(({ id, etiqueta }) => (
@@ -99,6 +101,7 @@ const redes = [
           </p>
         )}
       </section>
+      <IntroMarca />
       <Collage />
     </div>
 
@@ -262,4 +265,5 @@ const redes = [
       </div>
     </section>
   </main>
+  <MejoraPortada slot="mejora" />
 </Sitio>

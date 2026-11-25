@@ -1,0 +1,165 @@
+.intro-trazo {
+  position: absolute;
+  z-index: 4;
+  width: min(35rem, 82%);
+  top: 50svh;
+  left: 50%;
+  translate: -50% -50%;
+  color: var(--violeta-texto);
+  stroke-width: 1.35;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .intro-activa .hero {
+    background: var(--papel);
+    z-index: 1;
+  }
+  .intro-activa .intro-trazo {
+    visibility: visible;
+    animation: retirar-trazo 0.17s ease 1.04s forwards;
+  }
+  .intro-activa .intro-trazo path {
+    stroke-dasharray: 1;
+    animation: dibujar-marca var(--duracion, 0.44s) ease-in-out
+      var(--inicio, 0s) backwards;
+  }
+  .trazo-emblema {
+    --inicio: 0.31s;
+    --duracion: 0.52s;
+  }
+  .trazo-letras {
+    --inicio: 0.44s;
+    --duracion: 0.54s;
+  }
+  .trazo-letras path + path {
+    --inicio: 0.68s;
+    --duracion: 0.43s;
+  }
+
+  .intro-activa .barra .marca {
+    animation:
+      llenar-marca 0.16s ease 0.96s backwards,
+      volar-marca 0.65s cubic-bezier(0.4, 0.12, 0.3, 1) 1.09s backwards;
+  }
+  .intro-activa :is(.nav-amplia, .menu) {
+    animation: revelar-texto 0.33s ease 1.72s backwards;
+  }
+  .intro-activa .hero-texto .rotulo {
+    --delay: 1.7s;
+    --dur: 0.31s;
+  }
+  .intro-activa .mascara .enter {
+    animation: subir-titulo 0.38s cubic-bezier(0.22, 1, 0.36, 1) 1.71s backwards;
+  }
+  .intro-activa .mascara-region .enter {
+    animation-delay: 1.8s;
+  }
+  .intro-activa .mascara-region::after {
+    animation-delay: 2s;
+    animation-duration: 0.4s;
+  }
+  .intro-activa .bajada {
+    --delay: 1.99s;
+  }
+  .intro-activa .acciones {
+    --delay: 2.09s;
+  }
+  .intro-activa :is(.rotulo, .bajada, .acciones, .adelanto) {
+    animation: revelar-texto 0.31s ease var(--delay, 2.12s) backwards;
+  }
+  .intro-activa .paisaje .enter {
+    animation: armar-papel var(--armado, 0.36s) cubic-bezier(0.22, 1, 0.36, 1)
+      var(--capa) backwards;
+  }
+  .cielo-arte {
+    --capa: 2.14s;
+    --desde: 35px;
+  }
+  .montes > :nth-child(1) {
+    --capa: 2.21s;
+  }
+  .montes > :nth-child(2) {
+    --capa: 2.29s;
+  }
+  .montes > :nth-child(3) {
+    --capa: 2.37s;
+  }
+  .montes > :nth-child(4) {
+    --capa: 2.42s;
+  }
+  .sol-papel {
+    --capa: 2.48s;
+    --armado: 0.48s;
+  }
+  .cauce-pance {
+    --capa: 2.57s;
+  }
+  .arbol {
+    --capa: 2.64s;
+  }
+  .arbol.der {
+    --capa: 2.71s;
+  }
+  .canas {
+    --capa: 2.72s;
+  }
+  .canas.b,
+  .canas.d {
+    --capa: 2.79s;
+  }
+  .garzas {
+    --capa: 2.85s;
+  }
+  .sello-papel {
+    --capa: 2.87s;
+  }
+  .firma-cielo {
+    --capa: 2.96s;
+  }
+
+  .intro-lista .enter,
+  .intro-lista .mascara-region::after {
+    animation: none;
+  }
+  @keyframes subir-titulo {
+    from {
+      clip-path: inset(100% 0 0);
+      transform: translateY(108%);
+    }
+  }
+  @keyframes dibujar-marca {
+    from {
+      stroke-dashoffset: 1;
+    }
+  }
+  @keyframes retirar-trazo {
+    to {
+      opacity: 0;
+      visibility: hidden;
+    }
+  }
+  @keyframes llenar-marca {
+    from {
+      clip-path: inset(0 100% 0 0);
+    }
+  }
+  @keyframes volar-marca {
+    from {
+      transform: var(--vuelo);
+    }
+  }
+  @keyframes armar-papel {
+    from {
+      transform: translateY(var(--desde, 26px));
+      opacity: 0;
+    }
+  }
+  @keyframes revelar-texto {
+    from {
+      clip-path: inset(100% 0 0);
+      transform: translateY(8px);
+    }
+  }
+}

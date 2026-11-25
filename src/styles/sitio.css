@@ -1,5 +1,6 @@
 @import "./tokens.css";
 @import "./escenas.css";
+@import "./intro.css";
 
 @font-face {
   font-family: Archivo;
