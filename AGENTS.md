@@ -21,10 +21,15 @@ src/lib/eventos.ts                # separarEventos
 src/pages/index.astro             # página mínima sin estilos de diseño
 src/pages/404.astro
 scripts/revisar-ejemplo.mjs       # falla si queda contenido de ejemplo
+scripts/desplegar.sh              # publicación manual desde dist/
+infra/                            # sitio privado con S3 y CloudFront
+infra/bootstrap/                  # bucket de estado y roles OIDC
+docs/TRASPASO.md                  # primera publicación y cambio de cuenta o dueño
 tests/unit/*.test.ts              # Vitest
 tests/e2e/*.spec.ts               # Playwright + axe
 lighthouserc.json
 .github/workflows/verify.yml
+.github/workflows/desplegar.yml
 ```
 
 ## Comandos
@@ -36,6 +41,7 @@ lighthouserc.json
 - `pnpm test:e2e` prueba el sitio construido en el navegador.
 - `pnpm verify` ejecuta la verificación completa.
 - `pnpm revisar-ejemplo` detecta contenido de ejemplo pendiente.
+- `scripts/desplegar.sh` publica el build local con las salidas de Terraform.
 
 ## Definición de terminado
 

@@ -1,0 +1,7 @@
+region          = "us-east-1"
+nombre_proyecto = "awsug-valle"
+github_owner    = "AWS-Cloud-Club-at-Universidad-del-Valle"
+github_repo     = "ug-valle-del-cauca"
+tags            = {}
+
+crear_proveedor_oidc = true

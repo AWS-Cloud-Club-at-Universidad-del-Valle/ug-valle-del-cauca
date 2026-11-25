@@ -1,0 +1,160 @@
+name: Infraestructura y despliegue
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      forzar:
+        description: Publicar aunque quede contenido de ejemplo
+        type: boolean
+        default: false
+
+permissions:
+  contents: read
+
+jobs:
+  desplegar:
+    name: Publicar en CloudFront
+    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+    concurrency:
+      group: desplegar-sitio
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm build
+
+      - name: Revisar contenido de ejemplo
+        id: guarda
+        env:
+          FORZAR: ${{ inputs.forzar }}
+        run: |
+          if pnpm revisar-ejemplo > "$RUNNER_TEMP/revisar-ejemplo.log" 2>&1; then
+            echo "publicar=true" >> "$GITHUB_OUTPUT"
+          else
+            cat "$RUNNER_TEMP/revisar-ejemplo.log"
+            if ! grep -qx 'Contenido de ejemplo pendiente:' "$RUNNER_TEMP/revisar-ejemplo.log"; then
+              exit 1
+            fi
+            if [[ "$FORZAR" == true ]]; then
+              echo "::warning::El despliegue manual incluye contenido de ejemplo."
+              echo "publicar=true" >> "$GITHUB_OUTPUT"
+            else
+              echo "::warning::Se omite el despliegue porque queda contenido de ejemplo."
+            fi
+          fi
+
+      - uses: aws-actions/configure-aws-credentials@v6
+        if: steps.guarda.outputs.publicar == 'true'
+        with:
+          role-to-assume: ${{ vars.AWS_ROL_DESPLIEGUE }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Sincronizar e invalidar
+        if: steps.guarda.outputs.publicar == 'true'
+        env:
+          BUCKET: ${{ vars.BUCKET_SITIO }}
+          DISTRIBUCION: ${{ vars.DISTRIBUCION_ID }}
+        run: scripts/desplegar.sh "$BUCKET" "$DISTRIBUCION"
+
+  terraform:
+    name: Verificar Terraform
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_wrapper: false
+
+      - name: Comprobar formato y validar
+        run: |
+          terraform fmt -check -recursive infra
+          terraform -chdir=infra/bootstrap init -input=false -lockfile=readonly
+          terraform -chdir=infra/bootstrap validate
+          terraform -chdir=infra init -backend=false -input=false -lockfile=readonly
+          terraform -chdir=infra validate
+
+  plan:
+    name: Planificar Terraform
+    needs: terraform
+    if: github.event.pull_request.head.repo.full_name == github.repository && vars.AWS_ROL_PLAN != ''
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_wrapper: false
+
+      - uses: aws-actions/configure-aws-credentials@v6
+        with:
+          role-to-assume: ${{ vars.AWS_ROL_PLAN }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Planificar el stack del sitio
+        id: plan
+        env:
+          AWS_REGION: ${{ vars.AWS_REGION }}
+          BUCKET_ESTADO: ${{ vars.BUCKET_ESTADO }}
+          TERRAFORM_TFVARS: ${{ vars.TERRAFORM_TFVARS }}
+        run: |
+          if [[ -n "$TERRAFORM_TFVARS" ]]; then
+            printf '%s\n' "$TERRAFORM_TFVARS" > infra/terraform.tfvars
+          fi
+          terraform -chdir=infra init -input=false -lockfile=readonly \
+            -backend-config="bucket=$BUCKET_ESTADO" -backend-config="region=$AWS_REGION"
+          # El rol solo lee el estado. Este plan informativo no toma el lock.
+          terraform -chdir=infra plan -input=false -lock=false -no-color \
+            -var="region=$AWS_REGION" > "$RUNNER_TEMP/terraform-plan.txt" 2>&1
+
+      - name: Publicar el resultado en el PR
+        if: always() && (steps.plan.outcome == 'success' || steps.plan.outcome == 'failure')
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          archivo="$RUNNER_TEMP/terraform-plan.txt"
+          {
+            echo '### Plan de Terraform'
+            echo
+            if [[ ! -f "$archivo" ]]; then
+              echo 'Falló la inicialización del backend. Consulta el registro del job.'
+            elif [[ $(wc -c < "$archivo") -gt 60000 ]]; then
+              echo 'El plan supera el límite del comentario. Consulta el registro del job.'
+            else
+              echo '~~~~text'
+              cat "$archivo"
+              echo '~~~~'
+            fi
+          } > "$RUNNER_TEMP/terraform-comentario.md"
+          if [[ -f "$archivo" ]]; then
+            cat "$archivo"
+          fi
+          gh pr comment "$PR" --body-file "$RUNNER_TEMP/terraform-comentario.md"
