@@ -7,3 +7,7 @@ pnpm-lock.yaml
 ENTREGA.md
 docs/superpowers/
 .workmux/
+
+# Archivos locales de Terraform
+**/.terraform/
+**/*.tfstate*
