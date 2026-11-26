@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="es-CO">
+  <head>
+    <title>Eventos de prueba</title>
+    <script id="__NEXT_DATA__" type="application/json">
+      {
+        "props": {
+          "pageProps": {
+            "__APOLLO_STATE__": {
+              "ROOT_QUERY": {
+                "groupByUrlname:{\"urlname\":\"grupo-de-prueba\"}": {
+                  "__ref": "Group:1"
+                }
+              },
+              "Group:1": {
+                "events({\"filter\":{\"afterDateTime\":\"2098\"},\"first\":30,\"sort\":\"ASC\"})": {
+                  "edges": [
+                    {
+                      "node": {
+                        "__ref": "Event:1001"
+                      }
+                    }
+                  ]
+                },
+                "events({\"filter\":{\"beforeDateTime\":\"2098\"},\"first\":10,\"sort\":\"DESC\"})": {
+                  "edges": [
+                    {
+                      "node": {
+                        "__ref": "Event:1002"
+                      }
+                    },
+                    {
+                      "node": {
+                        "__ref": "Event:1003"
+                      }
+                    },
+                    {
+                      "node": {
+                        "__ref": "Event:1004"
+                      }
+                    }
+                  ]
+                }
+              },
+              "Event:1001": {
+                "id": "1001",
+                "title": "Encuentro futuro de prueba",
+                "dateTime": "2099-12-05T10:00:00-05:00",
+                "status": "ACTIVE",
+                "eventUrl": "https://www.meetup.com/grupo-de-prueba/events/1001/",
+                "eventType": "PHYSICAL",
+                "venue": {
+                  "__ref": "Venue:2"
+                },
+                "featuredEventPhoto": {
+                  "__ref": "PhotoInfo:3"
+                },
+                "description": "Descripción de prueba."
+              },
+              "Event:1002": {
+                "id": "1002",
+                "title": "Encuentro pasado de prueba",
+                "dateTime": "2020-10-05T10:00:00-05:00",
+                "status": "PAST",
+                "eventUrl": "https://www.meetup.com/grupo-de-prueba/events/1002/",
+                "eventType": "PHYSICAL",
+                "venue": {
+                  "__ref": "Venue:2"
+                },
+                "featuredEventPhoto": {
+                  "__ref": "PhotoInfo:3"
+                },
+                "description": "Descripción de prueba."
+              },
+              "Event:1003": {
+                "id": "1003",
+                "title": "Taller pasado de prueba",
+                "dateTime": "2020-11-05T10:00:00-05:00",
+                "status": "PAST",
+                "eventUrl": "https://www.meetup.com/grupo-de-prueba/events/1003/",
+                "eventType": "PHYSICAL",
+                "venue": {
+                  "__ref": "Venue:2"
+                },
+                "featuredEventPhoto": {
+                  "__ref": "PhotoInfo:3"
+                },
+                "description": "Descripción de prueba."
+              },
+              "Event:1004": {
+                "id": "1004",
+                "title": "Encuentro cancelado de prueba",
+                "dateTime": "2020-12-05T10:00:00-05:00",
+                "status": "CANCELLED",
+                "eventUrl": "https://www.meetup.com/grupo-de-prueba/events/1004/",
+                "eventType": "PHYSICAL",
+                "venue": {
+                  "__ref": "Venue:2"
+                },
+                "featuredEventPhoto": {
+                  "__ref": "PhotoInfo:3"
+                },
+                "description": "Descripción de prueba."
+              },
+              "Venue:2": {
+                "name": "Sede de prueba"
+              },
+              "PhotoInfo:3": {
+                "highResUrl": "https://secure.meetupstatic.com/photos/event/afiche-de-prueba.jpg"
+              }
+            }
+          }
+        }
+      }
+    </script>
+  </head>
+  <body></body>
+</html>

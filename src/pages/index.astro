@@ -40,6 +40,7 @@ const fechaYHoraEnBogota = new Intl.DateTimeFormat("es-CO", {
   timeZone: "America/Bogota",
 });
 const proximo = proximos[0];
+const ultimo = pasados[0];
 const region = "Valle del Cauca";
 const tieneRegion = sitio.nombre.endsWith(` ${region}`);
 const nombreGrupo = tieneRegion
@@ -177,6 +178,7 @@ const redes = [
                     </time>{" "}
                     · {evento.lugar} · {modalidades[evento.modalidad]}
                   </p>
+                  <AficheEvento evento={evento} />
                   {evento.url_registro && (
                     <a href={evento.url_registro}>
                       Inscríbete en {evento.titulo}
@@ -186,10 +188,34 @@ const redes = [
               ))}
             </ul>
           ) : (
-            <div data-testid="eventos-vacio">
-              <p>Estamos preparando el próximo; suscríbete para enterarte.</p>
-              <BotonCta href={cta.url} etiqueta={cta.etiqueta} />
-            </div>
+            <>
+              {ultimo && (
+                <article class="ultimo-encuentro" aria-label="Último encuentro">
+                  <AficheEvento evento={ultimo} />
+                  <div>
+                    <p class="rotulo">Último encuentro</p>
+                    <h3>{ultimo.titulo}</h3>
+                    <p>
+                      <time datetime={ultimo.fecha.toISOString()}>
+                        {fechaEnBogota.format(ultimo.fecha)}
+                      </time>{" "}
+                      · {ultimo.lugar}
+                    </p>
+                    {ultimo.url_registro && (
+                      <a href={ultimo.url_registro}>
+                        Ver el encuentro en Meetup
+                      </a>
+                    )}
+                  </div>
+                </article>
+              )}
+              <div data-testid="eventos-vacio">
+                <p>
+                  Únete a la comunidad para enterarte del próximo encuentro.
+                </p>
+                <BotonCta href={cta.url} etiqueta={cta.etiqueta} />
+              </div>
+            </>
           )}
         </div>
       </div>
@@ -235,7 +261,15 @@ const redes = [
                       {evento.lugar} · {modalidades[evento.modalidad]}
                     </p>
                     <AficheEvento evento={evento} />
-                    {evento.resumen && <p>{evento.resumen}</p>}
+                    {evento.resumen &&
+                      (evento.resumen.length > 320 ? (
+                        <details class="descripcion-evento">
+                          <summary>Descripción del encuentro</summary>
+                          <p>{evento.resumen}</p>
+                        </details>
+                      ) : (
+                        <p>{evento.resumen}</p>
+                      ))}
                     {evento === destacado?.data && fichaDestacada && (
                       <div class="agenda-destacada">
                         <fichaDestacada.Content />

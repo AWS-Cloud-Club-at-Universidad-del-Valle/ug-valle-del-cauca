@@ -18,7 +18,7 @@ src/content/eventos/*.md          # eventos (ejemplo)
 src/content/organizadores/*.yaml  # organizadores (ejemplo)
 src/lib/cta.ts                    # resolverCta
 src/lib/eventos.ts                # separarEventos
-src/lib/meetup.ts                 # convierte el calendario de Meetup en eventos
+src/lib/meetup.ts                 # interpreta y combina las fuentes de eventos de Meetup
 src/pages/index.astro             # página mínima sin estilos de diseño
 src/pages/404.astro
 scripts/revisar-ejemplo.mjs       # falla si queda contenido de ejemplo
@@ -28,7 +28,8 @@ infra/bootstrap/                  # bucket de estado y roles OIDC
 docs/TRASPASO.md                  # primera publicación y cambio de cuenta o dueño
 tests/unit/*.test.ts              # Vitest
 tests/unit/meetup.test.ts          # pruebas del parser iCal
-tests/fixtures/meetup*.ics         # calendarios de prueba
+tests/unit/meetup-pagina.test.ts   # pruebas del listado web y la combinación
+tests/fixtures/meetup*             # calendarios y listado web de prueba
 tests/e2e/*.spec.ts               # Playwright + axe
 lighthouserc.json
 .github/workflows/verify.yml
@@ -71,3 +72,5 @@ lighthouserc.json
 ## Limitación conocida
 
 El sitio estático congela la clasificación de eventos al construirlo. La reconstrucción diaria está programada para las 6:00 a. m. de Cali. Un evento puede seguir apareciendo como próximo hasta el siguiente despliegue exitoso. La guarda de contenido de ejemplo también aplica a las ejecuciones programadas.
+
+El historial se alimenta del listado público de Meetup. Si falla la paginación, el build conserva las páginas recibidas y los eventos locales.

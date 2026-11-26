@@ -71,7 +71,7 @@ resource "aws_cloudfront_response_headers_policy" "sitio" {
     content_security_policy {
       # El script en línea se publica con el build de Astro, independiente de Terraform.
       # Se permite código en línea para evitar fijar un hash que quedaría desactualizado al editar el script.
-      content_security_policy = "default-src 'none'; script-src 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; font-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; object-src 'none'"
+      content_security_policy = "default-src 'none'; script-src 'unsafe-inline'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://secure.meetupstatic.com https://secure-content.meetupstatic.com; font-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; object-src 'none'"
       override                = true
     }
   }

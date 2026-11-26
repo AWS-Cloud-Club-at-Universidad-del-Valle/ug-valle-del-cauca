@@ -78,3 +78,19 @@ Al final de este brief anota:
 - la salida resumida de la verificación.
 
 No hagas commit. Sin menciones a Codex, Claude ni IA en ningún archivo.
+
+## Resultado de la tarea
+
+- Los listados usan `__NEXT_DATA__` → `props.pageProps.__APOLLO_STATE__`. El parser sigue `ROOT_QUERY.groupByUrlname`, selecciona la conexión por `afterDateTime` o `beforeDateTime` y resuelve las referencias de eventos, sedes y fotos. La estructura es interna de Meetup. Si cambia, el build avisa y conserva las otras fuentes disponibles.
+- El calendario iCal y la página de futuros devolvieron 0 eventos. El listado de pasados trajo 10 en el HTML y 13 adicionales mediante `getPastGroupEvents` en `/gql2`. Se usó la misma operación persistida y el cursor del sitio público, sin iniciar sesión. Si cambia el identificador de la operación o falla una página, se conserva lo recibido hasta ese punto.
+- El HTML contiene 23 tiquetes con enlaces distintos. Diez coincidieron con archivos locales, que conservaron su contenido curado y recibieron los datos faltantes. Los otros trece se incorporaron automáticamente. En ausencia de próximos, Calima muestra Tech Day Cali 2026 con su afiche local e invitación al Meetup.
+- La CSP agrega `https://secure.meetupstatic.com` y `https://secure-content.meetupstatic.com` únicamente a `img-src`. El orquestador debe aplicar Terraform para que CloudFront permita esos afiches. El catálogo público observado usó el primer host en las URLs de imagen.
+- Se mantiene la clasificación por día calendario en Cali. Los afiches ocupan una caja de proporción fija y se cargan de forma diferida. Los tiquetes conservan la descripción del listado cuando no hay resumen local y muestran las descripciones largas en un desplegable.
+
+### Verificación
+
+- `pnpm verify` pasó con Meetup desactivado. Pasaron 26 pruebas unitarias, 15 de navegador y la revisión de 13 enlaces. Axe reportó cero violaciones. Las seis mediciones de Lighthouse (inicio y 404) obtuvieron 1,00 en rendimiento, accesibilidad, buenas prácticas y SEO, con CLS de 0.
+- `pnpm build` con red generó las dos páginas y registró 0 eventos del iCal, 0 futuros de la página y 23 pasados. Se verificaron los 23 tiquetes del HTML y la carga de un afiche remoto a ambos anchos. Axe también reportó cero violaciones en el inicio construido con red a 1440 y 390 px.
+- `MEETUP_EVENTOS_URL=https://host.invalido pnpm build` generó las dos páginas y avisó que conservaría los eventos locales. El calendario siguió disponible.
+- `terraform -chdir=infra fmt -check` y `terraform -chdir=infra validate` pasaron. La inicialización para validar usó el backend desactivado.
+- Se guardaron `proximos-1440.png`, `proximos-390.png`, `trayectoria-1440.png` y `trayectoria-390.png` en `/tmp/ug-capturas/v10/`.

@@ -8,11 +8,11 @@ interface Props {
 const { evento } = Astro.props;
 ---
 
-{evento.imagen && evento.imagen_alt && (
+{evento.imagen && (
   <img
     class="afiche-evento"
     src={evento.imagen}
-    alt={evento.imagen_alt}
+    alt={evento.imagen_alt ?? `Afiche de ${evento.titulo}`}
     width="800"
     height="450"
     loading="lazy"
