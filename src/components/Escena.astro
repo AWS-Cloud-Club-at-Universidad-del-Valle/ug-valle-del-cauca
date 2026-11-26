@@ -11,6 +11,14 @@ const frases = {
   pacifico: "Cielo de tambores",
 };
 
+const ubicaciones = {
+  cali: "Barrio Obrero, Cali · Valle del Cauca",
+  calima: "Lago Calima · Calima El Darién",
+  tren: "Zona cañera · Valle del Cauca",
+  guayacanes: "Cali · Valle del Cauca",
+  pacifico: "Buenaventura · Valle del Cauca",
+};
+
 const luces = Array.from({ length: 19 }, (_, i) => {
   const x = i * 80;
   return { x, y: 35 + 300 * (x / 1440) * (1 - x / 1440) };
@@ -39,12 +47,6 @@ const flores = [
   [494, 251, 1.04],
 ];
 ---
-
-{lugar !== "cordillera" && (
-  <span class="frase-papel" aria-hidden="true">
-    {frases[lugar]}
-  </span>
-)}
 
 {lugar === "cali" && (
   <>
@@ -418,4 +420,11 @@ const flores = [
       <use href="#destello-papel" x="1195" y="41" />
     </g>
   </svg>
+)}
+
+{lugar !== "cordillera" && (
+  <div class="rotulo-escena">
+    <span aria-hidden="true">{frases[lugar]} — </span>
+    {ubicaciones[lugar]}
+  </div>
 )}

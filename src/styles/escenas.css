@@ -277,19 +277,25 @@ body:has(#pausa-arte:checked) :is(.paisaje *, .escena *) {
   contain-intrinsic-size: auto 640px;
   padding-block: clamp(4.25rem, 9vw, 8rem);
 }
-/* Letras impresas en el margen del papel, por debajo del contenido. */
-.frase-papel {
+/* Rótulo de papel al pie de la ilustración. */
+.rotulo-escena {
   position: absolute;
-  z-index: 1;
-  inset: clamp(1.45rem, 2.6vw, 2.65rem) 4% auto;
-  margin: 0;
-  color: inherit;
-  opacity: 0.22;
-  pointer-events: none;
+  z-index: 2;
+  inset: auto 1rem 1.25rem;
+  width: max-content;
+  max-width: calc(100% - 2rem);
+  margin-inline: auto;
+  padding: 0.32rem 0.7rem;
+  background: var(--papel);
+  color: var(--tinta-suave);
+  border-radius: 0.22rem;
+  font-size: 0.78rem;
+  line-height: 1.35;
   text-align: center;
-  text-transform: uppercase;
-  font: 800 clamp(1.1rem, 4.2vw, 4.25rem) / 1 var(--fuente-display);
-  letter-spacing: -0.025em;
+  text-wrap: balance;
+}
+.rotulo-escena span {
+  font-weight: 650;
 }
 
 .escena::after {
@@ -327,12 +333,6 @@ body:has(#pausa-arte:checked) :is(.paisaje *, .escena *) {
   color: var(--blanco);
   text-align: center;
   padding-top: clamp(6.8rem, 12vw, 11rem);
-}
-.escena-cali .frase-papel {
-  inset-block-start: clamp(1.4rem, 2vw, 1.9rem);
-  font-size: clamp(0.92rem, 2.65cqw, 2.3rem);
-  line-height: 1.08;
-  text-wrap: balance;
 }
 .arte-cali {
   top: 1rem;
@@ -600,6 +600,14 @@ body:has(#pausa-arte:checked) :is(.paisaje *, .escena *) {
   background: var(--miel);
   outline-color: var(--blanco);
   font-size: clamp(1rem, 2vw, 1.25rem);
+}
+.acciones-unirse {
+  justify-content: center;
+}
+.unirse .boton-secundario {
+  color: var(--blanco);
+  background: var(--noche);
+  border: 1px solid var(--lavanda);
 }
 .redes {
   display: flex;

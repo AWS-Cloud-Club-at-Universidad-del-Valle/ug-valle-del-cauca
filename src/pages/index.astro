@@ -15,6 +15,8 @@ if (!entrada) throw new Error("Faltan los datos de src/content/sitio.yaml");
 
 const sitio = entrada.data;
 const cta = resolverCta(sitio);
+const instagramSecundario =
+  cta.destino === "meetup" ? sitio.instagram_url : undefined;
 const entradas = await getCollection("eventos");
 const { proximos, pasados } = separarEventos(
   entradas.map(({ data }) => data),
@@ -44,8 +46,6 @@ const secciones = [
   { id: "historia", etiqueta: "Trayectoria" },
 ];
 const redes = [
-  { nombre: "Instagram", url: sitio.instagram_url },
-  { nombre: "Meetup", url: sitio.meetup_url },
   { nombre: "LinkedIn", url: sitio.linkedin_url },
   ...sitio.otras_redes,
 ];
@@ -58,7 +58,6 @@ const redes = [
       {secciones.map(({ id, etiqueta }) => (
         <a href={`#${id}`}>{etiqueta}</a>
       ))}
-      <BotonCta href={cta.url} etiqueta={cta.etiqueta} />
     </nav>
     <details class="menu">
       <summary>Menú</summary>
@@ -66,9 +65,12 @@ const redes = [
         {secciones.map(({ id, etiqueta }) => (
           <a href={`#${id}`}>{etiqueta}</a>
         ))}
-        <BotonCta href={cta.url} etiqueta={cta.etiqueta} />
       </nav>
     </details>
+    <div class="barra-redes">
+      <BotonCta href={cta.url} etiqueta={cta.etiqueta} />
+      {instagramSecundario && <a href={instagramSecundario}>Instagram</a>}
+    </div>
   </header>
   <main id="contenido">
     <IntroMarca />
@@ -88,6 +90,9 @@ const redes = [
         <p class="bajada enter">{sitio.descripcion}</p>
         <div class="acciones enter">
           <BotonCta href={cta.url} etiqueta={cta.etiqueta} principal />
+          {instagramSecundario && (
+            <a href={instagramSecundario}>Síguenos en Instagram</a>
+          )}
           <a href="#eventos">Ver próximos eventos</a>
         </div>
         {proximo && (
@@ -106,7 +111,6 @@ const redes = [
     </div>
 
     <section class="escena escena-cali" aria-labelledby="comunidad">
-      <Escena lugar="cali" />
       <div class="contenedor escena-texto">
         <h2 id="comunidad">Qué es el UG</h2>
         <div>
@@ -145,10 +149,10 @@ const redes = [
           </p>
         </div>
       </div>
+      <Escena lugar="cali" />
     </section>
 
     <section class="escena escena-calima" aria-labelledby="eventos">
-      <Escena lugar="calima" />
       <div class="contenedor escena-texto">
         <div class="boleto">
           <h2 id="eventos">Próximos eventos</h2>
@@ -179,10 +183,10 @@ const redes = [
           )}
         </div>
       </div>
+      <Escena lugar="calima" />
     </section>
 
     <section class="escena escena-tren" aria-labelledby="historia">
-      <Escena lugar="tren" />
       <div class="contenedor escena-texto">
         <h2 id="historia">Lo que hemos hecho</h2>
         <div>
@@ -207,10 +211,10 @@ const redes = [
           )}
         </div>
       </div>
+      <Escena lugar="tren" />
     </section>
 
     <section class="escena escena-guayacanes" aria-labelledby="organizadores">
-      <Escena lugar="guayacanes" />
       <div class="contenedor escena-texto">
         <h2 id="organizadores">Organizadores</h2>
         {organizadores.length ? (
@@ -242,28 +246,44 @@ const redes = [
           <p>Por ahora, puedes contactar al grupo a través de sus redes.</p>
         )}
       </div>
+      <Escena lugar="guayacanes" />
     </section>
 
     <section class="escena escena-pacifico unirse" aria-labelledby="unirse">
-      <Escena lugar="pacifico" />
       <div class="contenedor escena-texto">
         <h2 id="unirse">Cómo unirse</h2>
         <div>
           <p>Entérate de los próximos encuentros de la comunidad.</p>
-          <BotonCta href={cta.url} etiqueta={cta.etiqueta} />
-          <ul class="redes">
-            {redes.map(
-              ({ nombre, url }) =>
-                url && (
-                  <li>
-                    <a href={url}>{nombre}</a>
-                  </li>
-                ),
+          <div class="acciones acciones-unirse">
+            <BotonCta href={cta.url} etiqueta={cta.etiqueta} />
+            {instagramSecundario && (
+              <BotonCta
+                href={instagramSecundario}
+                etiqueta="Síguenos en Instagram"
+                secundario
+              />
             )}
-          </ul>
+          </div>
+          {redes.some(({ url }) => url) && (
+            <ul class="redes">
+              {redes.map(
+                ({ nombre, url }) =>
+                  url && (
+                    <li>
+                      <a href={url}>{nombre}</a>
+                    </li>
+                  ),
+              )}
+            </ul>
+          )}
         </div>
       </div>
+      <Escena lugar="pacifico" />
     </section>
   </main>
+  <nav slot="redes-pie" class="redes-pie" aria-label="Redes del grupo">
+    {sitio.meetup_url && <a href={sitio.meetup_url}>Meetup</a>}
+    <a href={sitio.instagram_url}>Instagram</a>
+  </nav>
   <MejoraPortada slot="mejora" />
 </Sitio>

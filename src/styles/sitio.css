@@ -91,11 +91,36 @@ a {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 0.75rem;
+  flex-wrap: wrap;
+  gap: 0.25rem 0.75rem;
   padding: clamp(0.8rem, 2.2vw, 1.65rem) clamp(1rem, 5vw, 5rem);
 }
 .nav-amplia {
   display: none;
+}
+.barra-redes,
+.redes-pie {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+}
+.barra-redes {
+  flex-basis: 100%;
+  font-weight: 650;
+}
+@media (max-width: 1023px) {
+  .barra-redes {
+    font-size: 0.875rem;
+  }
+  .barra-redes .boton {
+    min-height: 32px;
+    padding: 0.2rem 0.75rem;
+  }
+  .barra-redes .boton svg {
+    width: 16px;
+    height: 16px;
+  }
 }
 .menu summary {
   cursor: pointer;
@@ -266,7 +291,12 @@ a {
     display: flex;
     align-items: center;
     gap: clamp(1rem, 2.3vw, 2.5rem);
+    margin-inline-start: auto;
     font-weight: 650;
+  }
+  .barra-redes {
+    flex-basis: auto;
+    margin-inline-start: clamp(0.25rem, 1vw, 1rem);
   }
   .menu {
     display: none;

@@ -45,6 +45,7 @@ const { titulo, descripcion, portada } = Astro.props;
         <a href="https://github.com/AWS-Cloud-Club-at-Universidad-del-Valle/ug-valle-del-cauca">
           Repositorio del sitio
         </a>
+        <slot name="redes-pie" />
         {portada && (
           <label class="control-movimiento">
             <input id="pausa-arte" type="checkbox" /> Pausar ilustraciones

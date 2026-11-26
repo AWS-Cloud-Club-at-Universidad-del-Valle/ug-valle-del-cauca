@@ -1,16 +1,26 @@
 import { AxeBuilder } from "@axe-core/playwright";
 import { expect, test } from "@playwright/test";
 
-test("el CTA principal apunta a Instagram cuando no hay Meetup", async ({
+const meetup = "https://www.meetup.com/aws-user-group-valle-del-cauca/";
+const instagram = "https://www.instagram.com/awsugvalle/";
+
+test("Meetup es el CTA principal e Instagram acompaña los enlaces del grupo", async ({
   page,
 }) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/");
   const cta = page.getByTestId("cta-principal");
-  await expect(cta).toHaveAttribute(
-    "href",
-    "https://www.instagram.com/awsugvalle/",
-  );
-  await expect(cta).toHaveText("Síguenos en Instagram");
+  await expect(cta).toHaveAttribute("href", meetup);
+  await expect(cta).toHaveText("Únete en Meetup");
+
+  for (const width of [1440, 390]) {
+    await page.setViewportSize({ width, height: 900 });
+    for (const zona of [".barra", ".hero", ".unirse", ".pie"]) {
+      const seccion = page.locator(zona);
+      await expect(seccion.locator(`a[href="${meetup}"]`)).toBeVisible();
+      await expect(seccion.locator(`a[href="${instagram}"]`)).toBeVisible();
+    }
+  }
 });
 
 test("sin eventos futuros se ve el estado vacío", async ({ page }) => {
@@ -21,8 +31,8 @@ test("sin eventos futuros se ve el estado vacío", async ({ page }) => {
     "Estamos preparando el próximo; suscríbete para enterarte",
   );
   await expect(
-    estadoVacio.getByRole("link", { name: "Síguenos en Instagram" }),
-  ).toHaveAttribute("href", "https://www.instagram.com/awsugvalle/");
+    estadoVacio.getByRole("link", { name: "Únete en Meetup" }),
+  ).toHaveAttribute("href", meetup);
   await expect(page.getByTestId("evento-proximo")).toHaveCount(0);
 });
 

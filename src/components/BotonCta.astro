@@ -3,13 +3,14 @@ interface Props {
   href: string;
   etiqueta: string;
   principal?: boolean;
+  secundario?: boolean;
 }
 
-const { href, etiqueta, principal } = Astro.props;
+const { href, etiqueta, principal, secundario } = Astro.props;
 ---
 
 <a
-  class="boton"
+  class:list={["boton", secundario && "boton-secundario"]}
   href={href}
   data-testid={principal ? "cta-principal" : undefined}
 >

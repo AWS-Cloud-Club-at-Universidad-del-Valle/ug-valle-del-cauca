@@ -90,15 +90,19 @@ Agrega al final de este brief:
 
 ### Frases
 
-| Escena     | Frase                                     |
-| ---------- | ----------------------------------------- |
-| Cali       | Bienvenidos al User Group Valle del Cauca |
-| Calima     | Que sople el viento                       |
-| Tren       | Entre caña y rieles                       |
-| Guayacanes | Cali pachanguero                          |
-| Pacífico   | Cielo de tambores                         |
+| Escena     | Frase                                     | Lugar                                 |
+| ---------- | ----------------------------------------- | ------------------------------------- |
+| Cali       | Bienvenidos al User Group Valle del Cauca | Barrio Obrero, Cali · Valle del Cauca |
+| Calima     | Que sople el viento                       | Lago Calima · Calima El Darién        |
+| Tren       | Entre caña y rieles                       | Zona cañera · Valle del Cauca         |
+| Guayacanes | Cali pachanguero                          | Cali · Valle del Cauca                |
+| Pacífico   | Cielo de tambores                         | Buenaventura · Valle del Cauca        |
 
-Las frases quedan en el papel por encima de cada escena, con opacidad del 22 % y `aria-hidden="true"`. La bienvenida completa es la excepción al límite de palabras. Queda por encima de la guirnalda de Cali y se reparte en dos líneas cuando el ancho lo pide.
+Los rótulos van al pie de las ilustraciones. La frase es decorativa y usa `aria-hidden="true"`. El lugar se lee sobre papel claro con contraste AA y queda disponible para lectores de pantalla.
+
+### Enlaces del grupo
+
+El botón principal lleva a Meetup y el enlace secundario a Instagram. Ambos se ven en la barra, la portada, Cómo unirse y el pie. En móvil, los enlaces de la barra quedan debajo del logo y del menú. El estado sin eventos también lleva a Meetup. La descripción conserva `ejemplo: true` y la prueba unitaria sigue cubriendo el uso de Instagram cuando falta Meetup.
 
 ### Mediciones
 
@@ -111,13 +115,14 @@ Lighthouse móvil con tres corridas por ruta y la configuración del repositorio
 | Buenas prácticas    |     0,96 |     0,96 |
 | SEO                 |     1,00 |     1,00 |
 | LCP de la portada   |  1,053 s |  0,753 s |
-| LCP del 404         |  0,755 s |  0,755 s |
+| LCP del 404         |  0,755 s |  0,756 s |
 | CLS en ambas rutas  |        0 |        0 |
-| CSS compilado       | 20.782 B | 18.634 B |
+| CSS compilado       | 20.782 B | 19.257 B |
 | Script en línea     |  1.999 B |    839 B |
-| Archivos de `dist/` | 92.865 B | 92.067 B |
+| Archivos de `dist/` | 92.865 B | 93.303 B |
 
 ### Verificación y capturas
 
 - `pnpm verify` en verde con 13 pruebas unitarias, 12 de navegador, cero violaciones de axe y seis corridas de Lighthouse. El puerto 4321 estaba ocupado. Para la ejecución completa se usó una copia temporal con Playwright en el puerto 4396. Chromium usó las flags `--no-sandbox --headless=new` mediante `CHROME_PATH`.
 - `/tmp/ug-capturas/v5/` contiene 17 cuadros de la intro, las portadas a 1440 × 900 y 390 × 844 y las cinco escenas con su frase en ambos tamaños. Se revisó el borde del hexágono ampliado antes, durante y después del relleno.
+- Las capturas de esta ronda quedaron en `/tmp/ug-capturas/v6/`, con el hero y las cinco escenas a 1440 × 900 y 390 × 844.

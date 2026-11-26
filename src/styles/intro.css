@@ -36,7 +36,7 @@
   .intro-activa .barra .marca {
     animation: aparecer-marca 1.6s step-end both;
   }
-  .intro-activa :is(.barra .wordmark, .nav-amplia, .menu) {
+  .intro-activa :is(.barra .wordmark, .nav-amplia, .menu, .barra-redes) {
     animation: revelar-portada 0.28s ease-out 1.6s backwards;
   }
   .intro-activa .hero-texto {
