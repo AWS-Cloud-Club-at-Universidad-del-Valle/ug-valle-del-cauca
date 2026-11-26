@@ -16,7 +16,11 @@ describe("listados de Meetup", () => {
   it("acepta una conexión vacía", () => {
     const documento = JSON.parse(json);
     const grupo = documento.props.pageProps.__APOLLO_STATE__["Group:1"];
-    Object.values<{ edges: unknown[] }>(grupo)[0].edges = [];
+    const claveFuturos = Object.keys(grupo).find((clave) =>
+      clave.includes('"afterDateTime"'),
+    );
+    expect(claveFuturos).toBeDefined();
+    grupo[claveFuturos!].edges = [];
     const avisar = vi.fn();
     expect(
       parsearPaginaMeetup(JSON.stringify(documento), "futuros", avisar),

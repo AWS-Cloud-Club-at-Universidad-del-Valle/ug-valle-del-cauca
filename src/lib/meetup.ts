@@ -1,5 +1,5 @@
 import { createHash } from "node:crypto";
-import type { z } from "zod";
+import { z } from "zod";
 import { esquemaEvento } from "../content/esquemas";
 
 type Propiedad = { valor: string; zona?: string };
@@ -66,7 +66,8 @@ function convertirEvento(campos: Map<string, Propiedad>) {
   if (!fecha || !titulo) return;
 
   const ubicacion = desescapar(campos.get("LOCATION")?.valor ?? "").trim();
-  const virtual = !ubicacion || ubicacion.toLowerCase() === "online";
+  const virtual =
+    !ubicacion || /^(online( event)?|en l[ií]nea)$/i.test(ubicacion);
   const url_registro = campos.get("URL")?.valor.trim() || undefined;
   const data: DatosMeetup = {
     titulo,
@@ -217,23 +218,78 @@ type ListadoMeetup = {
   grupo?: string;
 };
 
+function leerGrupoApollo(contenido: string) {
+  const incrustado =
+    /<script\b[^>]*\bid=["']__NEXT_DATA__["'][^>]*>([\s\S]*?)<\/script>/i.exec(
+      contenido,
+    );
+  const documento = objeto(JSON.parse(incrustado?.[1] ?? contenido));
+  const props = objeto(objeto(documento.props).pageProps);
+  const estado = objeto(props.__APOLLO_STATE__ ?? documento.__APOLLO_STATE__);
+  const consulta = Object.entries(objeto(estado.ROOT_QUERY)).find(([clave]) =>
+    /^groupByUrlname\b/.test(clave),
+  );
+  const grupo = resolverReferencia(estado, consulta?.[1]);
+  return { estado, grupo };
+}
+
+function conteo(valor: unknown) {
+  return typeof valor === "number" && Number.isSafeInteger(valor) && valor >= 0
+    ? valor
+    : undefined;
+}
+
+export function parsearGrupoMeetup(contenido: string) {
+  try {
+    const { estado, grupo } = leerGrupoApollo(contenido);
+    const estadisticas = resolverReferencia(estado, grupo.stats);
+    const miembros = conteo(
+      resolverReferencia(estado, estadisticas.memberCounts).all,
+    );
+    const ciudad = cadena(grupo.city);
+    const fecha = cadena(grupo.foundedDate);
+    const fundacion =
+      z.iso.datetime({ offset: true }).safeParse(fecha).data ??
+      z.iso.date().safeParse(fecha).data;
+
+    let realizados: number | undefined;
+    for (const [clave, valor] of Object.entries(grupo)) {
+      const argumentos = /^events\((.*)\)$/.exec(clave);
+      if (!argumentos) continue;
+      let filtro: Objeto;
+      try {
+        filtro = objeto(objeto(JSON.parse(argumentos[1])).filter);
+      } catch {
+        continue;
+      }
+      if (
+        Array.isArray(filtro.status) &&
+        filtro.status.length === 1 &&
+        filtro.status[0] === "PAST"
+      ) {
+        realizados = conteo(resolverReferencia(estado, valor).totalCount);
+        if (realizados !== undefined) break;
+      }
+    }
+    if (
+      [miembros, realizados, ciudad, fundacion].some(
+        (dato) => dato !== undefined,
+      )
+    ) {
+      return { miembros, realizados, ciudad, fundacion };
+    }
+  } catch {
+    return undefined;
+  }
+}
+
 export function leerPaginaMeetup(
   contenido: string,
   tipo: TipoListado,
   avisar: (mensaje: string) => void,
 ): ListadoMeetup {
   try {
-    const incrustado =
-      /<script\b[^>]*\bid=["']__NEXT_DATA__["'][^>]*>([\s\S]*?)<\/script>/i.exec(
-        contenido,
-      );
-    const documento = objeto(JSON.parse(incrustado?.[1] ?? contenido));
-    const props = objeto(objeto(documento.props).pageProps);
-    const estado = objeto(props.__APOLLO_STATE__ ?? documento.__APOLLO_STATE__);
-    const consulta = Object.entries(objeto(estado.ROOT_QUERY)).find(([clave]) =>
-      /^groupByUrlname\b/.test(clave),
-    );
-    const grupo = resolverReferencia(estado, consulta?.[1]);
+    const { estado, grupo } = leerGrupoApollo(contenido);
     const filtro = tipo === "pasados" ? "beforeDateTime" : "afterDateTime";
     const resultado = Object.entries(grupo).find(
       ([clave]) => clave.startsWith("events(") && clave.includes(`"${filtro}"`),

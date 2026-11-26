@@ -1,0 +1,178 @@
+---
+import type { CollectionEntry } from "astro:content";
+import type { Evento } from "../content/esquemas";
+import type { resolverCta } from "../lib/cta";
+import { diasHastaEvento } from "../lib/eventos";
+import AficheEvento from "./AficheEvento.astro";
+import BotonCta from "./BotonCta.astro";
+import Escena from "./Escena.astro";
+
+interface Props {
+  proximos: Evento[];
+  pasados: Evento[];
+  ahora: Date;
+  modalidades: Record<Evento["modalidad"], string>;
+  grupo?: CollectionEntry<"grupoMeetup">["data"];
+  meetup?: string;
+  cta: ReturnType<typeof resolverCta>;
+}
+
+const { proximos, pasados, ahora, modalidades, grupo, meetup, cta } =
+  Astro.props;
+const proximo = proximos[0];
+const principal = proximo ?? pasados[0];
+const adicionales = proximos.slice(1);
+const recientes = pasados.filter((evento) => evento !== principal).slice(0, 4);
+const dias = proximo && diasHastaEvento(proximo.fecha, ahora);
+const zona = "America/Bogota";
+const fechaCompleta = new Intl.DateTimeFormat("es-CO", {
+  dateStyle: "full",
+  timeZone: zona,
+});
+const hora = new Intl.DateTimeFormat("es-CO", {
+  timeStyle: "short",
+  timeZone: zona,
+});
+const fechaBreve = new Intl.DateTimeFormat("es-CO", {
+  dateStyle: "medium",
+  timeZone: zona,
+});
+const fechaFundacion = new Intl.DateTimeFormat("es-CO", {
+  month: "long",
+  year: "numeric",
+  timeZone: zona,
+});
+const numero = new Intl.NumberFormat("es-CO");
+const fundacion = grupo?.fundacion;
+---
+
+<section class="escena escena-calima" aria-labelledby="eventos">
+  <div class="contenedor escena-texto vitrina-meetup">
+    <h2 id="eventos">Próximos eventos</h2>
+    <div class="mesa-calima">
+      {principal && (
+        <article
+          class:list={["encuentro-calima", principal.imagen && "con-afiche"]}
+          aria-label={proximo ? "Próximo encuentro" : "Último encuentro"}
+          data-testid={proximo ? "evento-proximo" : undefined}
+        >
+          <AficheEvento evento={principal} />
+          <div class="ficha-calima">
+            <p class="rotulo">
+              {proximo ? "Próximo encuentro" : "Último encuentro"}
+              {dias !== undefined && (
+                <span class="plazo-calima">
+                  {dias === 0
+                    ? "Hoy"
+                    : dias === 1
+                      ? "En 1 día"
+                      : `En ${dias} días`}
+                </span>
+              )}
+            </p>
+            <h3>{principal.titulo}</h3>
+            <p>
+              <time datetime={principal.fecha.toISOString()}>
+                {fechaCompleta.format(principal.fecha)} ·{" "}
+                <span class="hora-calima">{hora.format(principal.fecha)}</span>
+              </time>
+            </p>
+            <p>
+              {principal.lugar} · {modalidades[principal.modalidad]}
+            </p>
+            {principal.url_registro && (
+              <a
+                class="boton"
+                href={principal.url_registro}
+                aria-label={`${proximo ? "Reservar en Meetup" : "Ver en Meetup"}: «${principal.titulo}»`}
+              >
+                {proximo ? "Reservar en Meetup" : "Ver en Meetup"}
+              </a>
+            )}
+          </div>
+        </article>
+      )}
+      <div
+        class="sello-meetup"
+        data-testid={proximo ? undefined : "eventos-vacio"}
+      >
+        <h3>{meetup ? "El grupo en Meetup" : "Sigue al grupo"}</h3>
+        {(grupo?.ciudad || fundacion) && (
+          <p class="origen-meetup">
+            {grupo?.ciudad}
+            {grupo?.ciudad && fundacion && " · "}
+            {fundacion && (
+              <>
+                Desde{" "}
+                <time datetime={fundacion}>
+                  {fechaFundacion.format(
+                    new Date(
+                      fundacion.length === 10
+                        ? `${fundacion}T00:00:00-05:00`
+                        : fundacion,
+                    ),
+                  )}
+                </time>
+              </>
+            )}
+          </p>
+        )}
+        {(grupo?.miembros !== undefined || grupo?.realizados !== undefined) && (
+          <dl>
+            {grupo.miembros !== undefined && (
+              <div>
+                <dt>Miembros</dt>
+                <dd>{numero.format(grupo.miembros)}</dd>
+              </div>
+            )}
+            {grupo.realizados !== undefined && (
+              <div>
+                <dt>Eventos realizados</dt>
+                <dd>{numero.format(grupo.realizados)}</dd>
+              </div>
+            )}
+          </dl>
+        )}
+        {!proximo && (
+          <p>Únete a la comunidad para enterarte del próximo encuentro.</p>
+        )}
+        <BotonCta
+          href={meetup ?? cta.url}
+          etiqueta={meetup ? "Únete en Meetup" : cta.etiqueta}
+        />
+      </div>
+    </div>
+
+    {[
+      { titulo: "También vienen", eventos: adicionales, futuros: true },
+      { titulo: "Encuentros recientes", eventos: recientes, futuros: false },
+    ].map(
+      ({ titulo, eventos, futuros }) =>
+        eventos.length > 0 && (
+          <div class="tira-calima">
+            <h3>{titulo}</h3>
+            <ul class="listado">
+              {eventos.map((evento) => (
+                <li data-testid={futuros ? "evento-proximo" : undefined}>
+                  <time datetime={evento.fecha.toISOString()}>
+                    {fechaBreve.format(evento.fecha)}
+                  </time>
+                  {evento.url_registro ? (
+                    <a
+                      href={evento.url_registro}
+                      aria-label={`Ver «${evento.titulo}» en Meetup`}
+                    >
+                      {evento.titulo}
+                    </a>
+                  ) : (
+                    evento.titulo
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ),
+    )}
+  </div>
+  <Escena lugar="calima" />
+</section>

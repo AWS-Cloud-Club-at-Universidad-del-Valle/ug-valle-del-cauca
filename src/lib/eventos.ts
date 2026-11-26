@@ -7,6 +7,14 @@ const diaEnBogota = new Intl.DateTimeFormat("en-CA", {
   day: "2-digit",
 });
 
+export function diasHastaEvento(fecha: Date, ahora: Date) {
+  return (
+    (Date.parse(diaEnBogota.format(fecha)) -
+      Date.parse(diaEnBogota.format(ahora))) /
+    86_400_000
+  );
+}
+
 export function separarEventos(eventos: Evento[], ahora: Date) {
   const hoy = diaEnBogota.format(ahora);
   const proximos: Evento[] = [];

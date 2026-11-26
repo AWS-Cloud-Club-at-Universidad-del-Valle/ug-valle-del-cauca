@@ -1,0 +1,17 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+BEGIN:VEVENT
+UID:1005
+DTSTART:20991207T150000Z
+SUMMARY:Taller futuro de prueba
+LOCATION:Cali
+URL:https://www.meetup.com/grupo-de-prueba/events/1005/
+END:VEVENT
+BEGIN:VEVENT
+UID:1006
+DTSTART:20991212T150000Z
+SUMMARY:Charla futura de prueba
+LOCATION:Cali
+URL:https://www.meetup.com/grupo-de-prueba/events/1006/
+END:VEVENT
+END:VCALENDAR

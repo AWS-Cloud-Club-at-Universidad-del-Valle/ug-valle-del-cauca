@@ -2,6 +2,8 @@ import { readFile } from "node:fs/promises";
 import { defineCollection } from "astro:content";
 import { file, glob, type Loader } from "astro/loaders";
 import { parse } from "yaml";
+import { z } from "zod";
+import respaldoGrupo from "./content/grupo-meetup.json";
 import {
   esquemaEvento,
   esquemaOrganizador,
@@ -12,6 +14,7 @@ import {
   leerPaginaMeetup,
   leerPaginaSiguienteMeetup,
   parsearMeetup,
+  parsearGrupoMeetup,
   parsearPaginaMeetup,
 } from "./lib/meetup";
 
@@ -36,6 +39,51 @@ async function leerFuente(url: string, fuente: string) {
   if (respuesta.status !== 200) throw new Error(`HTTP ${respuesta.status}`);
   return respuesta.text();
 }
+
+const grupoMeetup = defineCollection({
+  schema: z.object({
+    miembros: z.number().optional(),
+    realizados: z.number().optional(),
+    ciudad: z.string().optional(),
+    fundacion: z.string().optional(),
+  }),
+  loader: {
+    name: "grupo-meetup",
+    async load({ config, store, logger, parseData }) {
+      store.clear();
+      const sitio = esquemaSitio.parse(
+        parse(await readFile(new URL(rutaSitio, config.root), "utf8")),
+      );
+      if (!sitio.meetup_url) return;
+
+      const url = new URL(sitio.meetup_url);
+      url.pathname = url.pathname.replace(/\/+$/, "") + "/";
+      url.search = "";
+      url.hash = "";
+      const { url: fuenteRespaldo, consulta, ...respaldo } = respaldoGrupo;
+      let datos: ReturnType<typeof parsearGrupoMeetup>;
+      if (process.env.MEETUP_DESACTIVADO !== "1") {
+        try {
+          datos = parsearGrupoMeetup(
+            await leerFuente(process.env.MEETUP_GRUPO_URL ?? url.href, "grupo"),
+          );
+          if (!datos) throw new Error("Estructura inesperada");
+          logger.info(
+            `Datos del grupo recibidos de Meetup: ${JSON.stringify(datos)}`,
+          );
+        } catch {
+          logger.warn("No se pudieron leer los datos del grupo de Meetup.");
+          if (url.href === fuenteRespaldo)
+            logger.info(`Se usará el respaldo del ${consulta}.`);
+        }
+      }
+      datos ??= url.href === fuenteRespaldo ? respaldo : undefined;
+      if (!datos) return;
+      const id = "grupo";
+      store.set({ id, data: await parseData({ id, data: datos }) });
+    },
+  },
+});
 
 // Operación persistida que usa el listado público de Meetup al desplazarse.
 const consultaPasados =
@@ -185,4 +233,4 @@ const organizadores = defineCollection({
   schema: esquemaOrganizador,
 });
 
-export const collections = { sitio, eventos, organizadores };
+export const collections = { sitio, eventos, organizadores, grupoMeetup };

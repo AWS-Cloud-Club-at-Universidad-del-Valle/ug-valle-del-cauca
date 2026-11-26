@@ -6,6 +6,7 @@ import Collage from "../components/Collage.astro";
 import IntroMarca from "../components/IntroMarca.astro";
 import MejoraPortada from "../components/MejoraPortada.astro";
 import AficheEvento from "../components/AficheEvento.astro";
+import VitrinaMeetup from "../components/VitrinaMeetup.astro";
 import Escena from "../components/Escena.astro";
 import Sitio from "../layouts/Sitio.astro";
 import { resolverCta } from "../lib/cta";
@@ -18,10 +19,12 @@ const sitio = entrada.data;
 const cta = resolverCta(sitio);
 const instagramSecundario =
   cta.destino === "meetup" ? sitio.instagram_url : undefined;
+const grupo = await getEntry("grupoMeetup", "grupo");
+const ahora = new Date();
 const entradas = await getCollection("eventos");
 const { proximos, pasados } = separarEventos(
   entradas.map(({ data }) => data),
-  new Date(),
+  ahora,
 );
 const destacado = entradas.find(
   ({ data }) => data.destacado && pasados.includes(data),
@@ -40,7 +43,6 @@ const fechaYHoraEnBogota = new Intl.DateTimeFormat("es-CO", {
   timeZone: "America/Bogota",
 });
 const proximo = proximos[0];
-const ultimo = pasados[0];
 const region = "Valle del Cauca";
 const tieneRegion = sitio.nombre.endsWith(` ${region}`);
 const nombreGrupo = tieneRegion
@@ -163,64 +165,15 @@ const redes = [
       <Escena lugar="cali" />
     </section>
 
-    <section class="escena escena-calima" aria-labelledby="eventos">
-      <div class="contenedor escena-texto">
-        <div class="boleto">
-          <h2 id="eventos">Próximos eventos</h2>
-          {proximos.length ? (
-            <ul class="listado">
-              {proximos.map((evento) => (
-                <li data-testid="evento-proximo">
-                  <h3>{evento.titulo}</h3>
-                  <p>
-                    <time datetime={evento.fecha.toISOString()}>
-                      {fechaEnBogota.format(evento.fecha)}
-                    </time>{" "}
-                    · {evento.lugar} · {modalidades[evento.modalidad]}
-                  </p>
-                  <AficheEvento evento={evento} />
-                  {evento.url_registro && (
-                    <a href={evento.url_registro}>
-                      Inscríbete en {evento.titulo}
-                    </a>
-                  )}
-                </li>
-              ))}
-            </ul>
-          ) : (
-            <>
-              {ultimo && (
-                <article class="ultimo-encuentro" aria-label="Último encuentro">
-                  <AficheEvento evento={ultimo} />
-                  <div>
-                    <p class="rotulo">Último encuentro</p>
-                    <h3>{ultimo.titulo}</h3>
-                    <p>
-                      <time datetime={ultimo.fecha.toISOString()}>
-                        {fechaEnBogota.format(ultimo.fecha)}
-                      </time>{" "}
-                      · {ultimo.lugar}
-                    </p>
-                    {ultimo.url_registro && (
-                      <a href={ultimo.url_registro}>
-                        Ver el encuentro en Meetup
-                      </a>
-                    )}
-                  </div>
-                </article>
-              )}
-              <div data-testid="eventos-vacio">
-                <p>
-                  Únete a la comunidad para enterarte del próximo encuentro.
-                </p>
-                <BotonCta href={cta.url} etiqueta={cta.etiqueta} />
-              </div>
-            </>
-          )}
-        </div>
-      </div>
-      <Escena lugar="calima" />
-    </section>
+    <VitrinaMeetup
+      {proximos}
+      {pasados}
+      {ahora}
+      {modalidades}
+      grupo={grupo?.data}
+      meetup={sitio.meetup_url}
+      {cta}
+    />
 
     <section
       class="escena escena-tren"

@@ -64,3 +64,18 @@ Al final de este brief anota:
 - la salida resumida de la verificación.
 
 No hagas commit. Sin menciones a Codex, Claude ni IA en ningún archivo.
+
+## Resultado de la tarea
+
+- La vitrina pone el afiche principal y su ficha sobre una hoja con sombra dura. A su lado va la estampilla del grupo, con un borde perforado y el enlace de suscripción. Los boletos con cinta y fechas cortas dejan ver el lago al fondo y se acomodan en dos columnas a 390 px. El hero conserva `cta-principal`.
+- El primer próximo ocupa la ficha grande y los demás aparecen en la tira «También vienen». Se muestran hasta cuatro encuentros pasados debajo. Cuando el último ocupa la ficha grande, la tira empieza por el anterior para evitar repetirlo. La trayectoria conserva el historial completo.
+- La cuenta usa días calendario de Cali y se calcula al construir el sitio. Dice «Hoy» cuando el encuentro cae en la fecha del build. Se mantienen `evento-proximo` en la ficha y en cada boleto futuro y `eventos-vacio` en la invitación a unirse cuando no hay próximos.
+- El 25 de noviembre de 2026, la [página pública del grupo](https://www.meetup.com/aws-user-group-valle-del-cauca/) devolvió 1.027 miembros, 23 eventos realizados, Cali y la fecha de fundación del 1 de julio de 2025. El loader lee `__NEXT_DATA__` → `props.pageProps.__APOLLO_STATE__` → `ROOT_QUERY.groupByUrlname`. Usa `stats.memberCounts.all`, el `totalCount` de la conexión filtrada por `PAST`, `city` y `foundedDate`.
+- La copia fechada queda en `src/content/grupo-meetup.json` y aplica al grupo consultado si el dato remoto no se puede leer o si se desactiva la red con `MEETUP_DESACTIVADO=1`. Una respuesta parcial muestra solo los campos válidos que trajo esa respuesta.
+
+### Verificación
+
+- El build con red registró los cuatro datos del grupo, 0 eventos futuros de ambas fuentes y 23 pasados. Con `MEETUP_GRUPO_URL=https://host.invalido`, el build avisó y usó la copia fechada.
+- Las capturas están en `/tmp/ug-capturas/v11/`, a 1440, 1024 y 390 px. El estado real muestra Tech Day Cali 2026 como último encuentro. La simulación reutiliza el afiche de un encuentro pasado y le asigna una fecha futura solo en los datos temporales de captura.
+- `pnpm verify` pasó con 30 pruebas unitarias, 16 de navegador y 13 enlaces revisados. Axe reportó cero violaciones. Las seis mediciones de Lighthouse obtuvieron 1,00 en rendimiento, accesibilidad, buenas prácticas y SEO, con CLS de 0.
+- Las seis capturas también se verificaron en Chromium. Axe reportó cero violaciones en la vitrina, CLS de 0 y la página no tuvo desborde horizontal en ninguno de los anchos.

@@ -53,3 +53,22 @@ describe("parsearMeetup", () => {
     expect(eventos[0].data.modalidad).toBe("virtual");
   });
 });
+
+describe("modalidad desde LOCATION", () => {
+  it("trata «Online event» de Meetup como virtual", () => {
+    const ical = [
+      "BEGIN:VCALENDAR",
+      "BEGIN:VEVENT",
+      "UID:online-event@meetup.com",
+      "SUMMARY:Charla en línea",
+      "DTSTART;TZID=America/Bogota:20261205T190000",
+      "LOCATION:Online event",
+      "URL:https://www.meetup.com/aws-user-group-valle-del-cauca/events/1/",
+      "END:VEVENT",
+      "END:VCALENDAR",
+    ].join("\r\n");
+    const [evento] = parsearMeetup(ical);
+    expect(evento?.data.modalidad).toBe("virtual");
+    expect(evento?.data.lugar).toBe("En línea");
+  });
+});

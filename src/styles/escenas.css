@@ -459,29 +459,159 @@ body:has(#pausa-arte:checked) :is(.paisaje *, .escena *) {
 
 .escena-calima {
   background: var(--calima-papel);
+  content-visibility: visible;
   padding-bottom: clamp(17rem, 28vw, 23rem);
 }
 .arte-calima {
   width: max(100%, 870px);
   left: 50%;
 }
-.boleto {
-  position: relative;
-  width: min(100%, 36rem);
-  background: var(--hoja);
-  padding: clamp(1.5rem, 4.1vw, 3.5rem);
-  border-left: 0.45rem solid var(--cana);
-  box-shadow: 0.55rem 0.6rem 0 var(--sombra);
+.vitrina-meetup {
+  overflow-wrap: anywhere;
 }
-.boleto::after {
+.mesa-calima {
+  display: grid;
+  gap: 1.5rem;
+  align-items: start;
+}
+.encuentro-calima {
+  display: grid;
+  min-width: 0;
+  background: var(--hoja);
+  border-left: 0.4rem solid var(--cana);
+  box-shadow: 0.45rem 0.5rem 0 var(--sombra);
+}
+.encuentro-calima .afiche-evento {
+  width: 100%;
+  margin: 0;
+  background: var(--cana);
+}
+.ficha-calima {
+  padding: clamp(1rem, 2.3vw, 2rem);
+}
+.ficha-calima .rotulo {
+  display: flex;
+  gap: 0.45rem 0.8rem;
+  flex-wrap: wrap;
+  align-items: center;
+  color: var(--cana);
+}
+.plazo-calima {
+  padding: 0.15em 0.45em;
+  background: var(--calima-papel);
+}
+.ficha-calima h3 {
+  margin-block: 0.35em;
+  font-size: clamp(1.45rem, 3vw, 2.75rem);
+}
+.hora-calima {
+  white-space: nowrap;
+}
+.ficha-calima p + p {
+  margin-top: 0.2rem;
+}
+.ficha-calima .boton,
+.sello-meetup .boton {
+  margin-top: 0.85rem;
+}
+.sello-meetup {
+  padding: 1.15rem;
+  background: var(--calima-aire);
+  border: 2px dashed var(--cana);
+  outline: 0.35rem solid var(--calima-aire);
+  box-shadow: 0.6rem 0.65rem 0 var(--sombra);
+  color: var(--cana);
+  margin: 0.35rem;
+}
+.sello-meetup h3,
+.tira-calima h3 {
+  font-size: clamp(1.2rem, 2.2vw, 1.7rem);
+}
+.origen-meetup {
+  font-size: 0.9rem;
+}
+.sello-meetup dl {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.65rem 1rem;
+  margin-block: 0.8rem;
+}
+.sello-meetup dl div {
+  display: flex;
+  flex-direction: column-reverse;
+}
+.sello-meetup dt {
+  font-size: 0.85rem;
+}
+.sello-meetup dd {
+  margin: 0;
+  font-weight: 750;
+  font-size: clamp(1.65rem, 2.8vw, 2.35rem);
+  line-height: 1;
+}
+.tira-calima {
+  margin-top: clamp(1.65rem, 4vw, 3rem);
+}
+.tira-calima .listado {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 0.65rem;
+}
+.tira-calima li {
+  position: relative;
+  flex: 1 1 13rem;
+  min-width: 0;
+  max-width: 22rem;
+  padding: 0.75rem 0.95rem;
+  background: var(--papel);
+  border-left: 3px dashed var(--cana);
+  box-shadow: 0.2rem 0.25rem 0 var(--sombra);
+}
+.tira-calima .listado li + li {
+  margin-top: 0;
+}
+.tira-calima .listado li:nth-child(even) {
+  margin-top: 0.45rem;
+}
+.tira-calima li::before {
   content: "";
   position: absolute;
-  inset: 0.5rem 0.55rem 0.5rem auto;
-  border-right: 2px dashed var(--borde);
+  inset: -0.35rem 1rem auto auto;
+  width: 2.6rem;
+  height: 0.7rem;
+  background: var(--calima-lejos);
+  transform: rotate(6deg);
   pointer-events: none;
 }
-.boleto h2 {
-  font-size: clamp(2.45rem, 4.6cqw, 4.85rem);
+.tira-calima time {
+  display: block;
+  color: var(--cana);
+  font-size: 0.85rem;
+}
+.tira-calima a {
+  display: inline-block;
+  min-height: 24px;
+  font-weight: 650;
+}
+@media (max-width: 35rem) {
+  .tira-calima li {
+    flex-basis: 8rem;
+  }
+}
+@media (min-width: 46rem) {
+  .mesa-calima:has(.encuentro-calima) {
+    grid-template-columns: minmax(0, 1fr) minmax(15rem, 25%);
+  }
+  .mesa-calima > .sello-meetup {
+    transform: rotate(1deg);
+  }
+}
+@media (min-width: 61rem) {
+  .encuentro-calima.con-afiche {
+    grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr);
+    align-items: center;
+  }
 }
 .vela-calima {
   animation: navegar 13s ease-in-out infinite alternate;
@@ -950,26 +1080,6 @@ footer.pie-cordillera.pie {
   --ritmo: 5.2s;
 }
 
-.ultimo-encuentro {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  gap: 0.75rem 1.25rem;
-  margin-bottom: 1.25rem;
-}
-
-.ultimo-encuentro .afiche-evento {
-  width: min(100%, 12rem);
-}
-
-.ultimo-encuentro h3 {
-  margin-block: 0.25rem;
-}
-
 .descripcion-evento p {
   white-space: pre-line;
-}
-
-.boleto [data-testid="eventos-vacio"] p {
-  margin-bottom: 0.55rem;
 }

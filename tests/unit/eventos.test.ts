@@ -1,6 +1,6 @@
 import { expect, it } from "vitest";
 import { esquemaEvento } from "../../src/content/esquemas";
-import { separarEventos } from "../../src/lib/eventos";
+import { diasHastaEvento, separarEventos } from "../../src/lib/eventos";
 
 const evento = (fecha: string) =>
   esquemaEvento.parse({
@@ -39,4 +39,11 @@ it("ordena los próximos de más cercano a más lejano y los pasados al revés",
 
 it("devuelve las dos listas vacías si faltan eventos", () => {
   expect(separarEventos([], new Date())).toEqual({ proximos: [], pasados: [] });
+});
+
+it("cuenta días calendario en Cali al cruzar la medianoche", () => {
+  const antes = new Date("2026-12-03T04:59:00Z");
+  const despues = new Date("2026-12-03T05:00:00Z");
+  expect(diasHastaEvento(meetup.fecha, antes)).toBe(1);
+  expect(diasHastaEvento(meetup.fecha, despues)).toBe(0);
 });
