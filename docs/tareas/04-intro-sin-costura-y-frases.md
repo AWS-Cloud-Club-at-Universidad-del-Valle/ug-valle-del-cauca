@@ -98,31 +98,38 @@ Agrega al final de este brief:
 | Guayacanes | Cali pachanguero                          | Cali · Valle del Cauca                |
 | Pacífico   | Cielo de tambores                         | Buenaventura · Valle del Cauca        |
 
-Los rótulos van al pie de las ilustraciones. La frase es decorativa y usa `aria-hidden="true"`. El lugar se lee sobre papel claro con contraste AA y queda disponible para lectores de pantalla.
+Las firmas van abajo a la derecha, sin fondo, a 11 px y con una inclinación de −2°. La frase decorativa lleva raya y cursiva y usa `aria-hidden="true"`. Debajo, el lugar en mayúsculas espaciadas queda disponible para lectores de pantalla. Se ajustaron algunas ondas y cañas cercanas para mantener un contraste mínimo medido de 4,54:1 sobre la ilustración a 1440 y 390 px.
 
 ### Enlaces del grupo
 
 El botón principal lleva a Meetup y el enlace secundario a Instagram. Ambos se ven en la barra, la portada, Cómo unirse y el pie. En móvil, los enlaces de la barra quedan debajo del logo y del menú. El estado sin eventos también lleva a Meetup. La descripción conserva `ejemplo: true` y la prueba unitaria sigue cubriendo el uso de Instagram cuando falta Meetup.
 
+### Imagen para compartir e iconos
+
+- `public/og.png` es una captura estática del collage, el hexágono y el nombre del grupo, generada con Playwright y exportada como PNG de paleta. Mide 1200 × 630 y pesa 56.882 bytes.
+- El layout agrega las etiquetas Open Graph y la tarjeta grande de Twitter. `astro.config.mjs` todavía no define `site`, por lo que `og:image` usa `/og.png`. Al configurar el dominio del sitio, Astro genera la URL absoluta.
+- El hexágono simplificado sirve de favicon SVG, icono de Apple de 180 × 180 y favicon ICO de 32 × 32.
+
 ### Mediciones
 
 Lighthouse móvil con tres corridas por ruta y la configuración del repositorio. Los puntajes son el mínimo entre portada y 404. LCP y CLS son medianas de las tres corridas de cada ruta. Los pesos se midieron en bytes sin comprimir.
 
-| Métrica             |    Antes |  Después |
-| ------------------- | -------: | -------: |
-| Rendimiento         |     1,00 |     1,00 |
-| Accesibilidad       |     1,00 |     1,00 |
-| Buenas prácticas    |     0,96 |     0,96 |
-| SEO                 |     1,00 |     1,00 |
-| LCP de la portada   |  1,053 s |  0,753 s |
-| LCP del 404         |  0,755 s |  0,756 s |
-| CLS en ambas rutas  |        0 |        0 |
-| CSS compilado       | 20.782 B | 19.257 B |
-| Script en línea     |  1.999 B |    839 B |
-| Archivos de `dist/` | 92.865 B | 93.303 B |
+| Métrica             |    Antes |   Después |
+| ------------------- | -------: | --------: |
+| Rendimiento         |     1,00 |      1,00 |
+| Accesibilidad       |     1,00 |      1,00 |
+| Buenas prácticas    |     0,96 |      1,00 |
+| SEO                 |     1,00 |      1,00 |
+| LCP de la portada   |  1,053 s |   0,754 s |
+| LCP del 404         |  0,755 s |   0,756 s |
+| CLS en ambas rutas  |        0 |         0 |
+| CSS compilado       | 20.782 B |  19.488 B |
+| Script en línea     |  1.999 B |     839 B |
+| Archivos de `dist/` | 92.865 B | 158.597 B |
 
 ### Verificación y capturas
 
 - `pnpm verify` en verde con 13 pruebas unitarias, 12 de navegador, cero violaciones de axe y seis corridas de Lighthouse. El puerto 4321 estaba ocupado. Para la ejecución completa se usó una copia temporal con Playwright en el puerto 4396. Chromium usó las flags `--no-sandbox --headless=new` mediante `CHROME_PATH`.
 - `/tmp/ug-capturas/v5/` contiene 17 cuadros de la intro, las portadas a 1440 × 900 y 390 × 844 y las cinco escenas con su frase en ambos tamaños. Se revisó el borde del hexágono ampliado antes, durante y después del relleno.
 - Las capturas de esta ronda quedaron en `/tmp/ug-capturas/v6/`, con el hero y las cinco escenas a 1440 × 900 y 390 × 844.
+- Las firmas a 1440 y 390 px y la imagen final para compartir quedaron en `/tmp/ug-capturas/v7/`.

@@ -277,25 +277,40 @@ body:has(#pausa-arte:checked) :is(.paisaje *, .escena *) {
   contain-intrinsic-size: auto 640px;
   padding-block: clamp(4.25rem, 9vw, 8rem);
 }
-/* Rótulo de papel al pie de la ilustración. */
+/* Firma en el margen inferior de la ilustración. */
 .rotulo-escena {
   position: absolute;
   z-index: 2;
-  inset: auto 1rem 1.25rem;
-  width: max-content;
+  inset: auto clamp(0.85rem, 2vw, 1.75rem) 1.1rem auto;
   max-width: calc(100% - 2rem);
-  margin-inline: auto;
-  padding: 0.32rem 0.7rem;
-  background: var(--papel);
-  color: var(--tinta-suave);
-  border-radius: 0.22rem;
-  font-size: 0.78rem;
+  color: var(--hoja);
+  font-size: 0.6875rem;
   line-height: 1.35;
-  text-align: center;
-  text-wrap: balance;
+  text-align: right;
+  transform: rotate(-2deg);
+  transform-origin: left bottom;
 }
-.rotulo-escena span {
+.firma-frase,
+.firma-lugar {
+  display: block;
+}
+.firma-frase {
+  font-style: italic;
+  text-transform: lowercase;
+}
+.firma-lugar {
   font-weight: 650;
+  letter-spacing: 0.075em;
+  text-transform: uppercase;
+}
+.escena-cali .rotulo-escena {
+  color: var(--lavanda);
+}
+.escena-guayacanes .rotulo-escena {
+  color: var(--tronco);
+}
+.escena-pacifico .rotulo-escena {
+  color: #d6e9e4;
 }
 
 .escena::after {

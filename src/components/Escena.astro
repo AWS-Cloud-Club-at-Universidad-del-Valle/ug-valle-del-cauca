@@ -176,7 +176,7 @@ const flores = [
         stroke-linecap="round"
         stroke-width="2"
       >
-        <path d="M44 362q80-14 169-13m14 0 40 2m54 73q104-16 212-13m56 4 74 3m433-84q152-26 285-15M999 457q101-32 238-38m39-2 73-3M66 469q158-22 268-19" />
+        <path d="M44 362q80-14 169-13m14 0 40 2m54 73q104-16 212-13m56 4 74 3m433-84q152-26 285-15M999 407q101-32 238-38m39-2 73-3M66 469q158-22 268-19" />
         <path d="M781 193q131 5 209-22 29-9 15-19-12-6-22 5m99 20q132 12 190-18" />
       </g>
       <g transform="translate(895 333)">
@@ -283,6 +283,7 @@ const flores = [
       {[83, 248, 431, 605, 810, 980, 1180, 1390].map((x, i) => (
         <use
           href="#cana-papel"
+          color={i >= 4 ? "var(--cana)" : undefined}
           transform={`translate(${x} ${310 + (i % 3) * 7}) rotate(${i % 2 ? 14 : -12}) scale(${0.12 + (i % 3) * 0.055})`}
         />
       ))}
@@ -298,10 +299,12 @@ const flores = [
       />
       <use
         href="#cana-papel"
+        color="var(--cana)"
         transform="translate(1279 330) rotate(-14) scale(.73)"
       />
       <use
         href="#cana-papel"
+        color="var(--cana)"
         transform="translate(1330 330) rotate(16) scale(.61)"
       />
     </g>
@@ -396,7 +399,7 @@ const flores = [
         stroke-width="2"
         stroke-linecap="round"
       >
-        <path d="M505 293q55 13 103 5t90 0 101-7 88-8M593 310q52 5 105 0t104-4m29-3 34-5M104 265q87-14 194 3m22 2 52 7m640-16q110-20 239-8m17 2 58 3M173 351q110-13 206 4m609-22q170-30 287-27" />
+        <path d="M505 293q55 13 103 5t90 0 101-7 88-8M593 310q52 5 105 0t104-4m29-3 34-5M104 265q87-14 194 3m22 2 52 7m640-16q110-20 239-8m17 2 58 3M173 351q110-13 206 4m609-77q170-30 287-27" />
         <path d="M626 276q-10-19-20-21m36 13q-3-18-11-27m160 35q11-18 22-22m-36 16q3-15 10-23" />
       </g>
     </svg>
@@ -424,7 +427,9 @@ const flores = [
 
 {lugar !== "cordillera" && (
   <div class="rotulo-escena">
-    <span aria-hidden="true">{frases[lugar]} — </span>
-    {ubicaciones[lugar]}
+    <span class="firma-frase" aria-hidden="true">
+      — {frases[lugar]}
+    </span>
+    <span class="firma-lugar">{ubicaciones[lugar]}</span>
   </div>
 )}
