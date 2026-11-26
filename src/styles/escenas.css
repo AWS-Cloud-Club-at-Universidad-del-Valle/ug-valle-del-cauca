@@ -1092,3 +1092,27 @@ footer.pie-cordillera.pie {
 .descripcion-evento p {
   white-space: pre-line;
 }
+
+.equipo .enlace-linkedin {
+  display: inline-flex;
+  margin-top: 0.4rem;
+  padding: 0.2rem;
+  border-radius: 0.25rem;
+  color: #0a66c2;
+  transition: transform 0.15s ease;
+}
+
+.equipo .enlace-linkedin:hover {
+  transform: translateY(-2px) rotate(-3deg);
+}
+
+.equipo .enlace-linkedin:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .equipo .enlace-linkedin {
+    transition: none;
+  }
+}
