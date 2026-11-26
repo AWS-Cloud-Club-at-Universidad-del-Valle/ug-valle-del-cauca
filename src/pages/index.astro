@@ -7,6 +7,7 @@ import IntroMarca from "../components/IntroMarca.astro";
 import MejoraPortada from "../components/MejoraPortada.astro";
 import AficheEvento from "../components/AficheEvento.astro";
 import Escena from "../components/Escena.astro";
+import FotosComunidad from "../components/FotosComunidad.astro";
 import Sitio from "../layouts/Sitio.astro";
 import { resolverCta } from "../lib/cta";
 import { separarEventos } from "../lib/eventos";
@@ -158,6 +159,7 @@ const redes = [
             .
           </p>
         </div>
+        <FotosComunidad />
       </div>
       <Escena lugar="cali" />
     </section>
@@ -196,48 +198,59 @@ const redes = [
       <Escena lugar="calima" />
     </section>
 
-    <section class="escena escena-tren" aria-labelledby="historia">
-      <div class="contenedor escena-texto">
-        <h2 id="historia">Lo que hemos hecho</h2>
-        {destacado && fichaDestacada && (
-          <article class="destacado" aria-labelledby="tech-day">
-            <h3 id="tech-day">{destacado.data.titulo}</h3>
-            <p>
-              <time datetime={destacado.data.fecha.toISOString()}>
-                {fechaYHoraEnBogota.format(destacado.data.fecha)}
-              </time>{" "}
-              (hora de Colombia) · {destacado.data.lugar}
-            </p>
-            <AficheEvento evento={destacado.data} />
-            <p>{destacado.data.resumen}</p>
-            <fichaDestacada.Content />
-          </article>
-        )}
-        {pasados.length > 0 && (
-          <ol class="listado via" aria-label="Eventos pasados">
-            {pasados.map((evento) => (
-              <li>
-                <time datetime={evento.fecha.toISOString()}>
-                  {fechaEnBogota.format(evento.fecha)}
-                </time>
-                <h3>
-                  {evento.url_registro ? (
-                    <a href={evento.url_registro}>{evento.titulo}</a>
-                  ) : (
-                    evento.titulo
-                  )}
-                </h3>
-                <p>
-                  {evento.lugar} · {modalidades[evento.modalidad]}
-                </p>
-                {!evento.destacado && <AficheEvento evento={evento} />}
-                {evento.resumen && !evento.destacado && <p>{evento.resumen}</p>}
-              </li>
-            ))}
-          </ol>
-        )}
+    <section
+      class="escena escena-tren"
+      aria-labelledby="historia"
+      style={`--tiquetes: ${pasados.length}`}
+    >
+      <div class="anden">
+        <div class="contenedor escena-texto">
+          <h2 id="historia">Lo que hemos hecho</h2>
+          {pasados.length > 0 && (
+            <div
+              class="ventana-via"
+              role="region"
+              aria-label="Tiquetes de eventos pasados"
+              tabindex="0"
+            >
+              <ol class="listado via">
+                {pasados.map((evento) => (
+                  <li
+                    class:list={[
+                      "tiquete",
+                      evento === destacado?.data && "destacado",
+                    ]}
+                  >
+                    <time datetime={evento.fecha.toISOString()}>
+                      {evento === destacado?.data
+                        ? fechaYHoraEnBogota.format(evento.fecha)
+                        : fechaEnBogota.format(evento.fecha)}
+                    </time>
+                    <h3>
+                      {evento.url_registro ? (
+                        <a href={evento.url_registro}>{evento.titulo}</a>
+                      ) : (
+                        evento.titulo
+                      )}
+                    </h3>
+                    <p>
+                      {evento.lugar} · {modalidades[evento.modalidad]}
+                    </p>
+                    <AficheEvento evento={evento} />
+                    {evento.resumen && <p>{evento.resumen}</p>}
+                    {evento === destacado?.data && fichaDestacada && (
+                      <div class="agenda-destacada">
+                        <fichaDestacada.Content />
+                      </div>
+                    )}
+                  </li>
+                ))}
+              </ol>
+            </div>
+          )}
+        </div>
+        <Escena lugar="tren" />
       </div>
-      <Escena lugar="tren" />
     </section>
 
     <section class="escena escena-guayacanes" aria-labelledby="organizadores">

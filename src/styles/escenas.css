@@ -347,6 +347,7 @@ body:has(#pausa-arte:checked) :is(.paisaje *, .escena *) {
   background: var(--noche);
   color: var(--blanco);
   text-align: center;
+  content-visibility: visible;
   padding-top: clamp(6.8rem, 12vw, 11rem);
 }
 .arte-cali {
@@ -363,6 +364,48 @@ body:has(#pausa-arte:checked) :is(.paisaje *, .escena *) {
 .escena-cali p:last-child {
   margin-bottom: 0;
 }
+.fotos-comunidad {
+  margin: clamp(2rem, 6vw, 4rem) auto 0;
+}
+.mosaico-comunidad {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: clamp(0.6rem, 2.5vw, 1.5rem);
+  margin: 0;
+  padding: 0.4rem;
+  list-style: none;
+}
+.mosaico-comunidad li {
+  padding: clamp(0.3rem, 1vw, 0.55rem);
+  padding-bottom: clamp(0.55rem, 2vw, 1.1rem);
+  background: var(--papel);
+  box-shadow: 0.22rem 0.28rem 0 var(--sombra);
+  rotate: -2deg;
+}
+.mosaico-comunidad li:nth-child(even) {
+  rotate: 1.7deg;
+}
+.mosaico-comunidad img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+}
+.mosaico-comunidad li:first-child img {
+  object-fit: contain;
+  background: var(--noche);
+}
+.fotos-comunidad figcaption {
+  margin-top: 1.2rem;
+  font-size: 0.9rem;
+}
+@media (min-width: 700px) {
+  .mosaico-comunidad {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
 .pentagrama {
   position: relative;
   isolation: isolate;
@@ -456,78 +499,117 @@ body:has(#pausa-arte:checked) :is(.paisaje *, .escena *) {
 }
 
 .escena-tren {
+  --ancho-via: min(89.6vw, 76rem);
+  --cronologia-via: --via-tren;
   background: var(--miel);
-  padding-bottom: clamp(14rem, 26vw, 22rem);
+  padding: 0;
+  content-visibility: visible;
+}
+.anden {
+  position: relative;
+  padding-block: clamp(3rem, 6vw, 5.5rem) clamp(8.5rem, 16vw, 15rem);
 }
 .arte-tren {
   width: max(100%, 870px);
   left: 54%;
 }
-.escena-tren .escena-texto {
-  display: grid;
-  gap: clamp(1rem, 4vw, 3rem);
-}
 .escena-tren h2 {
-  grid-column: 1 / -1;
+  margin-bottom: 0.32em;
 }
-.destacado {
-  min-width: 0;
-  padding: clamp(1rem, 3.5vw, 2.25rem);
-  background: var(--papel);
-  border: 0.35rem double var(--tronco);
-  box-shadow: 0.42rem 0.5rem 0 var(--sombra);
-}
-.destacado h3 {
-  font-size: clamp(1.95rem, 3.4cqw, 3.45rem);
-  margin-bottom: 0.4rem;
+.ventana-via {
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-color: var(--tronco) var(--papel);
+  outline-offset: 3px;
 }
 .listado.via {
-  border-left: 3px solid var(--tronco);
-  padding-left: clamp(1rem, 3vw, 2rem);
+  display: flex;
+  align-items: start;
+  gap: 1rem;
+  width: max-content;
+  padding: 0.25rem 0.4rem 1rem 0.25rem;
 }
-.via li {
+.via .tiquete {
   position: relative;
-  padding: 1rem;
+  flex: 0 0 auto;
+  width: min(80vw, 23rem);
+  margin: 0;
+  padding: 0.85rem 1rem 1rem;
   background: var(--papel);
   border: 1px solid var(--tronco);
+  border-top: 0.35rem solid var(--tronco);
+  box-shadow: 0.22rem 0.26rem 0 var(--sombra);
+  scroll-snap-align: start;
   overflow-wrap: anywhere;
+  font-size: 0.9rem;
+  line-height: 1.38;
 }
-.via li::before {
-  content: "";
-  position: absolute;
-  width: 0.68rem;
-  aspect-ratio: 1;
-  border: 2px solid var(--tronco);
-  border-radius: 50%;
-  background: var(--hoja);
-  top: 1.3rem;
-  left: calc(-0.4rem - clamp(1rem, 3vw, 2rem));
+.via .destacado {
+  width: min(80vw, 34rem);
+  border: 0.28rem double var(--tronco);
+}
+.via h3 {
+  margin-block: 0.45rem;
+  font-size: clamp(1.16rem, 2vw, 1.55rem);
 }
 .via time {
   display: block;
-  margin-bottom: 0.35rem;
+  padding-bottom: 0.4rem;
+  border-bottom: 1px dashed var(--tronco);
+  font-variant-numeric: tabular-nums;
 }
-.via p + p {
-  margin-top: 0.5rem;
+.via p + p,
+.agenda-destacada {
+  margin-top: 0.55rem;
 }
 .afiche-evento {
   display: block;
-  width: 100%;
+  width: auto;
   height: auto;
-  margin-block: 0.8rem;
+  max-width: 100%;
+  max-height: 6.5rem;
+  margin-block: 0.6rem;
 }
-.via .afiche-evento {
-  max-width: 22rem;
-}
-.tren-pasa {
-  animation: viaje-tren 19s ease-in-out infinite alternate;
-}
-@keyframes viaje-tren {
-  from {
-    transform: translateX(-440px);
-  }
-  to {
-    transform: translateX(220px);
+
+@media (prefers-reduced-motion: no-preference) and (min-height: 50rem) and (min-width: 23rem) {
+  @supports (animation-timeline: view()) and (animation-range: contain) {
+    body:not(:has(#pausa-arte:checked)) .escena-tren:has(.ventana-via) {
+      min-height: calc(100svh + var(--tiquetes) * 27svh);
+      view-timeline: --via-tren block;
+    }
+    body:not(:has(#pausa-arte:checked)) .escena-tren:has(.ventana-via) .anden {
+      position: sticky;
+      top: 0;
+      min-height: 100svh;
+      padding-block: clamp(2rem, 6vh, 4rem) 0;
+    }
+    /* El foco devuelve el control a la región desplazable del navegador. */
+    body:not(:has(#pausa-arte:checked)) .ventana-via:not(:focus-within) {
+      overflow: clip;
+    }
+    body:not(:has(#pausa-arte:checked)) .ventana-via:not(:focus-within) .via {
+      animation: avanzar-tiquetes auto linear both;
+      animation-timeline: var(--cronologia-via);
+      animation-range: contain;
+    }
+    body:not(:has(#pausa-arte:checked)) .escena-tren .tren-pasa {
+      animation: viaje-tren auto linear both;
+      animation-timeline: var(--cronologia-via);
+      animation-range: contain;
+    }
+    @keyframes avanzar-tiquetes {
+      to {
+        transform: translateX(min(0px, calc(var(--ancho-via) - 100%)));
+      }
+    }
+    @keyframes viaje-tren {
+      from {
+        transform: translateX(-440px);
+      }
+      to {
+        transform: translateX(220px);
+      }
+    }
   }
 }
 
@@ -692,10 +774,6 @@ footer.pie-cordillera.pie {
 }
 
 @media (min-width: 700px) {
-  .escena-tren .escena-texto {
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
-    align-items: start;
-  }
   .arte-calima {
     left: 50%;
   }
@@ -775,7 +853,7 @@ footer.pie-cordillera.pie {
 }
 @media (prefers-reduced-motion: no-preference) {
   @supports (animation-timeline: view()) {
-    .escena .arte {
+    .escena:not(.escena-tren) .arte {
       animation: llegada-arte linear both;
       animation-timeline: view();
       animation-range: entry 0% entry 82%;
