@@ -79,6 +79,29 @@ describe("esquemas de contenido", () => {
     expect(sitio.meetup_url).toBeUndefined();
   });
 
+  it("valida la foto y el texto alternativo opcionales del organizador", () => {
+    const organizador = { nombre: "Persona de ejemplo", rol: "Organizador" };
+    const foto = "/img/organizadores/persona.webp";
+    const foto_alt = "Retrato de Persona de ejemplo";
+
+    expect(esquemaOrganizador.parse(organizador)).not.toHaveProperty("foto");
+    expect(
+      esquemaOrganizador.parse({ ...organizador, foto }),
+    ).not.toHaveProperty("foto_alt");
+    expect(
+      esquemaOrganizador.parse({ ...organizador, foto, foto_alt }),
+    ).toMatchObject({
+      foto,
+      foto_alt,
+    });
+    for (const campo of ["foto", "foto_alt"]) {
+      expect(
+        esquemaOrganizador.safeParse({ ...organizador, [campo]: " " }).error
+          ?.issues[0]?.message,
+      ).toContain(`El campo ${campo} es obligatorio y debe contener texto`);
+    }
+  });
+
   it("organizador sin nombre falla con mensaje en español", () => {
     const resultado = esquemaOrganizador.safeParse({ rol: "Rol de ejemplo" });
     const mensaje = resultado.error?.issues[0]?.message;

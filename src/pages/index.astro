@@ -33,6 +33,14 @@ const fichaDestacada = destacado && (await render(destacado));
 const organizadores = (await getCollection("organizadores"))
   .map(({ data }) => data)
   .sort((a, b) => a.orden - b.orden);
+function iniciales(nombre: string) {
+  const partes = nombre.split(/\s+/);
+  return [partes[0], partes.length > 1 ? partes.at(-1) : undefined]
+    .map((parte) => Array.from(parte ?? "")[0] ?? "")
+    .join("")
+    .toLocaleUpperCase("es-CO");
+}
+
 const fechaEnBogota = new Intl.DateTimeFormat("es-CO", {
   dateStyle: "long",
   timeZone: "America/Bogota",
@@ -245,14 +253,23 @@ const redes = [
           <ul class="listado equipo">
             {organizadores.map((persona) => (
               <li>
-                {persona.foto && (
+                {persona.foto ? (
                   <img
+                    class="retrato-organizador"
                     src={persona.foto}
-                    alt=""
-                    width="112"
-                    height="112"
+                    alt={persona.foto_alt ?? `Retrato de ${persona.nombre}`}
+                    width="320"
+                    height="320"
                     loading="lazy"
+                    decoding="async"
                   />
+                ) : (
+                  <span
+                    class="retrato-organizador monograma-organizador"
+                    aria-hidden="true"
+                  >
+                    {iniciales(persona.nombre)}
+                  </span>
                 )}
                 <div>
                   <h3>{persona.nombre}</h3>

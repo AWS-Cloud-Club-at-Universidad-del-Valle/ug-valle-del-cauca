@@ -84,6 +84,7 @@ export const esquemaOrganizador = z.object({
   nombre: texto("nombre"),
   rol: texto("rol"),
   foto: texto("foto").optional(),
+  foto_alt: texto("foto_alt").optional(),
   linkedin: url("linkedin").optional(),
   orden: z.number({ error: "El campo orden debe ser un número" }).default(99),
   ejemplo,
