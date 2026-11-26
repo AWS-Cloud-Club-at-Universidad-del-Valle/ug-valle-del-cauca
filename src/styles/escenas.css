@@ -571,7 +571,7 @@ body:has(#pausa-arte:checked) :is(.paisaje *, .escena *) {
 .tira-calima .listado li + li {
   margin-top: 0;
 }
-.tira-calima .listado li:nth-child(even) {
+.tira-calima:not(.tira-recientes) .listado li:nth-child(even) {
   margin-top: 0.45rem;
 }
 .tira-calima li::before {
@@ -593,6 +593,19 @@ body:has(#pausa-arte:checked) :is(.paisaje *, .escena *) {
   display: inline-block;
   min-height: 24px;
   font-weight: 650;
+}
+.tira-recientes .listado {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-rows: 1fr;
+}
+.tira-recientes li {
+  max-width: none;
+}
+@media (max-width: 46rem) {
+  .tira-recientes .listado {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
 }
 @media (max-width: 35rem) {
   .tira-calima li {
@@ -629,8 +642,8 @@ body:has(#pausa-arte:checked) :is(.paisaje *, .escena *) {
 }
 
 .escena-tren {
-  --ancho-via: min(89.6vw, 76rem);
   --cronologia-via: --via-tren;
+  --ancho-via: min(89.6vw, 76rem);
   background: var(--miel);
   padding: 0;
   content-visibility: visible;
@@ -642,6 +655,8 @@ body:has(#pausa-arte:checked) :is(.paisaje *, .escena *) {
 .arte-tren {
   width: max(100%, 870px);
   left: 54%;
+  --cronologia-via: --paso-tren;
+  view-timeline: --paso-tren block;
 }
 .escena-tren h2 {
   margin-bottom: 0.32em;
@@ -654,7 +669,7 @@ body:has(#pausa-arte:checked) :is(.paisaje *, .escena *) {
 }
 .listado.via {
   display: flex;
-  align-items: start;
+  align-items: stretch;
   gap: 1rem;
   width: max-content;
   padding: 0.25rem 0.4rem 1rem 0.25rem;
@@ -675,8 +690,8 @@ body:has(#pausa-arte:checked) :is(.paisaje *, .escena *) {
   line-height: 1.38;
 }
 .via .destacado {
-  width: min(80vw, 34rem);
-  border: 0.28rem double var(--tronco);
+  outline: 1px solid var(--tronco);
+  outline-offset: -0.45rem;
 }
 .via h3 {
   margin-block: 0.45rem;
@@ -694,11 +709,21 @@ body:has(#pausa-arte:checked) :is(.paisaje *, .escena *) {
 }
 .afiche-evento {
   display: block;
-  width: min(100%, 11.55rem);
+  width: 100%;
   height: auto;
   aspect-ratio: 16 / 9;
-  object-fit: contain;
+  object-fit: cover;
   margin-block: 0.6rem;
+}
+
+.afiche-vacio {
+  background: var(--miel);
+}
+.resumen-tiquete {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
 }
 
 @media (prefers-reduced-motion: no-preference) and (min-height: 50rem) and (min-width: 23rem) {
@@ -713,6 +738,9 @@ body:has(#pausa-arte:checked) :is(.paisaje *, .escena *) {
       min-height: 100svh;
       padding-block: clamp(2rem, 6vh, 4rem) 0;
     }
+    .escena-tren:has(.ventana-via) .arte-tren {
+      --cronologia-via: --via-tren;
+    }
     /* El foco devuelve el control a la región desplazable del navegador. */
     body:not(:has(#pausa-arte:checked)) .ventana-via:not(:focus-within) {
       overflow: clip;
@@ -722,23 +750,75 @@ body:has(#pausa-arte:checked) :is(.paisaje *, .escena *) {
       animation-timeline: var(--cronologia-via);
       animation-range: contain;
     }
-    body:not(:has(#pausa-arte:checked)) .escena-tren .tren-pasa {
-      animation: viaje-tren auto linear both;
-      animation-timeline: var(--cronologia-via);
-      animation-range: contain;
-    }
     @keyframes avanzar-tiquetes {
       to {
         transform: translateX(min(0px, calc(var(--ancho-via) - 100%)));
       }
     }
+  }
+}
+
+.vapor-tren {
+  opacity: 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+  @supports (animation-timeline: view()) and (animation-range: contain) {
+    body:not(:has(#pausa-arte:checked))
+      .arte-tren
+      :is(.tren-pasa, .rueda-tren, .vagon-tren, .vapor-tren) {
+      animation: var(--movimiento);
+      animation-timeline: var(--cronologia-via);
+      animation-range: var(--tramo, contain);
+    }
+    .tren-pasa {
+      --movimiento: viaje-tren auto ease-in-out both;
+    }
+    .rueda-tren {
+      --movimiento: giro-rueda auto ease-in-out both;
+    }
+    .vagon-tren {
+      --movimiento: traqueteo auto ease-in-out 23;
+      --tramo: contain var(--fase-vagon) contain calc(95% + var(--fase-vagon));
+    }
+    .vapor-tren {
+      --movimiento: soltar-vapor auto linear 15;
+      --tramo: contain var(--fase-vapor) contain calc(95% + var(--fase-vapor));
+    }
     @keyframes viaje-tren {
       from {
-        transform: translateX(-440px);
+        transform: translate(-1100px, 43px);
       }
       to {
-        transform: translateX(220px);
+        transform: translate(830px, 11px);
       }
+    }
+    @keyframes giro-rueda {
+      to {
+        transform: rotate(34turn);
+      }
+    }
+    @keyframes traqueteo {
+      50% {
+        transform: translateY(-2.5px);
+      }
+    }
+    @keyframes soltar-vapor {
+      from {
+        transform: translate(0, -3px) scale(0.35);
+        opacity: 0;
+      }
+      22% {
+        opacity: 0.88;
+      }
+      to {
+        transform: translate(-100px, -43px) rotate(-18deg) scale(1.4);
+        opacity: 0;
+      }
+    }
+  }
+  @supports not ((animation-timeline: view()) and (animation-range: contain)) {
+    .arte-tren .tren-pasa {
+      transform: none;
     }
   }
 }

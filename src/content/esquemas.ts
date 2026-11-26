@@ -71,6 +71,7 @@ export const esquemaEvento = z.object({
     error: "El campo modalidad debe ser uno de: presencial, virtual, hibrido",
   }),
   url_registro: url("url_registro").optional(),
+  url_agenda: url("url_agenda").optional(),
   destacado: z
     .boolean({ error: "El campo destacado debe ser verdadero o falso" })
     .default(false),

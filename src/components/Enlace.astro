@@ -1,0 +1,31 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+type Props = Omit<HTMLAttributes<"a">, "target" | "rel">;
+
+const { href, "aria-label": etiqueta, ...atributos } = Astro.props;
+const externo = /^(https?:)?\/\//i.test(href?.toString() ?? "");
+const aviso = "(abre en otra pestaña)";
+---
+
+<a
+  {...atributos}
+  {href}
+  target={externo ? "_blank" : undefined}
+  rel={externo ? "noopener noreferrer" : undefined}
+  aria-label={externo && etiqueta ? `${etiqueta} ${aviso}` : etiqueta}
+>
+  <slot />
+  {externo && !etiqueta && <span class="solo-lectura"> {aviso}</span>}
+</a>
+
+<style>
+  .solo-lectura {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+  }
+</style>

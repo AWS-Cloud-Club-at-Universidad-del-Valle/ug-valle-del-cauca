@@ -1,28 +1,23 @@
 ---
+import Enlace from "./Enlace.astro";
+import IconoRed from "./IconoRed.astro";
+
 interface Props {
   href: string;
   etiqueta: string;
+  marca: "meetup" | "instagram";
   principal?: boolean;
   secundario?: boolean;
 }
 
-const { href, etiqueta, principal, secundario } = Astro.props;
+const { href, etiqueta, marca, principal, secundario } = Astro.props;
 ---
 
-<a
+<Enlace
   class:list={["boton", secundario && "boton-secundario"]}
   href={href}
   data-testid={principal ? "cta-principal" : undefined}
 >
   {etiqueta}
-  <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
-    <path
-      d="M4 12h15m-6-6 6 6-6 6"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="1.8"
-      stroke-linecap="round"
-      stroke-linejoin="round"
-    />
-  </svg>
-</a>
+  <IconoRed {marca} />
+</Enlace>

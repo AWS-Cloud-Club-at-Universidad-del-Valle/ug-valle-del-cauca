@@ -1,4 +1,6 @@
 ---
+import IconoRed from "../components/IconoRed.astro";
+import Enlace from "../components/Enlace.astro";
 import { getCollection, getEntry, render } from "astro:content";
 import Logo from "../components/Logo.astro";
 import BotonCta from "../components/BotonCta.astro";
@@ -89,8 +91,13 @@ const redes = [
       </nav>
     </details>
     <div class="barra-redes">
-      <BotonCta href={cta.url} etiqueta={cta.etiqueta} />
-      {instagramSecundario && <a href={instagramSecundario}>Instagram</a>}
+      <BotonCta href={cta.url} etiqueta={cta.etiqueta} marca={cta.destino} />
+      {instagramSecundario && (
+        <Enlace class="enlace-red" href={instagramSecundario}>
+          <IconoRed marca="instagram" />
+          Instagram
+        </Enlace>
+      )}
     </div>
   </header>
   <main id="contenido">
@@ -110,9 +117,17 @@ const redes = [
         </h1>
         <p class="bajada enter">{sitio.descripcion}</p>
         <div class="acciones enter">
-          <BotonCta href={cta.url} etiqueta={cta.etiqueta} principal />
+          <BotonCta
+            href={cta.url}
+            etiqueta={cta.etiqueta}
+            marca={cta.destino}
+            principal
+          />
           {instagramSecundario && (
-            <a href={instagramSecundario}>Síguenos en Instagram</a>
+            <Enlace class="enlace-red" href={instagramSecundario}>
+              <IconoRed marca="instagram" />
+              Síguenos en Instagram
+            </Enlace>
           )}
           <a href="#eventos">Ver próximos eventos</a>
         </div>
@@ -163,9 +178,9 @@ const redes = [
           </ul>
           <p>
             Si eres estudiante, conoce el{" "}
-            <a data-testid="enlace-sbg" href={sitio.sbg_url}>
+            <Enlace data-testid="enlace-sbg" href={sitio.sbg_url}>
               AWS Student Builder Group
-            </a>
+            </Enlace>
             .
           </p>
         </div>
@@ -213,7 +228,9 @@ const redes = [
                     </time>
                     <h3>
                       {evento.url_registro ? (
-                        <a href={evento.url_registro}>{evento.titulo}</a>
+                        <Enlace href={evento.url_registro}>
+                          {evento.titulo}
+                        </Enlace>
                       ) : (
                         evento.titulo
                       )}
@@ -221,7 +238,7 @@ const redes = [
                     <p>
                       {evento.lugar} · {modalidades[evento.modalidad]}
                     </p>
-                    <AficheEvento evento={evento} />
+                    <AficheEvento evento={evento} reservarEspacio />
                     {evento.resumen &&
                       (evento.resumen.length > 320 ? (
                         <details class="descripcion-evento">
@@ -229,12 +246,20 @@ const redes = [
                           <p>{evento.resumen}</p>
                         </details>
                       ) : (
-                        <p>{evento.resumen}</p>
+                        <p class="resumen-tiquete">{evento.resumen}</p>
                       ))}
                     {evento === destacado?.data && fichaDestacada && (
-                      <div class="agenda-destacada">
+                      <details class="agenda-destacada">
+                        <summary>Agenda del encuentro</summary>
                         <fichaDestacada.Content />
-                      </div>
+                        {evento.url_agenda && (
+                          <p>
+                            <Enlace href={evento.url_agenda}>
+                              Consulta la agenda oficial de {evento.titulo}
+                            </Enlace>
+                          </p>
+                        )}
+                      </details>
                     )}
                   </li>
                 ))}
@@ -275,7 +300,7 @@ const redes = [
                   <h3>{persona.nombre}</h3>
                   <p>{persona.rol}</p>
                   {persona.linkedin && (
-                    <a
+                    <Enlace
                       class="enlace-linkedin"
                       href={persona.linkedin}
                       aria-label={`Perfil de ${persona.nombre} en LinkedIn`}
@@ -291,7 +316,7 @@ const redes = [
                           d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.064 2.064 0 1 1 0-4.128 2.064 2.064 0 0 1 0 4.128zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0z"
                         ></path>
                       </svg>
-                    </a>
+                    </Enlace>
                   )}
                 </div>
               </li>
@@ -310,11 +335,16 @@ const redes = [
         <div>
           <p>Entérate de los próximos encuentros de la comunidad.</p>
           <div class="acciones acciones-unirse">
-            <BotonCta href={cta.url} etiqueta={cta.etiqueta} />
+            <BotonCta
+              href={cta.url}
+              etiqueta={cta.etiqueta}
+              marca={cta.destino}
+            />
             {instagramSecundario && (
               <BotonCta
                 href={instagramSecundario}
                 etiqueta="Síguenos en Instagram"
+                marca="instagram"
                 secundario
               />
             )}
@@ -325,7 +355,7 @@ const redes = [
                 ({ nombre, url }) =>
                   url && (
                     <li>
-                      <a href={url}>{nombre}</a>
+                      <Enlace href={url}>{nombre}</Enlace>
                     </li>
                   ),
               )}
@@ -337,8 +367,16 @@ const redes = [
     </section>
   </main>
   <nav slot="redes-pie" class="redes-pie" aria-label="Redes del grupo">
-    {sitio.meetup_url && <a href={sitio.meetup_url}>Meetup</a>}
-    <a href={sitio.instagram_url}>Instagram</a>
+    {sitio.meetup_url && (
+      <Enlace class="enlace-red" href={sitio.meetup_url}>
+        <IconoRed marca="meetup" />
+        Meetup
+      </Enlace>
+    )}
+    <Enlace class="enlace-red" href={sitio.instagram_url}>
+      <IconoRed marca="instagram" />
+      Instagram
+    </Enlace>
   </nav>
   <MejoraPortada slot="mejora" />
 </Sitio>

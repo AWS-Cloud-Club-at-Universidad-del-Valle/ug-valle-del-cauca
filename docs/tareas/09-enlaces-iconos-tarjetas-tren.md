@@ -59,3 +59,16 @@ Al final de este brief anota:
 - cómo resolviste los enlaces externos;
 - la proporción elegida para las tarjetas;
 - la salida resumida de la verificación y la ruta de las capturas.
+
+## Resultado de la tarea
+
+- **Enlaces.** `Enlace.astro` aplica `target="_blank"` y `rel="noopener noreferrer"` a las URL externas HTTP(S). Agrega «(abre en otra pestaña)» al nombre accesible mediante texto oculto o al `aria-label` existente. Los enlaces al inicio y a las secciones conservan la navegación en la misma pestaña. El destino de la agenda destacada pasó a `url_agenda` para renderizarlo con el mismo componente. La prueba recorre los enlaces de la portada y del 404.
+- **Íconos.** La «m» de Meetup y la cámara de Instagram usan SVG en línea de 20 × 20 px, con `currentColor` y `aria-hidden="true"`. Comparten los mismos trazos en la barra, el hero, Cómo unirse y el pie. [Meetup](https://github.com/simple-icons/simple-icons/blob/develop/icons/meetup.svg) · [Instagram](https://github.com/simple-icons/simple-icons/blob/develop/icons/instagram.svg)
+- **Tarjetas.** Los afiches locales y remotos ocupan cajas de **16:9** con `object-fit: cover`. Se reserva la misma caja si falta la imagen. La trayectoria iguala el alto de los tiquetes y limita los resúmenes a tres líneas. Las descripciones largas siguen en un desplegable y la agenda destacada tiene su propio desplegable. Recientes usa una cuadrícula de cuatro columnas en escritorio y dos en móvil, con filas de igual altura. Los próximos adicionales conservan los boletos de texto.
+- **Tren.** El avance tiene aceleración y frenado. Los radios de las ruedas giran, las carrocerías de los vagones tienen fases distintas y el vapor se eleva hacia atrás en recortes que se desvanecen. La animación usa `view-timeline`, `transform` y `opacity`. Sin soporte CSS, con movimiento reducido o con la pausa activa, se ve el tren completo y quieto.
+
+### Verificación
+
+- `pnpm verify` pasó en el puerto habitual 4321 de Playwright. Pasaron 32 pruebas unitarias, 17 de navegador y la revisión de 15 enlaces. Axe registró cero violaciones. En las seis corridas de Lighthouse, el mínimo de rendimiento fue 0,98 y los mínimos de accesibilidad, buenas prácticas y SEO fueron 1,00. CLS fue 0 en todas las corridas.
+- El build con red generó inicio y 404, con 23 eventos pasados y cero futuros. Se sirvió en el puerto 4399 para las capturas. En Chromium se comprobó a 1440, 1024 y 390 px la geometría de los 23 tiquetes de trayectoria y los cuatro de recientes, con afiches remotos cargados, CLS de 0, cero violaciones de axe y sin desborde horizontal de la página. El único script en línea mide 839 bytes.
+- Las capturas están en `/tmp/ug-capturas/v13/`. Incluyen hero, pie, recientes y trayectoria a 1440 y 390 px, dos vistas adicionales de la trayectoria con afiches remotos y diez cuadros del tren a 1440 px. También se comprobaron en el navegador el giro, el desfase de los vagones, el vapor y el estado quieto al activar la pausa o el movimiento reducido.

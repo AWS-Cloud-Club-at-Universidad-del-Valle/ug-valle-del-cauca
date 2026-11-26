@@ -75,10 +75,6 @@ a {
 }
 .boton svg {
   flex: none;
-  transition: transform 0.2s ease;
-}
-.boton:is(:hover, :focus) svg {
-  transform: rotate(-45deg);
 }
 .boton:active {
   transform: translateY(2px);
@@ -98,6 +94,11 @@ a {
 .nav-amplia {
   display: none;
 }
+.enlace-red {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
 .barra-redes,
 .redes-pie {
   display: flex;
@@ -116,10 +117,6 @@ a {
   .barra-redes .boton {
     min-height: 32px;
     padding: 0.2rem 0.75rem;
-  }
-  .barra-redes .boton svg {
-    width: 16px;
-    height: 16px;
   }
 }
 .menu summary {
@@ -321,8 +318,7 @@ a {
     animation: none !important;
     transition: none !important;
   }
-  .boton:active,
-  .boton:is(:hover, :focus) svg {
+  .boton:active {
     transform: none;
   }
 }

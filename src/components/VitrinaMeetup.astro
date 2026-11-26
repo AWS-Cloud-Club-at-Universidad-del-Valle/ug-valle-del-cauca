@@ -1,4 +1,5 @@
 ---
+import Enlace from "./Enlace.astro";
 import type { CollectionEntry } from "astro:content";
 import type { Evento } from "../content/esquemas";
 import type { resolverCta } from "../lib/cta";
@@ -81,13 +82,13 @@ const fundacion = grupo?.fundacion;
               {principal.lugar} · {modalidades[principal.modalidad]}
             </p>
             {principal.url_registro && (
-              <a
+              <Enlace
                 class="boton"
                 href={principal.url_registro}
                 aria-label={`${proximo ? "Reservar en Meetup" : "Ver en Meetup"}: «${principal.titulo}»`}
               >
                 {proximo ? "Reservar en Meetup" : "Ver en Meetup"}
-              </a>
+              </Enlace>
             )}
           </div>
         </article>
@@ -139,6 +140,7 @@ const fundacion = grupo?.fundacion;
         <BotonCta
           href={meetup ?? cta.url}
           etiqueta={meetup ? "Únete en Meetup" : cta.etiqueta}
+          marca={meetup ? "meetup" : cta.destino}
         />
       </div>
     </div>
@@ -149,21 +151,22 @@ const fundacion = grupo?.fundacion;
     ].map(
       ({ titulo, eventos, futuros }) =>
         eventos.length > 0 && (
-          <div class="tira-calima">
+          <div class:list={["tira-calima", !futuros && "tira-recientes"]}>
             <h3>{titulo}</h3>
             <ul class="listado">
               {eventos.map((evento) => (
                 <li data-testid={futuros ? "evento-proximo" : undefined}>
+                  {!futuros && <AficheEvento {evento} reservarEspacio />}
                   <time datetime={evento.fecha.toISOString()}>
                     {fechaBreve.format(evento.fecha)}
                   </time>
                   {evento.url_registro ? (
-                    <a
+                    <Enlace
                       href={evento.url_registro}
                       aria-label={`Ver «${evento.titulo}» en Meetup`}
                     >
                       {evento.titulo}
-                    </a>
+                    </Enlace>
                   ) : (
                     evento.titulo
                   )}

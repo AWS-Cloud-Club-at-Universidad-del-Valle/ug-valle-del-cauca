@@ -44,7 +44,8 @@ for (const width of [1440, 390]) {
 
     const enlaces = region.getByRole("link");
     await region.focus();
-    for (let i = 0; i < (await enlaces.count()); i++) {
+    const pasos = await region.locator("a:visible, summary:visible").count();
+    for (let i = 0; i < pasos; i++) {
       await page.keyboard.press("Tab");
     }
     await expect(enlaces.last()).toBeFocused();

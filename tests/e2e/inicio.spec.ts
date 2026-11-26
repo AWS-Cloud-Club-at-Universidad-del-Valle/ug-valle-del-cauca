@@ -15,7 +15,9 @@ test("Meetup es el CTA principal e Instagram acompaña los enlaces del grupo", a
   await page.goto("/");
   const cta = page.getByTestId("cta-principal");
   await expect(cta).toHaveAttribute("href", meetup);
-  await expect(cta).toHaveText("Únete en Meetup");
+  await expect(cta).toHaveAccessibleName(
+    "Únete en Meetup (abre en otra pestaña)",
+  );
 
   for (const width of [1440, 390]) {
     await page.setViewportSize({ width, height: 900 });
@@ -24,6 +26,32 @@ test("Meetup es el CTA principal e Instagram acompaña los enlaces del grupo", a
       await expect(seccion.locator(`a[href="${meetup}"]`)).toBeVisible();
       await expect(seccion.locator(`a[href="${instagram}"]`)).toBeVisible();
     }
+  }
+});
+
+test("los enlaces externos avisan y abren en otra pestaña", async ({
+  page,
+}) => {
+  for (const ruta of ["/", "/no-existe"]) {
+    await page.goto(ruta);
+    const externos = await page.locator('a[href^="http"]').all();
+    expect(externos.length).toBeGreaterThan(0);
+    for (const enlace of externos) {
+      await expect(enlace).toHaveAttribute("target", "_blank");
+      await expect(enlace).toHaveAttribute("rel", /\bnoopener\b/);
+      await expect(enlace).toHaveAttribute("rel", /\bnoreferrer\b/);
+      if (await enlace.getAttribute("aria-label")) {
+        await expect(enlace).toHaveAttribute(
+          "aria-label",
+          /\(abre en otra pestaña\)$/,
+        );
+      } else {
+        await expect(enlace).toContainText("(abre en otra pestaña)");
+      }
+    }
+    expect(
+      await page.locator('a:is([href="/"], [href^="#"])[target]').count(),
+    ).toBe(0);
   }
 });
 

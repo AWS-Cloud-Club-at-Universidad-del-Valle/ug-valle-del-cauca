@@ -3,12 +3,13 @@ import type { Evento } from "../content/esquemas";
 
 interface Props {
   evento: Evento;
+  reservarEspacio?: boolean;
 }
 
-const { evento } = Astro.props;
+const { evento, reservarEspacio } = Astro.props;
 ---
 
-{evento.imagen && (
+{evento.imagen ? (
   <img
     class="afiche-evento"
     src={evento.imagen}
@@ -18,4 +19,8 @@ const { evento } = Astro.props;
     loading="lazy"
     decoding="async"
   />
+) : (
+  reservarEspacio && (
+    <span class="afiche-evento afiche-vacio" aria-hidden="true" />
+  )
 )}
