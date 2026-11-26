@@ -3,6 +3,13 @@ interface Props {
   lugar: "cali" | "calima" | "tren" | "guayacanes" | "pacifico" | "cordillera";
 }
 const { lugar } = Astro.props;
+const frases = {
+  cali: "Bienvenidos al User\u00a0Group Valle del Cauca",
+  calima: "Que sople el viento",
+  tren: "Entre caña y rieles",
+  guayacanes: "Cali pachanguero",
+  pacifico: "Cielo de tambores",
+};
 
 const luces = Array.from({ length: 19 }, (_, i) => {
   const x = i * 80;
@@ -33,6 +40,12 @@ const flores = [
 ];
 ---
 
+{lugar !== "cordillera" && (
+  <span class="frase-papel" aria-hidden="true">
+    {frases[lugar]}
+  </span>
+)}
+
 {lugar === "cali" && (
   <>
     <svg class="arte arte-cali" aria-hidden="true" viewBox="0 0 1440 405">
@@ -62,7 +75,6 @@ const flores = [
       ))}
       <path
         id="edificios-cali"
-        class="fibra-local"
         d="M0 405V281h29v-27h44v31h33v39h21v-13h42v26h37v-66h25v-18h22v18h28v90h39v-27h51v26h37v45ZM1440 405V260h-43v28h-41v55h-34v-67h-25v-28h-38v89h-31v28h-24v-42h-41v33h-59v20h-38v29Z"
         fill="var(--noche-clara)"
       />
@@ -73,6 +85,34 @@ const flores = [
         <g transform="translate(1259 238) rotate(11) scale(1.8)">
           <use class="nota-flota nota-dos" href="#nota-papel" />
         </g>
+      </g>
+      <g opacity=".55" transform="translate(288 250)">
+        <circle r="52" fill="var(--noche-clara)" />
+        <path
+          d="M-39 10a40 40 0 0 1 49-49m-43 54a36 36 0 0 1 49-49m22 24a40 40 0 0 1-49 49"
+          fill="none"
+          stroke="var(--lavanda)"
+          stroke-width="1.5"
+        />
+        <circle r="15" fill="var(--rosa-flor)" />
+        <circle r="3" fill="var(--noche)" />
+      </g>
+      <g opacity=".62" transform="translate(1150 258)">
+        <path
+          d="M-45 0v39q22 14 44 0V0M6 5v29q20 12 40 0V5"
+          fill="var(--rosa-flor)"
+          stroke="var(--miel)"
+          stroke-width="2"
+        />
+        <ellipse cx="-23" rx="22" ry="7" fill="var(--miel)" />
+        <ellipse cx="26" cy="5" rx="20" ry="6" fill="var(--miel)" />
+        <path
+          d="m-23 40 7 36m-7-36-16 36m61-40v36m-45-69L17-28m-3 27 33-27"
+          fill="none"
+          stroke="var(--lavanda)"
+          stroke-width="2.5"
+          stroke-linecap="round"
+        />
       </g>
       <g fill="var(--miel)" opacity=".65">
         <path d="M36 296h7v6h-7zm18 0h7v6h-7zm172 21h7v6h-7zm19 0h7v6h-7zm-19 19h7v6h-7zm1030-33h7v6h-7zm17 0h7v6h-7zm124 23h7v6h-7zm17 0h7v6h-7z" />
@@ -113,17 +153,14 @@ const flores = [
         d="M0 73C184 31 333 53 521 81c284 43 509-20 919-24v448H0Z"
       />
       <path
-        class="fibra-local"
         fill="var(--calima-lejos)"
         d="M0 219c108 12 164-56 261-64 123-9 182 67 314 40 122-25 201-94 286-102 137-13 209 23 318 63 117 43 190 33 261 31v318H0Z"
       />
       <path
-        class="fibra-local"
         fill="var(--calima-loma)"
         d="M0 246c199 9 191-51 366-36 160 14 243 84 416 57 199-31 213-71 348-62 148 10 182 57 310 26v274H0Z"
       />
       <path
-        class="fibra-local"
         fill="var(--calima-agua)"
         d="M0 316c221-49 413-8 602 5 309 22 465-92 838-39v223H0Z"
       />
@@ -176,12 +213,10 @@ const flores = [
       d="M0 133c186-74 421 14 632-24s404-12 528 1c107 12 202-19 280-17v237H0Z"
     />
     <path
-      class="fibra-local"
       fill="var(--calima-loma)"
       d="M0 173c243-29 389 32 607 4s439-72 833-40v193H0Z"
     />
     <path
-      class="fibra-local"
       d="M526 155 0 250v34l587-123Zm158 1L146 330h160l428-169Zm115 4L532 330h130l181-172Zm113-4 2 174h133L952 154Zm103-10 218 184h169l-349-189Zm92-8 333 85v-24l-304-66Z"
       fill="var(--cana)"
     />
@@ -285,7 +320,7 @@ const flores = [
           d="M1 144q138 1 236 69l-2 9Q106 168 0 175Z"
           fill="var(--tronco)"
         />
-        <g class="ramo-mueve fibra-local">
+        <g class="ramo-mueve">
           <path
             d="M-24 31C45-7 105 16 132 43c47-14 133 6 145 66 50-3 97 36 109 61 57 8 71 32 84 50-84 4-151-23-218-62C103 100 43 157-22 112Z"
             fill="currentColor"
@@ -328,12 +363,10 @@ const flores = [
         d="M0 142 92 102l81 20 49-33 52 35 87 11 47 35 76 8 86 37 150 12 94-28 70 3 90-38 110 8 79-44 85-1 102-37 90 31v269H0Z"
       />
       <path
-        class="fibra-local"
         fill="var(--pacifico)"
         d="M0 211c226-15 366 54 583 36 220-18 497-81 857-40v183H0Z"
       />
       <path
-        class="fibra-local"
         fill="var(--rio)"
         d="M0 282c304-49 362 32 594 27 219-6 345-78 555-70 104 4 202 14 291 5v146H0Z"
       />

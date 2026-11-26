@@ -137,7 +137,7 @@ a {
   pointer-events: none;
   opacity: 0.19;
   mix-blend-mode: multiply;
-  background-image: var(--grano-papel);
+  background-image: url("/img/grano-papel.png");
 }
 .hero-texto {
   --u: 1cqw;

@@ -1,180 +1,122 @@
 .intro-trazo {
   position: absolute;
-  z-index: 4;
-  /* El viewBox ajustado hace que el trazo ocupe casi todo el ancho del SVG. */
-  width: 51vw;
+  z-index: 5;
+  width: min(43vw, 35svh);
   top: 50svh;
   left: 50%;
   translate: -50% -50%;
-  color: var(--violeta-texto);
-  stroke-width: 1.35;
   visibility: hidden;
   pointer-events: none;
 }
 
-@media (max-width: 639px) {
-  .intro-trazo {
-    width: 81vw;
-  }
-}
-
 @media (prefers-reduced-motion: no-preference) {
-  .intro-activa .hero {
-    background: var(--papel);
-    z-index: 1;
-  }
   .intro-activa .intro-trazo {
-    visibility: visible;
-    animation:
-      centrar-dibujo 0.35s ease 0.31s backwards,
-      retirar-trazo 0.17s ease 1.04s forwards;
+    animation: volar-marca 1.6s linear both;
   }
-  .intro-activa .intro-trazo path {
+  .intro-activa .trazo-contorno,
+  .intro-activa .trazo-emblema path {
     stroke-dasharray: 1;
-    animation: dibujar-marca var(--duracion, 0.44s) ease-in-out
-      var(--inicio, 0s) backwards;
+    animation: dibujar-marca 0.44s ease-in-out both;
   }
   .trazo-emblema {
-    --inicio: 0.31s;
-    --duracion: 0.52s;
+    stroke: var(--violeta-texto);
+    stroke-width: 0.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
   }
-  .trazo-letras {
-    --inicio: 0.44s;
-    --duracion: 0.54s;
+  .intro-activa .trazo-emblema path {
+    animation-delay: 0.34s;
   }
-  .trazo-letras path + path {
-    --inicio: 0.68s;
-    --duracion: 0.43s;
+  .intro-activa .trazo-emblema path + path {
+    animation-delay: 0.46s;
   }
-
+  .intro-activa .relleno-emblema {
+    animation: llenar-marca 0.38s ease-in-out 0.91s both;
+  }
   .intro-activa .barra .marca {
-    animation:
-      llenar-marca 0.16s ease 0.96s backwards,
-      volar-marca 0.65s cubic-bezier(0.4, 0.12, 0.3, 1) 1.09s backwards;
+    animation: aparecer-marca 1.6s step-end both;
   }
-  .intro-activa :is(.nav-amplia, .menu) {
-    animation: revelar-texto 0.33s ease 1.72s backwards;
+  .intro-activa :is(.barra .wordmark, .nav-amplia, .menu) {
+    animation: revelar-portada 0.28s ease-out 1.6s backwards;
   }
-  .intro-activa .hero-texto .rotulo {
-    --delay: 1.7s;
-    --dur: 0.31s;
+  .intro-activa .hero-texto {
+    animation: revelar-portada 0.36s ease-out 1.55s backwards;
   }
-  .intro-activa .mascara .enter {
-    animation: subir-titulo 0.38s cubic-bezier(0.22, 1, 0.36, 1) 1.71s backwards;
-  }
-  .intro-activa .mascara-region .enter {
-    animation-delay: 1.8s;
+  .intro-activa .hero-texto .enter {
+    animation: none;
   }
   .intro-activa .mascara-region::after {
-    animation-delay: 2s;
-    animation-duration: 0.4s;
-  }
-  .intro-activa .bajada {
-    --delay: 1.99s;
-  }
-  .intro-activa .acciones {
-    --delay: 2.09s;
-  }
-  .intro-activa :is(.rotulo, .bajada, .acciones, .adelanto) {
-    animation: revelar-texto 0.31s ease var(--delay, 2.12s) backwards;
+    animation-delay: 1.68s;
   }
   .intro-activa .paisaje .enter {
-    animation: armar-papel var(--armado, 0.36s) cubic-bezier(0.22, 1, 0.36, 1)
-      var(--capa) backwards;
+    animation: revelar-portada 0.28s ease-out var(--capa, 1.92s) backwards;
   }
   .cielo-arte {
-    --capa: 2.14s;
-    --desde: 35px;
+    --capa: 1.67s;
   }
   .montes > :nth-child(1) {
-    --capa: 2.21s;
+    --capa: 1.72s;
   }
   .montes > :nth-child(2) {
-    --capa: 2.29s;
+    --capa: 1.76s;
   }
   .montes > :nth-child(3) {
-    --capa: 2.37s;
+    --capa: 1.8s;
   }
-  .montes > :nth-child(4) {
-    --capa: 2.42s;
-  }
+  .montes > :nth-child(4),
   .sol-papel {
-    --capa: 2.48s;
-    --armado: 0.48s;
+    --capa: 1.84s;
   }
-  .cauce-pance {
-    --capa: 2.57s;
+  .cauce-rio {
+    --capa: 1.88s;
   }
-  .arbol {
-    --capa: 2.64s;
-  }
-  .arbol.der {
-    --capa: 2.71s;
-  }
-  .canas {
-    --capa: 2.72s;
-  }
-  .canas.b,
-  .canas.d {
-    --capa: 2.79s;
-  }
-  .garzas {
-    --capa: 2.85s;
-  }
-  .sello-papel {
-    --capa: 2.87s;
-  }
+  .sello-papel,
+  .guadua,
   .firma-cielo {
-    --capa: 2.96s;
+    --capa: 2s;
   }
 
   .intro-lista .enter,
   .intro-lista .mascara-region::after {
     animation: none;
   }
-  @keyframes subir-titulo {
-    from {
-      clip-path: inset(100% 0 0);
-      transform: translateY(108%);
-    }
-  }
   @keyframes dibujar-marca {
     from {
       stroke-dashoffset: 1;
     }
-  }
-  @keyframes centrar-dibujo {
-    from {
-      /* Arranca con el centro del hexágono (x=25) en el centro de la pantalla. */
-      transform: translateX(36.07%);
-    }
-  }
-  @keyframes retirar-trazo {
     to {
-      opacity: 0;
-      visibility: hidden;
+      stroke-dashoffset: 0;
     }
   }
   @keyframes llenar-marca {
     from {
-      clip-path: inset(0 100% 0 0);
+      transform: translateY(100%);
     }
   }
   @keyframes volar-marca {
-    from {
+    0%,
+    80.625% {
+      visibility: visible;
+      transform: none;
+      animation-timing-function: cubic-bezier(0.42, 0, 0.22, 1);
+    }
+    99.99% {
+      visibility: visible;
+      transform: var(--vuelo);
+    }
+    100% {
       transform: var(--vuelo);
     }
   }
-  @keyframes armar-papel {
+  @keyframes aparecer-marca {
     from {
-      transform: translateY(var(--desde, 26px));
-      opacity: 0;
+      visibility: hidden;
     }
   }
-  @keyframes revelar-texto {
+  @keyframes revelar-portada {
     from {
-      clip-path: inset(100% 0 0);
-      transform: translateY(8px);
+      opacity: 0;
+      transform: translateY(12px);
     }
   }
 }

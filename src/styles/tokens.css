@@ -42,5 +42,4 @@
   --pacifico-cielo: #202b47;
   --rosa-papel: #f4dce0;
   --sombra: #161d2c24;
-  --grano-papel: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.86' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Cpath fill='%23fff' filter='url(%23g)' d='M0 0h160v160H0z'/%3E%3C/svg%3E");
 }

@@ -3,9 +3,6 @@
   position: absolute;
   pointer-events: none;
 }
-.fibra-local {
-  filter: url("#fibra");
-}
 
 .paisaje {
   position: absolute;
@@ -30,13 +27,10 @@
   height: 100%;
   z-index: 2;
 }
-.montes {
-  filter: url("#fibra");
+.ondas-rio {
+  animation: correr-rio 10s linear infinite;
 }
-.ondas-pance {
-  animation: correr-pance 10s linear infinite;
-}
-@keyframes correr-pance {
+@keyframes correr-rio {
   to {
     transform: translateX(-165px);
   }
@@ -50,17 +44,6 @@
   --desde: -70px;
   --delay: 0.32s;
   --dur: 0.76s;
-}
-.sol-interactivo {
-  transform-box: fill-box;
-  transform-origin: center;
-  transition: transform 0.32s ease;
-}
-.sol-interactivo > * {
-  pointer-events: visiblePainted;
-}
-.sol-interactivo:hover {
-  transform: scale(1.12);
 }
 .rayos {
   transform-box: fill-box;
@@ -97,7 +80,6 @@
   z-index: 3;
   width: clamp(9.5rem, 24vw, 23rem);
   bottom: 5%;
-  filter: url("#fibra");
   --delay: 0.65s;
 }
 .arbol.izq {
@@ -123,24 +105,11 @@
   animation: mecer-papel var(--ritmo, 4s) ease-in-out var(--fase, -0.8s)
     infinite alternate;
 }
-.copa path,
-.copa use {
-  pointer-events: visiblePainted;
-}
 .flores-luz {
   color: var(--flor);
 }
 .petalo {
   color: var(--flor);
-}
-.copa:hover .petalo {
-  animation: petalos 0.95s ease-out both;
-}
-@keyframes petalos {
-  to {
-    transform: translate(25px, 45px) rotate(11deg);
-    opacity: 0;
-  }
 }
 @keyframes mecer-papel {
   from {
@@ -211,11 +180,12 @@
 }
 .sello-papel {
   z-index: 4;
-  width: clamp(3.6rem, 6vw, 7.3rem);
+  width: clamp(6rem, 23vw, 10rem);
   height: auto;
-  bottom: 12%;
-  left: 39%;
-  rotate: -12deg;
+  bottom: 11%;
+  left: 50%;
+  translate: -50% 0;
+  rotate: -8deg;
   --delay: 0.79s;
 }
 
@@ -266,9 +236,6 @@
 body:has(#pausa-arte:checked) :is(.paisaje *, .escena *) {
   animation-play-state: paused;
 }
-body:has(#pausa-arte:checked) .sol-interactivo {
-  transform: none;
-}
 
 /* Cada borde rasgado deja ver parte de la escena anterior. */
 .escena,
@@ -310,6 +277,21 @@ body:has(#pausa-arte:checked) .sol-interactivo {
   contain-intrinsic-size: auto 640px;
   padding-block: clamp(4.25rem, 9vw, 8rem);
 }
+/* Letras impresas en el margen del papel, por debajo del contenido. */
+.frase-papel {
+  position: absolute;
+  z-index: 1;
+  inset: clamp(1.45rem, 2.6vw, 2.65rem) 4% auto;
+  margin: 0;
+  color: inherit;
+  opacity: 0.22;
+  pointer-events: none;
+  text-align: center;
+  text-transform: uppercase;
+  font: 800 clamp(1.1rem, 4.2vw, 4.25rem) / 1 var(--fuente-display);
+  letter-spacing: -0.025em;
+}
+
 .escena::after {
   content: "";
   position: absolute;
@@ -317,7 +299,7 @@ body:has(#pausa-arte:checked) .sol-interactivo {
   inset: 0;
   opacity: 0.16;
   mix-blend-mode: multiply;
-  background-image: var(--grano-papel);
+  background-image: url("/img/grano-papel.png");
   pointer-events: none;
 }
 .escena-texto {
@@ -345,6 +327,12 @@ body:has(#pausa-arte:checked) .sol-interactivo {
   color: var(--blanco);
   text-align: center;
   padding-top: clamp(6.8rem, 12vw, 11rem);
+}
+.escena-cali .frase-papel {
+  inset-block-start: clamp(1.4rem, 2vw, 1.9rem);
+  font-size: clamp(0.92rem, 2.65cqw, 2.3rem);
+  line-height: 1.08;
+  text-wrap: balance;
 }
 .arte-cali {
   top: 1rem;
@@ -566,16 +554,12 @@ body:has(#pausa-arte:checked) .sol-interactivo {
   border: 1px solid var(--borde);
   box-shadow: 0.45rem 0.55rem 0 var(--sombra);
   transform: rotate(-4deg);
-  transition: transform 0.23s ease;
 }
 .equipo li + li {
   margin-top: 0;
 }
 .equipo li:nth-child(even) {
   transform: rotate(4deg);
-}
-.equipo li:is(:hover, :focus-within) {
-  transform: rotate(0deg);
 }
 .equipo li::before {
   content: "";
@@ -712,7 +696,9 @@ footer.pie-cordillera.pie {
     right: 16%;
   }
   .sello-papel {
-    left: 52%;
+    left: 77%;
+    bottom: 25%;
+    width: clamp(9rem, min(17vw, 25svh), 15rem);
   }
 }
 @media (min-width: 1024px) and (max-height: 700px) {
@@ -775,15 +761,6 @@ footer.pie-cordillera.pie {
   .control-movimiento {
     display: none;
   }
-  .sol-interactivo:hover {
-    transform: none;
-  }
-  .equipo li:is(:hover, :focus-within) {
-    transform: rotate(-4deg);
-  }
-  .equipo li:nth-child(even):is(:hover, :focus-within) {
-    transform: rotate(4deg);
-  }
   .cola {
     transform: none;
     opacity: 1;
@@ -814,9 +791,6 @@ footer.pie-cordillera.pie {
   left: 50%;
   background: var(--tronco);
   rotate: 7deg;
-}
-.unirse.escena-pacifico .boton {
-  background: var(--miel);
 }
 .redes li {
   position: relative;
@@ -849,46 +823,11 @@ footer.pie-cordillera.pie {
   }
 }
 
-@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
-  .hero-puntero :is(.montes > path, .sol-papel, .arbol, .cana-deriva, .garzas) {
-    translate: calc(var(--mx, 0) * var(--profundidad))
-      calc(var(--my, 0) * var(--profundidad));
-    transition: translate 0.28s ease-out;
-  }
-  .montes > :nth-child(1) {
-    --profundidad: 3px;
-  }
-  .montes > :nth-child(2) {
-    --profundidad: 6px;
-  }
-  .montes > :nth-child(3) {
-    --profundidad: 10px;
-  }
-  .montes > :nth-child(4) {
-    --profundidad: 14px;
-  }
-  .hero-puntero .montes > path {
-    transform-box: fill-box;
-    transform-origin: center;
-    scale: 1.035;
-  }
-  .sol-papel {
-    --profundidad: 7px;
-  }
-  .arbol {
-    --profundidad: 16px;
-  }
-  .garzas {
-    --profundidad: 11px;
-  }
-  .canas {
-    --profundidad: 22px;
-  }
-  .hero-puntero .notas-interactivas {
-    transform: translate(calc(var(--nx, 0) * 30px), calc(var(--ny, 0) * 30px));
-    transition: transform 0.26s ease-out;
-  }
-  .hero-fuera .paisaje * {
-    animation-play-state: paused;
-  }
+.guadua {
+  z-index: 4;
+  right: 0;
+  bottom: 3%;
+  width: clamp(3rem, 8vw, 7rem);
+  --balanceo: 2deg;
+  --ritmo: 5.2s;
 }

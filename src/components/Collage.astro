@@ -1,23 +1,5 @@
 <svg class="filtro" width="0" height="0" aria-hidden="true">
   <defs>
-    <filter id="fibra" color-interpolation-filters="sRGB">
-      <feTurbulence
-        type="fractalNoise"
-        baseFrequency=".66"
-        numOctaves="2"
-        stitchTiles="stitch"
-        result="grano"
-      />
-      <feComposite
-        in="SourceGraphic"
-        in2="grano"
-        operator="arithmetic"
-        k1=".18"
-        k2=".91"
-        result="papel"
-      />
-      <feComposite in="papel" in2="SourceAlpha" operator="in" />
-    </filter>
     <g id="flor-papel">
       <path
         d="M0-4C-15-22-33-4-18 6-36 18-10 32 0 14 10 32 36 18 18 6 33-4 15-22 0-4Z"
@@ -87,7 +69,7 @@
   <svg class="relieve-arte" viewBox="0 0 1440 515" preserveAspectRatio="none">
     <defs>
       <pattern
-        id="ondas-pance"
+        id="ondas-rio"
         width="165"
         height="19"
         patternUnits="userSpaceOnUse"
@@ -100,7 +82,7 @@
           stroke-linecap="round"
         />
       </pattern>
-      <clipPath id="agua-pance">
+      <clipPath id="agua-rio">
         <path d="M0 442c232-14 331 62 559 30 248-35 285-72 462-61 174 11 251 29 419-12v116H0Z" />
       </clipPath>
     </defs>
@@ -130,7 +112,19 @@
         d="M0 423c176-50 244-34 340-11s189 20 304-8c114-29 186-83 311-67s248 74 485 34v144H0Z"
       />
     </g>
-    <g class="cauce-pance enter" style="--delay: .59s">
+    <g class="enter" fill="var(--loma)">
+      <path d="M416 438q7-31 2-46l-20-16 4-3 20 13 16-14 3 3-15 18 1 44Z" />
+      <path d="M369 376q3-12 22-12 4-14 26-13 16-10 31 2 22-2 30 15 12 2 13 10-25 9-61 2-31 7-61-4Z" />
+    </g>
+    <path
+      fill="none"
+      stroke="var(--calima-lejos)"
+      stroke-width="2"
+      opacity=".55"
+      class="enter"
+      d="M779 383q102-39 204-29m-186 30q96-30 185-23m-164 25q78-23 158-19"
+    />
+    <g class="cauce-rio enter" style="--delay: .59s">
       <path
         fill="var(--ribera)"
         d="M0 434c232-18 331 61 559 29 248-35 285-72 462-61 174 11 251 29 419-12v125H0Z"
@@ -139,13 +133,13 @@
         fill="var(--rio)"
         d="M0 442c232-14 331 62 559 30 248-35 285-72 462-61 174 11 251 29 419-12v116H0Z"
       />
-      <g clip-path="url(#agua-pance)">
+      <g clip-path="url(#agua-rio)">
         <rect
-          class="ondas-pance"
+          class="ondas-rio"
           y="414"
           width="1605"
           height="114"
-          fill="url(#ondas-pance)"
+          fill="url(#ondas-rio)"
         />
       </g>
       <g fill="var(--piedra)">
@@ -157,23 +151,21 @@
     </g>
   </svg>
   <svg class="sol-papel enter" viewBox="0 0 240 240">
-    <g class="sol-interactivo">
-      <path
-        class="rayos"
-        fill="var(--sol)"
-        d="M120 1 134 32 161 7 164 45 207 29 195 69 232 66 209 97 239 120 208 137 230 173 194 167 204 211 166 195 159 229 135 207 120 239 101 209 72 231 70 196 34 207 46 170 7 174 30 142 1 120 32 102 8 69 47 71 35 34 72 46 78 9 103 32Z"
-      />
-      <circle cx="120" cy="120" r="78" fill="var(--durazno)" />
-      <path d="M43 126a78 78 0 0 0 154 0Z" fill="var(--sol)" />
-      <circle
-        cx="120"
-        cy="120"
-        r="67"
-        fill="none"
-        stroke="var(--hoja)"
-        stroke-width="2"
-      />
-    </g>
+    <path
+      class="rayos"
+      fill="var(--sol)"
+      d="M120 1 134 32 161 7 164 45 207 29 195 69 232 66 209 97 239 120 208 137 230 173 194 167 204 211 166 195 159 229 135 207 120 239 101 209 72 231 70 196 34 207 46 170 7 174 30 142 1 120 32 102 8 69 47 71 35 34 72 46 78 9 103 32Z"
+    />
+    <circle cx="120" cy="120" r="78" fill="var(--durazno)" />
+    <path d="M43 126a78 78 0 0 0 154 0Z" fill="var(--sol)" />
+    <circle
+      cx="120"
+      cy="120"
+      r="67"
+      fill="none"
+      stroke="var(--hoja)"
+      stroke-width="2"
+    />
   </svg>
   <svg class="firma-cielo enter" viewBox="0 0 460 110">
     <g class="nubes-cielo" color="var(--violeta-texto)">
@@ -197,7 +189,7 @@
         stroke-width="2"
         stroke-linecap="round"
       />
-      <g class="notas-interactivas">
+      <g>
         <g class="nota-flota">
           <use href="#nota-papel" x="206" y="79" />
         </g>
@@ -260,7 +252,7 @@
   </svg>
   {["a", "b", "c", "d"].map((grupo) => (
     <svg class:list={["canas", grupo, "enter"]} viewBox="0 0 330 250">
-      <g class="cana-deriva">
+      <g>
         <g class="cana-mueve">
           <use
             href="#cana-papel"
@@ -286,6 +278,24 @@
       </g>
     </svg>
   ))}
+  <svg class="guadua enter" viewBox="0 0 135 210">
+    <g class="cana-mueve" fill="none" stroke-linecap="round">
+      <path
+        d="M30 212 49 26M56 212 63 6m16 206 21-170"
+        stroke="var(--calima-lejos)"
+        stroke-width="6"
+      />
+      <path
+        d="m32 175 7 1m-4-24 7 1m-5-27 7 1m-5-26 8 1m-5-26 7 1m-4-27 8 1m3 126 8 1m-7-30 8 1m-7-29 8 1m-8-30 8 1m-7-30 8 1m-7-29 8 1m14 133 8 1m-4-29 8 1m-5-26 8 1m-4-27 8 1m-5-28 8 1"
+        stroke="var(--cana)"
+        stroke-width="2"
+      />
+      <path
+        d="M46 68Q12 37 7 49q16 19 39 19Zm14 40q25-30 53-26-26 13-53 26Zm33-29q12-32 36-37-15 23-36 37ZM39 132Q18 98 1 105q13 21 38 27Z"
+        fill="var(--hoja)"
+      />
+    </g>
+  </svg>
   <img
     class="sello-papel enter"
     src="/img/logo/ug-hexagono.webp"

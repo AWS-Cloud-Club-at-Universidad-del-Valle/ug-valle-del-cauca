@@ -79,3 +79,45 @@ Agrega al final de este brief:
 - las frases que usaste en cada escena;
 - las métricas antes y después: Lighthouse, LCP, CLS, peso del CSS, bytes del script y peso total de `dist/`;
 - la ruta de las capturas.
+
+## Entregable
+
+- **Intro.** El emblema se dibuja en su caja original de 319 × 368. Una máscara SVG usa los píxeles del mismo WebP para pintar el borde desde el primer trazo. Entre 0,91 y 1,29 s, un rectángulo sube dentro de la máscara y descubre el relleno sobre el dibujo. El emblema lleno viaja hasta la caja de la imagen de la barra a los 1,60 s. El nombre del grupo entra en la barra al aterrizar. El dibujo central se concentra en el hexágono, la caña y las notas. El hero termina de armarse antes de los 2,35 s.
+- **Puntero.** Se retiraron el seguimiento, las variables de desplazamiento y las reacciones al pasar sobre el sol, los árboles y las fichas. Se conservaron el giro de los rayos, el vaivén y el control de pausa. La prueba de navegador congela las animaciones autónomas y comprueba que el puntero no cambia la composición.
+- **Marca en la portada.** El hexágono oficial ocupa el tercio derecho del paisaje en escritorio y el centro de la franja inferior en móvil, separado del titular y los CTA.
+- **Paisaje y salsa.** El relieve y las franjas cálidas del atardecer enmarcan el río Cali. Se añadieron un samán en la ribera, surcos de cañaduzal y guadua en primer plano. El acetato y el timbal quedaron integrados a la escena nocturna de Cali.
+- **Rendimiento.** Se reemplazó el ruido de los filtros SVG por una textura estática de 1.058 bytes compartida por el hero y las escenas. El vuelo, el relleno y la entrada usan transformaciones y opacidad, con el desplazamiento del trazo SVG durante el dibujo. Se mantuvieron el WebP original de 15.322 bytes, el preload de Archivo con `font-display: swap` y `content-visibility: auto` en las escenas. No se añadió `will-change`. La intro se reproduce una vez por sesión y se omite con movimiento reducido, sin JavaScript o al entrar por un enlace a una sección.
+
+### Frases
+
+| Escena     | Frase                                     |
+| ---------- | ----------------------------------------- |
+| Cali       | Bienvenidos al User Group Valle del Cauca |
+| Calima     | Que sople el viento                       |
+| Tren       | Entre caña y rieles                       |
+| Guayacanes | Cali pachanguero                          |
+| Pacífico   | Cielo de tambores                         |
+
+Las frases quedan en el papel por encima de cada escena, con opacidad del 22 % y `aria-hidden="true"`. La bienvenida completa es la excepción al límite de palabras. Queda por encima de la guirnalda de Cali y se reparte en dos líneas cuando el ancho lo pide.
+
+### Mediciones
+
+Lighthouse móvil con tres corridas por ruta y la configuración del repositorio. Los puntajes son el mínimo entre portada y 404. LCP y CLS son medianas de las tres corridas de cada ruta. Los pesos se midieron en bytes sin comprimir.
+
+| Métrica             |    Antes |  Después |
+| ------------------- | -------: | -------: |
+| Rendimiento         |     1,00 |     1,00 |
+| Accesibilidad       |     1,00 |     1,00 |
+| Buenas prácticas    |     0,96 |     0,96 |
+| SEO                 |     1,00 |     1,00 |
+| LCP de la portada   |  1,053 s |  0,753 s |
+| LCP del 404         |  0,755 s |  0,755 s |
+| CLS en ambas rutas  |        0 |        0 |
+| CSS compilado       | 20.782 B | 18.634 B |
+| Script en línea     |  1.999 B |    839 B |
+| Archivos de `dist/` | 92.865 B | 92.067 B |
+
+### Verificación y capturas
+
+- `pnpm verify` en verde con 13 pruebas unitarias, 12 de navegador, cero violaciones de axe y seis corridas de Lighthouse. El puerto 4321 estaba ocupado. Para la ejecución completa se usó una copia temporal con Playwright en el puerto 4396. Chromium usó las flags `--no-sandbox --headless=new` mediante `CHROME_PATH`.
+- `/tmp/ug-capturas/v5/` contiene 17 cuadros de la intro, las portadas a 1440 × 900 y 390 × 844 y las cinco escenas con su frase en ambos tamaños. Se revisó el borde del hexágono ampliado antes, durante y después del relleno.
