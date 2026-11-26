@@ -9,6 +9,7 @@ export default defineConfig({
   projects: [{ name: "chromium", use: { ...devices["Desktop Chrome"] } }],
   webServer: {
     command: `pnpm preview --host ${host} --port ${port} --ignore-lock`,
+    env: { MEETUP_DESACTIVADO: "1" },
     port,
   },
 });

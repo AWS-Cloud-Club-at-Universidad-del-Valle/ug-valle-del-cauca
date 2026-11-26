@@ -13,8 +13,8 @@
     "test:e2e": "playwright test",
     "revisar-ejemplo": "node scripts/revisar-ejemplo.mjs",
     "links": "linkinator '**/*.html' --server-root dist --recurse --check-fragments --skip '^https?://(?!127\\.0\\.0\\.1:[0-9]+/)'",
-    "lighthouse": "lhci autorun",
-    "verify": "pnpm check && pnpm lint && pnpm test && pnpm build && pnpm links && pnpm test:e2e && pnpm lighthouse"
+    "lighthouse": "MEETUP_DESACTIVADO=1 lhci autorun",
+    "verify": "pnpm check && pnpm lint && pnpm test && MEETUP_DESACTIVADO=1 pnpm build && pnpm links && pnpm test:e2e && pnpm lighthouse"
   },
   "dependencies": {
     "astro": "7.4.13",
