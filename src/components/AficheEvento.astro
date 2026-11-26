@@ -1,0 +1,21 @@
+---
+import type { Evento } from "../content/esquemas";
+
+interface Props {
+  evento: Evento;
+}
+
+const { evento } = Astro.props;
+---
+
+{evento.imagen && evento.imagen_alt && (
+  <img
+    class="afiche-evento"
+    src={evento.imagen}
+    alt={evento.imagen_alt}
+    width="800"
+    height="450"
+    loading="lazy"
+    decoding="async"
+  />
+)}

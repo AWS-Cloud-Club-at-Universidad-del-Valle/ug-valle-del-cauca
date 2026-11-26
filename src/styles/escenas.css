@@ -468,16 +468,14 @@ body:has(#pausa-arte:checked) :is(.paisaje *, .escena *) {
   gap: clamp(1rem, 4vw, 3rem);
 }
 .escena-tren h2 {
-  max-width: 11ch;
+  grid-column: 1 / -1;
 }
 .destacado {
-  position: relative;
+  min-width: 0;
   padding: clamp(1rem, 3.5vw, 2.25rem);
   background: var(--papel);
   border: 0.35rem double var(--tronco);
   box-shadow: 0.42rem 0.5rem 0 var(--sombra);
-  rotate: -2deg;
-  width: min(100%, 28rem);
 }
 .destacado h3 {
   font-size: clamp(1.95rem, 3.4cqw, 3.45rem);
@@ -485,11 +483,14 @@ body:has(#pausa-arte:checked) :is(.paisaje *, .escena *) {
 }
 .listado.via {
   border-left: 3px solid var(--tronco);
-  padding-left: 1.2rem;
-  margin-top: 2rem;
+  padding-left: clamp(1rem, 3vw, 2rem);
 }
 .via li {
   position: relative;
+  padding: 1rem;
+  background: var(--papel);
+  border: 1px solid var(--tronco);
+  overflow-wrap: anywhere;
 }
 .via li::before {
   content: "";
@@ -499,8 +500,24 @@ body:has(#pausa-arte:checked) :is(.paisaje *, .escena *) {
   border: 2px solid var(--tronco);
   border-radius: 50%;
   background: var(--hoja);
-  top: 0.4rem;
-  left: -1.65rem;
+  top: 1.3rem;
+  left: calc(-0.4rem - clamp(1rem, 3vw, 2rem));
+}
+.via time {
+  display: block;
+  margin-bottom: 0.35rem;
+}
+.via p + p {
+  margin-top: 0.5rem;
+}
+.afiche-evento {
+  display: block;
+  width: 100%;
+  height: auto;
+  margin-block: 0.8rem;
+}
+.via .afiche-evento {
+  max-width: 22rem;
 }
 .tren-pasa {
   animation: viaje-tren 19s ease-in-out infinite alternate;
@@ -676,7 +693,7 @@ footer.pie-cordillera.pie {
 
 @media (min-width: 700px) {
   .escena-tren .escena-texto {
-    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr);
     align-items: start;
   }
   .arte-calima {

@@ -21,6 +21,20 @@ describe("esquemas de contenido", () => {
     });
   });
 
+  it.each(["resumen", "imagen_alt"])(
+    "valida el texto opcional de %s",
+    (campo) => {
+      expect(esquemaEvento.parse(evento)).not.toHaveProperty(campo);
+      expect(
+        esquemaEvento.parse({ ...evento, [campo]: " Texto " }),
+      ).toHaveProperty(campo, "Texto");
+      expect(
+        esquemaEvento.safeParse({ ...evento, [campo]: " " }).error?.issues[0]
+          ?.message,
+      ).toContain(`El campo ${campo} es obligatorio y debe contener texto`);
+    },
+  );
+
   it("acepta fecha sin comillas (Date de YAML) como día en Bogotá", () => {
     const resultado = esquemaEvento.parse({
       ...evento,

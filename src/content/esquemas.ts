@@ -75,6 +75,8 @@ export const esquemaEvento = z.object({
     .boolean({ error: "El campo destacado debe ser verdadero o falso" })
     .default(false),
   imagen: texto("imagen").optional(),
+  imagen_alt: texto("imagen_alt").optional(),
+  resumen: texto("resumen").optional(),
   ejemplo,
 });
 

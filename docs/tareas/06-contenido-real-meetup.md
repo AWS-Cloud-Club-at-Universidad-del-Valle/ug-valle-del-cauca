@@ -79,3 +79,52 @@ Agrega al final de este brief:
 - el resultado de `pnpm verify`.
 
 No hagas commit. Sin menciones a Codex, Claude ni IA en ningún archivo.
+
+## Resultado de la tarea
+
+### Eventos importados
+
+Se importaron los diez eventos que entrega el listado público inicial al 25 de noviembre de 2026. El estado de la página registra 23 eventos y devuelve diez filas en la primera carga. El parámetro `page=2` devolvió las mismas filas. El historial local cubre esas diez fechas verificadas. Cada archivo usa el número de la URL como ID, conserva la hora con el desfase de Colombia y enlaza a su ficha oficial. [Listado de Meetup](https://www.meetup.com/aws-user-group-valle-del-cauca/events/?type=past).
+
+| Fecha en Colombia        | Evento y fuente                                                                                                                                          |
+| ------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 21 de noviembre de 2026  | [TECH DAY CALI 2026](https://www.meetup.com/aws-user-group-valle-del-cauca/events/317059425/)                                                            |
+| 20 de octubre de 2026    | [De estudiante al primer trabajo en tech](https://www.meetup.com/aws-user-group-valle-del-cauca/events/316954925/)                                       |
+| 26 de septiembre de 2026 | [De la Spec a Producción: El nuevo desarrollo agéntico en AWS](https://www.meetup.com/aws-user-group-valle-del-cauca/events/316377259/)                  |
+| 1 de septiembre de 2026  | [Fundamentos de Redes en AWS: conecta, protege y escala](https://www.meetup.com/aws-user-group-valle-del-cauca/events/316229522/)                        |
+| 25 de julio de 2026      | [Construye Rápido... Despliega seguro!](https://www.meetup.com/aws-user-group-valle-del-cauca/events/315473395/)                                         |
+| 21 de julio de 2026      | [AWS Backup: Resiliencia ante Desastres y Ransomware](https://www.meetup.com/aws-user-group-valle-del-cauca/events/315679723/)                           |
+| 23 de mayo de 2026       | [AWS Community Day Colombia 2026](https://www.meetup.com/aws-user-group-valle-del-cauca/events/314830765/)                                               |
+| 9 de mayo de 2026        | [AWS Tech & Strategy: Elevando el Talento con IA Generativa y Gobernanza de TI](https://www.meetup.com/aws-user-group-valle-del-cauca/events/314520697/) |
+| 22 de abril de 2026      | [Serverless vs Contenedores: cuando la arquitectura habilita el negocio](https://www.meetup.com/aws-user-group-valle-del-cauca/events/314249801/)        |
+| 27 de marzo de 2026      | [Arquitectura Serverless en AWS para IoT](https://www.meetup.com/aws-user-group-valle-del-cauca/events/313927731/)                                       |
+
+En Fundamentos de Redes, la descripción oficial confirma una transmisión por YouTube y el listado lo clasifica como presencial con sede vacía. Se usó la descripción del grupo. Se conservó la modalidad híbrida de AWS Community Day indicada en los datos de Meetup. [Fundamentos de Redes](https://www.meetup.com/aws-user-group-valle-del-cauca/events/316229522/) y [AWS Community Day](https://www.meetup.com/aws-user-group-valle-del-cauca/events/314830765/).
+
+### Tech Day Cali 2026
+
+El encuentro se programó para el sábado 21 de noviembre de 2026, desde las 7:30 a. m., hora de Colombia, en la Universidad Autónoma de Occidente. Nueve comunidades del Valle del Cauca organizaron la jornada con un propósito solidario. La agenda oficial señala los auditorios Quincha y Xepia, con DevFest Cali 2026 en Xepia. La ficha destaca «Elige tu vida», con Paula Gallego, la charla sobre Amazon Bedrock AgentCore, con Jhon Robert Quintero Hurtado, y el taller de aplicaciones agénticas con Angular y Flutter, con Daniel Herrera Sánchez. [Ficha en Meetup](https://www.meetup.com/aws-user-group-valle-del-cauca/events/317059425/) y [agenda oficial](https://techdaycali.com/#agenda).
+
+### Comunidad, organizadores e Instagram
+
+La descripción del sitio se condensó de la presentación pública del grupo. El estado público de Meetup muestra a Nathalie Chicaiza como organizadora principal y a Jhorman Villanueva entre los organizadores. Se publicaron sus nombres y roles. [Página del grupo](https://www.meetup.com/aws-user-group-valle-del-cauca/) y [listado público con datos del grupo](https://www.meetup.com/aws-user-group-valle-del-cauca/events/?type=past).
+
+Los metadatos públicos de Instagram confirmaron el nombre de la cuenta y el usuario `@awsugvalle`. La biografía no estaba disponible en la respuesta pública consultada. Se conservó el enlace ya anunciado en Meetup. [Perfil de Instagram](https://www.instagram.com/awsugvalle/) y [página del grupo en Meetup](https://www.meetup.com/aws-user-group-valle-del-cauca/).
+
+### Esquema y afiches
+
+Se añadieron `resumen` e `imagen_alt` como textos opcionales, con validación y pruebas unitarias en español. Se reutilizaron `imagen` y `destacado`. Los cuatro afiches provienen del campo de imagen destacada de las fichas de Meetup. Se convirtieron a WebP de 800 × 450 px y se muestran con texto alternativo, dimensiones explícitas y carga diferida.
+
+| Archivo          |         Peso | Fuente                                                                                                                           |
+| ---------------- | -----------: | -------------------------------------------------------------------------------------------------------------------------------- |
+| `317059425.webp` | 20.396 bytes | [Afiche de Tech Day](https://secure.meetupstatic.com/photos/event/1/9/6/2/highres_536706498.jpeg)                                |
+| `316954925.webp` | 23.304 bytes | [Afiche de De estudiante al primer trabajo en tech](https://secure.meetupstatic.com/photos/event/e/5/c/d/highres_536578829.jpeg) |
+| `316377259.webp` | 38.262 bytes | [Afiche de De la Spec a Producción](https://secure.meetupstatic.com/photos/event/2/a/0/5/highres_536290757.jpeg)                 |
+| `314830765.webp` | 18.568 bytes | [Afiche de AWS Community Day](https://secure.meetupstatic.com/photos/event/8/c/0/7/highres_534275847.jpeg)                       |
+
+### Verificación
+
+- `pnpm revisar-ejemplo` terminó con código 0 y el mensaje «Sin contenido de ejemplo».
+- Se construyó el sitio con un calendario de prueba que contenía dos eventos futuros. El loader descartó la variante de URL del Tech Day local y mostró el encuentro futuro de control.
+- Se guardaron seis capturas en `/tmp/ug-capturas/v8/`, a 1440 y 390 px, de próximos eventos, Tech Day y trayectoria. Se verificaron el orden inverso y el ancho de la página con JavaScript desactivado.
+- `pnpm verify` terminó con código 0. Pasaron 18 pruebas unitarias y 12 de navegador, con cero violaciones de axe. Lighthouse obtuvo 1,00 en rendimiento, accesibilidad, buenas prácticas y SEO en las seis mediciones de inicio y 404.

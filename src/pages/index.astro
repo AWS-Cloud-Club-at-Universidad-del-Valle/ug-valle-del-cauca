@@ -1,10 +1,11 @@
 ---
-import { getCollection, getEntry } from "astro:content";
+import { getCollection, getEntry, render } from "astro:content";
 import Logo from "../components/Logo.astro";
 import BotonCta from "../components/BotonCta.astro";
 import Collage from "../components/Collage.astro";
 import IntroMarca from "../components/IntroMarca.astro";
 import MejoraPortada from "../components/MejoraPortada.astro";
+import AficheEvento from "../components/AficheEvento.astro";
 import Escena from "../components/Escena.astro";
 import Sitio from "../layouts/Sitio.astro";
 import { resolverCta } from "../lib/cta";
@@ -22,11 +23,20 @@ const { proximos, pasados } = separarEventos(
   entradas.map(({ data }) => data),
   new Date(),
 );
+const destacado = entradas.find(
+  ({ data }) => data.destacado && pasados.includes(data),
+);
+const fichaDestacada = destacado && (await render(destacado));
 const organizadores = (await getCollection("organizadores"))
   .map(({ data }) => data)
   .sort((a, b) => a.orden - b.orden);
 const fechaEnBogota = new Intl.DateTimeFormat("es-CO", {
   dateStyle: "long",
+  timeZone: "America/Bogota",
+});
+const fechaYHoraEnBogota = new Intl.DateTimeFormat("es-CO", {
+  dateStyle: "long",
+  timeStyle: "short",
   timeZone: "America/Bogota",
 });
 const proximo = proximos[0];
@@ -189,27 +199,43 @@ const redes = [
     <section class="escena escena-tren" aria-labelledby="historia">
       <div class="contenedor escena-texto">
         <h2 id="historia">Lo que hemos hecho</h2>
-        <div>
-          <article class="destacado">
-            <h3>Tech Day Cali</h3>
-            <a href="https://techdaycali.com/">Conoce Tech Day Cali</a>
+        {destacado && fichaDestacada && (
+          <article class="destacado" aria-labelledby="tech-day">
+            <h3 id="tech-day">{destacado.data.titulo}</h3>
+            <p>
+              <time datetime={destacado.data.fecha.toISOString()}>
+                {fechaYHoraEnBogota.format(destacado.data.fecha)}
+              </time>{" "}
+              (hora de Colombia) · {destacado.data.lugar}
+            </p>
+            <AficheEvento evento={destacado.data} />
+            <p>{destacado.data.resumen}</p>
+            <fichaDestacada.Content />
           </article>
-          {pasados.length > 0 && (
-            <ul class="listado via">
-              {pasados.map((evento) => (
-                <li>
-                  <h3>{evento.titulo}</h3>
-                  <p>
-                    <time datetime={evento.fecha.toISOString()}>
-                      {fechaEnBogota.format(evento.fecha)}
-                    </time>{" "}
-                    · {evento.lugar} · {modalidades[evento.modalidad]}
-                  </p>
-                </li>
-              ))}
-            </ul>
-          )}
-        </div>
+        )}
+        {pasados.length > 0 && (
+          <ol class="listado via" aria-label="Eventos pasados">
+            {pasados.map((evento) => (
+              <li>
+                <time datetime={evento.fecha.toISOString()}>
+                  {fechaEnBogota.format(evento.fecha)}
+                </time>
+                <h3>
+                  {evento.url_registro ? (
+                    <a href={evento.url_registro}>{evento.titulo}</a>
+                  ) : (
+                    evento.titulo
+                  )}
+                </h3>
+                <p>
+                  {evento.lugar} · {modalidades[evento.modalidad]}
+                </p>
+                {!evento.destacado && <AficheEvento evento={evento} />}
+                {evento.resumen && !evento.destacado && <p>{evento.resumen}</p>}
+              </li>
+            ))}
+          </ol>
+        )}
       </div>
       <Escena lugar="tren" />
     </section>
